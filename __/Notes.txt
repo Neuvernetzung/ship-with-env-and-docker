@@ -1,0 +1,56 @@
+Dev:
+-	Config laden
+-	Config prüfen
+-	Pro Environment
+o	Cleanup
+o	Env Datei schreiben
+o	(run dev Command)
+-	run dev (all) Command
+
+Staging:
+-	Lokal oder Server
+o	Lokal:
+	Config laden
+	Config prüfen
+	Pro Environment:
+•	Cleanup
+•	Env Datei schreiben
+•	(run build Command)
+•	(run start Command)
+	run build (all) Command
+	run start (all) Command
+o	Server:
+	Config laden (ggf. von GitHub Actions)
+	Config prüfen
+	Pro Environment:
+•	Local cleanup
+•	Ggf. on wait (auf Admin o.ä.)
+•	Artefakte builden
+o	Env Datei schreiben
+o	mitgelieferte Pfade definieren
+o	Tar Verzeichnis schreiben
+o	danach Temp Dateien aufräumen
+•	Zu Server verbinden
+•	Server auf updates prüfen und ggf. installieren
+•	Docker Version prüfen und ggf. installieren
+•	Verzeichnis erstellen
+•	Zielverzeichnis bereinigen
+•	Artefakte übertragen
+•	Artefakt entpacken
+•	Artefakte bereinigen
+•	Artefakt lokal bereinigen
+•	Before hooks ausführen
+•	Release aktivieren
+o	Container starten
+o	Nginx usw starten
+o	alte Docker Container aufräumen
+•	After hooks ausführen
+Production:
+-	siehe Staging
+-	Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
+-	Möglichkeit das Deployment direkt als funktion zu nutzen
+
+Resources:
+-	https://github.com/Giftora/dynamic-docker-compose/blob/main/src/DockerComposeFile.js
+-	https://www.npmjs.com/package/yaml
+-	

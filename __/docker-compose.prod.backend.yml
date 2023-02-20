@@ -1,0 +1,106 @@
+version: "3.8"
+
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    env_file:
+      - ./mongo.env
+    volumes:
+      - ./mongo/db:/data/db
+
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    env_file:
+      - ./mongo.env
+    links:
+      - mongo
+
+  admin-panel:
+    container_name: admin
+    build:
+      context: .
+      dockerfile: Dockerfile.admin.prod
+    env_file:
+      - ./apps/admin-panel/.env
+    ports:
+      - 1337:1337
+    volumes:
+      - ./:/admin
+      - ./apps/admin-panel/config:/admin/apps/admin-panel/config
+      - ./upload:/upload
+      - /admin/node_modules/
+      - /admin/apps/admin-panel/node_modules/
+      - ./logs/npm:/root/.npm/_logs
+    restart: always
+    links:
+      - mongo
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    env_file:
+      - ./config.env
+    environment:
+      - PROXIED_CONTAINER=admin-panel
+      - PORT=1337
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8000:8000"
+    volumes:
+      - ./logs/nginx:/var/log/nginx
+      - nginx_ssl:/etc/nginx/ssl
+      - certbot_certs:/etc/letsencrypt
+      - certbot:/var/www/certbot
+      - ./upload:/upload
+    links:
+      - admin-panel
+    restart: always
+
+  certbot:
+    container_name: certbot
+    build: ./certbot
+    env_file:
+      - ./config.env
+    volumes:
+      - ./logs/letsencrypt:/var/log/letsencrypt
+      - certbot_certs:/etc/letsencrypt
+      - certbot:/var/www/certbot
+    links:
+      - nginx
+
+  cron:
+    container_name: cron
+    build: ./cron
+    volumes:
+      - ./logs/cron:/var/log/cron
+      - ./logs/letsencrypt:/var/log/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/workdir:ro
+      - certbot_certs:/etc/letsencrypt
+      - certbot:/var/www/certbot
+    links:
+      - nginx
+      - certbot
+    restart: always
+
+  watchtower:
+    image: containrrr/watchtower
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_ROLLING_RESTART=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  nginx_ssl:
+  certbot_certs:
+  certbot:

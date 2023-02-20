@@ -1,0 +1,22 @@
+{
+  "extends": "tsconfig/base.json",
+  "include": ["**/*.ts", "**/*.tsx", "src/**/*ts", "src/**/*tsx"],
+  "exclude": ["dist", "node_modules", "commitlint.config.ts"],
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "ESNext"],
+    "target": "ESNext",
+    "module": "Node16",
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "rootDir": "./",
+    "declaration": true,
+    "outDir": "dist",
+    "importHelpers": true,
+    "sourceMap": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noImplicitReturns": true
+  }
+}

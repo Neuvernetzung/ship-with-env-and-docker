@@ -1,0 +1,64 @@
+{
+  "name": "swead",
+  "version": "1.0.0",
+  "description": "ship-with-env-and-docker",
+  "main": "dist/index.js",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "dev:local": "ts-node-esm src/cli/dev.ts",
+    "semantic-release": "semantic-release"
+  },
+  "dependencies": {
+    "chalk": "^5.2.0",
+    "find-up": "^6.3.0",
+    "lodash": "^4.17.21",
+    "zod": "^3.20.6"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191",
+    "eslint": "^8.34.0",
+    "eslint-config-custom": "github:Neuvernetzung/eslint-config-custom#semver:0.0.4",
+    "ts-node": "^10.9.1",
+    "tsconfig": "github:Neuvernetzung/tsconfig",
+    "turbo": "^1.8.1",
+    "typescript": "^4.9.5"
+  },
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/github",
+    "@semantic-release/npm",
+    "@semantic-release/git"
+  ],
+  "release": {
+    "branches": [
+      "master",
+      {
+        "name": "pre-*",
+        "prerelease": true
+      }
+    ],
+    "prepare": [
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      {
+        "path": "@semantic-release/git",
+        "assets": [
+          "package.json",
+          "package-lock.json",
+          "CHANGELOG.md"
+        ],
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Neuvernetzung/ship-with-env-and-docker.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
