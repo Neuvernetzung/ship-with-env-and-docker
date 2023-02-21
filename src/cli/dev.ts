@@ -1,12 +1,11 @@
-import { concurrently } from "concurrently";
-import { execa } from "execa";
 import { errorHandler } from "../utils/internal/errorHandler.js";
 import {
   cleanCache,
+  concurrentProcess,
   createEnvFiles,
-  forceColor,
   getConfig,
   performSingleOrMultiple,
+  runProcess,
 } from "../utils/internal/index.js";
 
 const runDev = async () => {
@@ -17,7 +16,7 @@ const runDev = async () => {
   await performSingleOrMultiple(
     config.dev,
     async (dev) => {
-      await cleanCache(dev.cacheToClean); // SPÄTER WIEDER REIN MACHEN, WENN SICH PROZESS BEENDEN LÄSST
+      await cleanCache(dev.cacheToClean);
       await createEnvFiles(env, dev.env);
     },
     {
@@ -26,10 +25,7 @@ const runDev = async () => {
     }
   );
 
-  execa(
-    `${forceColor} concurrently --names "ADMIN,STORE" -c "bgBlue.bold,bgGreen.bold" "turbo run dev --scope=admin -- -p 1337" "turbo run dev --scope=store"`,
-    { stdio: "inherit" }
-  );
+  runProcess(concurrentProcess(config.dev));
 };
 
 runDev().catch(errorHandler);

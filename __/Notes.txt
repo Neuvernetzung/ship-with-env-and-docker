@@ -57,3 +57,4 @@ Resources:
 
 - rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI config erstellen (init)
+- bei dev localhost:1337 usw öffnen optional

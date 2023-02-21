@@ -4,3 +4,4 @@ export * from "./cleanCache.js";
 export * from "./performSingleOrMultiple.js";
 export * from "./env/index.js";
 export * from "./forceColor.js";
+export * from "./runProcess.js";
