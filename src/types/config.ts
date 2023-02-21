@@ -25,7 +25,8 @@ export type Command<T extends EnvConfig = EnvConfig> = {
   name: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
   command: string;
-  waitOn?: string;
+  waitOn?: string | string[];
+  open?: string;
   cacheToClean?: string | string[];
 };
 
