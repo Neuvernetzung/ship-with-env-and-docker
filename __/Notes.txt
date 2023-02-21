@@ -55,4 +55,5 @@ Resources:
 -	https://www.npmjs.com/package/yaml
 -	
 
+- rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI config erstellen (init)

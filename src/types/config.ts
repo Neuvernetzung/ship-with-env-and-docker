@@ -21,14 +21,15 @@ export type EnvEntry<
     }
   : never;
 
-type DevCommand<T extends EnvConfig> = {
+export type Command<T extends EnvConfig = EnvConfig> = {
   name: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
   command: string;
+  waitOn?: string;
   cacheToClean?: string | string[];
 };
 
-type Dev<T extends EnvConfig> = DevCommand<T> | DevCommand<T>[];
+type Dev<T extends EnvConfig> = Command<T> | Command<T>[];
 
 export type SweadConfig<T extends EnvConfig = EnvConfig> = {
   dev?: Dev<T>;

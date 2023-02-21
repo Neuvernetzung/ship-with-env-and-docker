@@ -6,14 +6,21 @@
   "types": "dist/index.d.ts",
   "private": false,
   "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
   "scripts": {
     "dev:local": "ts-node-esm src/cli/dev.ts",
     "semantic-release": "semantic-release"
   },
   "dependencies": {
     "chalk": "^5.2.0",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "execa": "^7.0.0",
     "find-up": "^6.3.0",
     "lodash": "^4.17.21",
+    "wait-on": "^7.0.1",
     "zod": "^3.20.6"
   },
   "devDependencies": {
@@ -61,5 +68,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "packageManager": "npm@9.2.0"
 }

@@ -33,7 +33,7 @@ export const config: SweadConfig<typeof env> = {
           },
         },
       ],
-      command: "npm run dev:local-admin",
+      command: "turbo run dev --scope=admin -- -p 1337",
       cacheToClean: ["./apps/admin/.next"],
     },
     {
@@ -45,7 +45,8 @@ export const config: SweadConfig<typeof env> = {
           ADMIN_URL: "http://localhost:1337",
         },
       },
-      command: "npm run dev:local-store",
+      command: "turbo run dev --scope=store",
+      waitOn: "http://localhost:1337",
       cacheToClean: "./apps/store/.next",
     },
   ],
