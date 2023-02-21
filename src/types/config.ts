@@ -2,15 +2,17 @@ import { z } from "zod";
 
 type EnvSchema = z.ZodObject<any>;
 
-type Env = {
+export type Env = {
   path: string;
   schema: EnvSchema;
 };
 
+export type ParsedEnv = Env & { data: Record<string, string> };
+
 export type EnvConfig = Record<string, Env>;
 
-type DevEnvEntry<
-  T extends EnvConfig,
+export type EnvEntry<
+  T extends EnvConfig = EnvConfig,
   K extends keyof T = keyof T
 > = K extends keyof T
   ? {
@@ -21,7 +23,7 @@ type DevEnvEntry<
 
 type DevCommand<T extends EnvConfig> = {
   name: string;
-  env: DevEnvEntry<T> | DevEnvEntry<T>[];
+  env?: EnvEntry<T> | EnvEntry<T>[];
   command: string;
   cacheToClean?: string | string[];
 };

@@ -54,3 +54,5 @@ Resources:
 -	https://github.com/Giftora/dynamic-docker-compose/blob/main/src/DockerComposeFile.js
 -	https://www.npmjs.com/package/yaml
 -	
+
+- per CLI config erstellen (init)

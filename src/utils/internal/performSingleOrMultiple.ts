@@ -1,26 +1,25 @@
 import isArray from "lodash/isArray.js";
 
-type PerformSingleOrMultipleOptions = { strict?: boolean };
+type PerformSingleOrMultipleOptions = { strict?: boolean; title?: string };
 
-export const performSingleOrMultiple = <T>(
+export const performSingleOrMultiple = async <T>(
   dependent: T | T[],
-  fn: (values: NonNullable<T>) => any,
+  fn: (values: NonNullable<T>) => Promise<any>,
   options?: PerformSingleOrMultipleOptions
 ) => {
   if (isArray(dependent)) {
     const filtered = dependent.filter((v) => v) as NonNullable<T>[];
     if (filtered.length === 0) {
-      if (options?.strict) throw new Error();
+      if (options?.strict)
+        throw new Error(`Array of ${options.title} is empty.`);
       return;
     }
-    if (options?.strict && filtered.length !== dependent.length)
-      throw new Error();
-    return filtered.map(fn);
+    return await Promise.all(filtered.map(fn));
   }
 
   if (!dependent) {
-    if (options?.strict) throw new Error();
+    if (options?.strict) throw new Error(`${options.title} is not available.`);
     return;
   }
-  return fn(dependent);
+  return await fn(dependent);
 };

@@ -46,7 +46,7 @@ export const config: SweadConfig<typeof env> = {
         },
       },
       command: "npm run dev:local-store",
-      cacheToClean: "./apps/admin/.next",
+      cacheToClean: "./apps/store/.next",
     },
   ],
 
