@@ -1,9 +1,9 @@
 import fs from "fs";
 import tar from "tar";
-import { clean } from "../index.js";
+import { clean, getArtifactPath } from "../index.js";
 
-export const writeTar = async (name: string, paths: string[]) => {
-  const path = `./${name}.tgz`;
+export const writeTar = async (dir: string, paths: string[]) => {
+  const path = getArtifactPath(dir);
 
   await clean(path);
 

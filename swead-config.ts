@@ -59,6 +59,8 @@ export const config: SweadConfig<typeof env> = {
         server: {
           ip: "82.165.49.217",
           ssh: { user: "root", password: "G!&z*Bpz35", port: 22 },
+          path: "/var/www/html/current",
+          neverClean: ["mongo", "upload"],
         },
         apps: [
           {

@@ -1,12 +1,16 @@
-import { build } from "../utils/internal/build/index.js";
-import { errorHandler } from "../utils/internal/errorHandler.js";
-import { validateGit } from "../utils/internal/git/validateGit.js";
 import {
-  createArtifacts,
+  createArtifact,
+  withTempDir,
+  build,
+  validateGit,
   getConfig,
   performSingleOrMultiple,
+  transferArtifactAndExtract,
+  waitOn,
+  withSSHConnection,
+  errorHandler,
+  prepareServer,
 } from "../utils/internal/index.js";
-import { waitOn } from "../utils/internal/waitOn.js";
 
 export const runStaging = async () => {
   const { env, config } = await getConfig();
@@ -25,8 +29,17 @@ export const runStaging = async () => {
           await build(app, env);
         });
 
-        // Funktion erstellen withTempDir
-        await createArtifacts(deploy.artifact);
+        await withTempDir(async (dir) => {
+          await createArtifact(dir, deploy.artifact); // Docker files erstellen, Docker-Compose files erstellen usw.
+
+          await withSSHConnection(deploy.server, async (ssh) => {
+            await prepareServer(ssh, deploy);
+
+            await transferArtifactAndExtract(ssh, dir, deploy.server.path);
+
+            // Start
+          });
+        });
       });
     },
     {

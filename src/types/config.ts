@@ -40,7 +40,12 @@ type SSH = {
   port?: number;
 };
 
-type ServerDetails = { ip: string; ssh: SSH };
+export type ServerDetails = {
+  ip: string;
+  ssh: SSH;
+  path?: string;
+  neverClean?: string[];
+};
 
 type Build = {
   needs?: string;
