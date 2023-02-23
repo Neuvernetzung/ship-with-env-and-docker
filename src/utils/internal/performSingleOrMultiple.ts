@@ -1,4 +1,5 @@
 import isArray from "lodash/isArray.js";
+import pMap from "p-map";
 
 type PerformSingleOrMultipleOptions = { strict?: boolean; title?: string };
 
@@ -14,7 +15,7 @@ export const performSingleOrMultiple = async <T>(
         throw new Error(`Array of ${options.title} is empty.`);
       return;
     }
-    return await Promise.all(filtered.map(fn));
+    return await pMap(filtered, fn, { concurrency: 1 });
   }
 
   if (!dependent) {

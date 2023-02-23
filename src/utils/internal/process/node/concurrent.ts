@@ -1,17 +1,19 @@
 import isArray from "lodash/isArray.js";
-import { Command } from "../../../types/config.js";
-import { withWaitOn } from "./withWaitOn.js";
+import { Command } from "../../../../types/config.js";
+import { commandWithWaitOn } from "./commandWithWaitOn.js";
 
-export const concurrentProcess = (commands: Command | Command[]) => {
+export const concurrentNodeProcess = (commands: Command | Command[]) => {
   const names = isArray(commands)
     ? wrapInQuotes(commands.map(({ name }) => name).join(","))
     : wrapInQuotes(commands.name);
 
   const finalCommands = isArray(commands)
     ? commands
-        .map(({ command, waitOn }) => wrapInQuotes(withWaitOn(command, waitOn)))
+        .map(({ command, waitOn }) =>
+          wrapInQuotes(commandWithWaitOn(command, waitOn))
+        )
         .join(" ")
-    : wrapInQuotes(withWaitOn(commands.command, commands.waitOn));
+    : wrapInQuotes(commandWithWaitOn(commands.command, commands.waitOn));
 
   const colors = isArray(commands)
     ? wrapInQuotes(concurrentColors.slice(0, commands.length).join(","))

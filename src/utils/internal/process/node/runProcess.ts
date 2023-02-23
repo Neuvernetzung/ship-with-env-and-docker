@@ -1,14 +1,10 @@
 import { execa } from "execa";
-import { Command } from "../../../types/config.js";
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
+import { Command } from "../../../../types/config.js";
+import { performSingleOrMultiple } from "../../performSingleOrMultiple.js";
 import { openInBrowser } from "./openInBrowser.js";
 
-export const runProcess = (command: string, commands: Command | Command[]) => {
-  execa(command, { stdio: "inherit" }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
-
-  performSingleOrMultiple(commands, async (command) => {
-    command.open && openInBrowser(command.open);
-  });
+export const runNodeProcess = async (command: string) => {
+  await execa(command, { stdio: "inherit" }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
 };
 
 // concurrently(

@@ -7,7 +7,7 @@ o	Env Datei schreiben
 o	(run dev Command)
 -	run dev (all) Command
 
-Staging:
+Local:
 -	Lokal oder Server
 o	Lokal:
 	Config laden
@@ -19,6 +19,8 @@ o	Lokal:
 •	(run start Command)
 	run build (all) Command
 	run start (all) Command
+
+Staging:
 o	Server:
 	Config laden (ggf. von GitHub Actions)
 	Config prüfen
@@ -45,6 +47,7 @@ o	Container starten
 o	Nginx usw starten
 o	alte Docker Container aufräumen
 •	After hooks ausführen
+
 Production:
 -	siehe Staging
 -	Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
@@ -58,3 +61,6 @@ Resources:
 - rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI config erstellen (init)
 - bei dev localhost:1337 usw öffnen optional
+- server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
+- ssh übertragung kann anscheinend keine dateien mehr übertragen mit ä usw. dh umwandeln in ascii vorher
+- sudo apt update;sudo apt upgrade;sudo apt dist-upgrade;sudo do-release-upgrade

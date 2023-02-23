@@ -35,7 +35,7 @@ export const config: SweadConfig<typeof env> = {
       ],
       open: "http://localhost:1337",
       command: "turbo run dev --scope=admin -- -p 1337",
-      cacheToClean: ["./apps/admin/.next"],
+      cleanUp: ["./apps/admin/.next"],
     },
     {
       name: "Store",
@@ -48,9 +48,44 @@ export const config: SweadConfig<typeof env> = {
       },
       command: "turbo run dev --scope=store",
       waitOn: ["http://localhost:1337"],
-      cacheToClean: "./apps/store/.next",
+      cleanUp: "./apps/store/.next",
     },
   ],
-
-  servers: [],
+  local: [],
+  staging: {
+    branches: "develop",
+    deploy: [
+      {
+        server: {
+          ip: "82.165.49.217",
+          ssh: { user: "root", password: "G!&z*Bpz35", port: 22 },
+        },
+        apps: [
+          {
+            name: "Admin",
+            url: "https://test-backend.räucherkerzen-shop.de",
+            env: [
+              { key: "admin", data: { BASE_URL: "http://localhost:1337" } },
+            ],
+            build: {
+              cleanUp: "./apps/admin/.next",
+              beforeFunction: (app) => console.log("before", app.name),
+              command: "turbo run build --scope=admin",
+              afterFunction: (app) => console.log("after", app.name),
+            },
+            start: {
+              cleanUp: "",
+              beforeCommands: "",
+              command: "",
+              afterCommands: "",
+            },
+          },
+        ],
+        artifact: {
+          paths: ["./apps/admin/.next"],
+        },
+      },
+    ],
+  },
+  production: [],
 };

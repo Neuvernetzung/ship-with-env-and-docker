@@ -1,16 +1,15 @@
 import { errorHandler } from "../utils/internal/errorHandler.js";
 import {
-  cleanCache,
-  concurrentProcess,
+  clean,
+  concurrentNodeProcess,
   createEnvFiles,
   getConfig,
   performSingleOrMultiple,
-  runProcess,
+  runNodeProcess,
+  openInBrowser,
 } from "../utils/internal/index.js";
-import dns from "node:dns";
 
 const runDev = async () => {
-  dns.setDefaultResultOrder("ipv4first");
   const { env, config } = await getConfig();
 
   if (!config.dev) throw new Error("Dev is not defined in config.");
@@ -18,7 +17,7 @@ const runDev = async () => {
   await performSingleOrMultiple(
     config.dev,
     async (dev) => {
-      await cleanCache(dev.cacheToClean);
+      await clean(dev.cleanUp);
       await createEnvFiles(env, dev.env);
     },
     {
@@ -27,7 +26,11 @@ const runDev = async () => {
     }
   );
 
-  runProcess(concurrentProcess(config.dev), config.dev);
+  runNodeProcess(concurrentNodeProcess(config.dev)); // absichtlich nicht mit await
+
+  performSingleOrMultiple(config.dev, async (command) => {
+    command.open && openInBrowser(command.open);
+  });
 };
 
 runDev().catch(errorHandler);

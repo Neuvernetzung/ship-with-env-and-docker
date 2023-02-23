@@ -1,6 +1,9 @@
 import isArray from "lodash/isArray.js";
 
-export const withWaitOn = (command: string, waitOn?: string | string[]) => {
+export const commandWithWaitOn = (
+  command: string,
+  waitOn?: string | string[]
+) => {
   if (waitOn) {
     const formattedWaitOn = isArray(waitOn)
       ? waitOn.map((w) => withTcpOnDev(w)).join(" ")

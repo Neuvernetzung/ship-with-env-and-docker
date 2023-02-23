@@ -27,14 +27,70 @@ export type Command<T extends EnvConfig = EnvConfig> = {
   command: string;
   waitOn?: string | string[];
   open?: string;
-  cacheToClean?: string | string[];
+  cleanUp?: string | string[];
 };
 
-type Dev<T extends EnvConfig> = Command<T> | Command<T>[];
+export type DevCommand<T extends EnvConfig = EnvConfig> = Command<T>;
+
+type DevCommandUnion<T extends EnvConfig> = DevCommand<T> | DevCommand<T>[];
+
+type SSH = {
+  user: string;
+  password: string;
+  port?: number;
+};
+
+type ServerDetails = { ip: string; ssh: SSH };
+
+type Build = {
+  needs?: string;
+  cleanUp?: string | string[];
+  beforeFunction?: ((app: App) => void) | ((app: App) => Promise<void>);
+  command: string;
+  afterFunction?: ((app: App) => void) | ((app: App) => Promise<void>);
+};
+
+export type Artifact = {
+  paths: string[];
+};
+
+type Start = {
+  cleanUp?: string | string[];
+  beforeCommands?: string | string[];
+  command: string;
+  afterCommands?: string | string[];
+};
+
+export type App<T extends EnvConfig = EnvConfig> = {
+  name: string;
+  url: string;
+  env?: EnvEntry<T> | EnvEntry<T>[];
+  build?: Build;
+  start: Start;
+};
+
+export type Server<T extends EnvConfig = EnvConfig> = {
+  branches?: string | string[];
+  server: ServerDetails;
+  apps: App<T>[];
+  artifact?: Artifact;
+  waitOn?: string | string[];
+};
+
+type ServerUnion<T extends EnvConfig> = Server<T> | Server<T>[];
+
+type Deploy<T extends EnvConfig> = {
+  branches?: string | string[];
+  deploy: ServerUnion<T>;
+};
+
+type DeployUnion<T extends EnvConfig> = Deploy<T> | Deploy<T>[];
 
 export type SweadConfig<T extends EnvConfig = EnvConfig> = {
-  dev?: Dev<T>;
-  servers: [];
+  dev?: DevCommandUnion<T>;
+  local?: [];
+  staging?: DeployUnion<T>;
+  production?: DeployUnion<T>;
 };
 
 export type ConfigFile = {
