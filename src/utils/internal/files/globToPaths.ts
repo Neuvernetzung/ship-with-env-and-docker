@@ -1,6 +1,7 @@
 import glob from "fast-glob";
 import { Options } from "fast-glob/out/settings.js";
 import isArray from "lodash/isArray.js";
+import merge from "lodash/merge.js";
 
 export const globToPaths = async (
   paths: string | string[],
@@ -17,11 +18,17 @@ export const globToPaths = async (
         inDynamicPaths.push(path);
       }
     });
+  } else {
+    if (glob.isDynamicPattern(paths)) {
+      dynamicPaths.push(paths);
+    } else {
+      inDynamicPaths.push(paths);
+    }
   }
 
   const globPaths = await glob(
     dynamicPaths,
-    options || { ignore: ["**/node_modules/**"] }
+    merge({ ignore: ["**/node_modules/**"] }, options)
   );
 
   return [...inDynamicPaths, ...globPaths];

@@ -14,9 +14,12 @@ export const env = {
       ADMIN_URL: z.string().url(),
     }),
   },
-  config: {
+  mongo: {
     path: "./",
-    schema: z.object({ TEST: z.string() }),
+    schema: z.object({
+      MONGO_INITDB_ROOT_USERNAME: z.string(),
+      MONGO_INITDB_ROOT_PASSWORD: z.string(),
+    }),
   },
 } satisfies EnvConfig;
 
@@ -24,15 +27,7 @@ export const config: SweadConfig<typeof env> = {
   dev: [
     {
       name: "Admin",
-      env: [
-        { key: "admin", data: { BASE_URL: "http://localhost:1337" } },
-        {
-          key: "config",
-          data: {
-            TEST: "string",
-          },
-        },
-      ],
+      env: [{ key: "admin", data: { BASE_URL: "http://localhost:1337" } }],
       open: "http://localhost:1337",
       command: "turbo run dev --scope=admin -- -p 1337",
       cleanUp: ["./apps/admin/.next"],
@@ -58,7 +53,7 @@ export const config: SweadConfig<typeof env> = {
       {
         server: {
           ip: "82.165.49.217",
-          ssh: { user: "root", password: "G!&z*Bpz35", port: 22 },
+          ssh: { user: "root", password: "G!&z*Bpz35" },
           path: "/var/www/html/current",
           neverClean: ["mongo", "upload"],
         },
@@ -70,21 +65,43 @@ export const config: SweadConfig<typeof env> = {
               { key: "admin", data: { BASE_URL: "http://localhost:1337" } },
             ],
             build: {
-              cleanUp: "./apps/admin/.next",
               beforeFunction: (app) => console.log("before", app.name),
               command: "turbo run build --scope=admin",
               afterFunction: (app) => console.log("after", app.name),
             },
             start: {
-              cleanUp: "",
-              beforeCommands: "",
-              command: "",
-              afterCommands: "",
+              beforeCommands: "echo before",
+              command: "turbo run start --scope=admin",
+              afterCommands: "echo after",
+            },
+            docker: {
+              ports: [1337],
+              volumes: [
+                "upload", // wenn definiert, dann mkdir in dockerfile
+                "./logs/npm:/root/.npm/_logs",
+              ],
+              links: ["mongo"],
+              workDir: "admin",
+            },
+          },
+          {
+            name: "mongo",
+            docker: {
+              image: "mongo",
+              ports: [27017],
+              volumes: ["./mongo/db:/data/db"],
+            },
+            env: {
+              key: "mongo",
+              data: {
+                MONGO_INITDB_ROOT_USERNAME: "admin",
+                MONGO_INITDB_ROOT_PASSWORD: "root",
+              },
             },
           },
         ],
         artifact: {
-          paths: ["./apps/admin/.next"],
+          paths: ["./apps/admin/.next", "./apps/admin/package.json"],
         },
       },
     ],

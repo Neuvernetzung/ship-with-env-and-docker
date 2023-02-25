@@ -66,13 +66,24 @@ type Start = {
   afterCommands?: string | string[];
 };
 
+type Docker = {
+  image?: string;
+  ports?: number[];
+  volumes?: string[];
+  links?: string[];
+  workDir?: string;
+};
+
 export type App<T extends EnvConfig = EnvConfig> = {
   name: string;
-  url: string;
+  url?: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
-  build?: Build;
-  start: Start;
-};
+  docker?: Docker;
+} & BuildUnion;
+
+export type BuildUnion =
+  | { build: Build; start: Start }
+  | { build?: undefined; start?: undefined };
 
 export type Server<T extends EnvConfig = EnvConfig> = {
   branches?: string | string[];

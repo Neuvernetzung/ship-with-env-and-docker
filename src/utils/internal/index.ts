@@ -10,3 +10,4 @@ export * from "./ssh/index.js";
 export * from "./git/index.js";
 export * from "./waitOn.js";
 export * from "./build/index.js";
+export * from "./docker/index.js";

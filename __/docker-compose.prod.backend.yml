@@ -34,7 +34,6 @@ services:
       - 1337:1337
     volumes:
       - ./:/admin
-      - ./apps/admin-panel/config:/admin/apps/admin-panel/config
       - ./upload:/upload
       - /admin/node_modules/
       - /admin/apps/admin-panel/node_modules/

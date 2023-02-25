@@ -60,7 +60,6 @@ Resources:
 
 - rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI config erstellen (init)
-- bei dev localhost:1337 usw öffnen optional
 - server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
-- ssh übertragung kann anscheinend keine dateien mehr übertragen mit ä usw. dh umwandeln in ascii vorher
-- sudo apt update;sudo apt upgrade;sudo apt dist-upgrade;sudo do-release-upgrade
+- reusing envs across multiple apps
+- testen ob docker-image verfügbar

@@ -1,5 +1,6 @@
 import { NodeSSH, SSHExecCommandOptions } from "node-ssh";
 import { logger } from "../logger.js";
+import merge from "lodash/merge.js";
 
 const execOptions: SSHExecCommandOptions = {
   cwd: "/",
@@ -11,6 +12,10 @@ const execOptions: SSHExecCommandOptions = {
   },
 };
 
-export const execCommand = async (ssh: NodeSSH, command: string) => {
-  await ssh.execCommand(command, execOptions);
+export const execCommand = async (
+  ssh: NodeSSH,
+  command: string,
+  options?: SSHExecCommandOptions
+) => {
+  await ssh.execCommand(command, merge(execOptions, options));
 };

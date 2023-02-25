@@ -30,7 +30,7 @@ export const runStaging = async () => {
         });
 
         await withTempDir(async (dir) => {
-          await createArtifact(dir, deploy.artifact); // Docker files erstellen, Docker-Compose files erstellen usw.
+          await createArtifact(dir, deploy, env);
 
           await withSSHConnection(deploy.server, async (ssh) => {
             await prepareServer(ssh, deploy);
