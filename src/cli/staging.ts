@@ -10,6 +10,7 @@ import {
   withSSHConnection,
   errorHandler,
   prepareServer,
+  start,
 } from "../utils/internal/index.js";
 
 export const runStaging = async () => {
@@ -37,7 +38,7 @@ export const runStaging = async () => {
 
             await transferArtifactAndExtract(ssh, dir, deploy.server.path);
 
-            // Start
+            await start(ssh, deploy);
           });
         });
       });

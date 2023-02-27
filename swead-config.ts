@@ -70,25 +70,20 @@ export const config: SweadConfig<typeof env> = {
               afterFunction: (app) => console.log("after", app.name),
             },
             start: {
-              beforeCommands: "echo before",
               command: "turbo run start --scope=admin",
-              afterCommands: "echo after",
             },
             docker: {
-              ports: [1337],
-              volumes: [
-                "upload", // wenn definiert, dann mkdir in dockerfile
-                "./logs/npm:/root/.npm/_logs",
-              ],
+              port: 1337,
+              volumes: ["/upload", "./logs/npm:/root/.npm/_logs"],
               links: ["mongo"],
-              workDir: "admin",
+              workDir: "/admin",
             },
           },
           {
             name: "mongo",
             docker: {
               image: "mongo",
-              ports: [27017],
+              port: 27017,
               volumes: ["./mongo/db:/data/db"],
             },
             env: {
@@ -100,8 +95,18 @@ export const config: SweadConfig<typeof env> = {
             },
           },
         ],
+        beforeStart: "echo before",
+        afterStart: ["echo after"],
         artifact: {
-          paths: ["./apps/admin/.next", "./apps/admin/package.json"],
+          paths: [
+            "apps/admin/.next",
+            "package.json",
+            "**/package.json",
+            "package-lock.json",
+          ],
+        },
+        certbot: {
+          email: "t.heerwagen@web.de",
         },
       },
     ],

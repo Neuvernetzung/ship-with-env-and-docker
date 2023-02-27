@@ -1,7 +1,8 @@
 import { DockerFileContent } from "../../../../types/docker.js";
-import { writeFile } from "fs/promises";
 import { App } from "../../../../types/config.js";
 import { getDockerFilePath } from "./getDockerFilePath.js";
+import { wrapInQuotes, write } from "../../index.js";
+import isArray from "lodash/isArray.js";
 
 export const saveDockerFile = async (
   file: DockerFileContent,
@@ -9,10 +10,20 @@ export const saveDockerFile = async (
   dir: string
 ) => {
   const dockerFileContent = dockerFileToString(file);
-  console.log(dockerFileContent);
 
-  await writeFile(getDockerFilePath(dir, app.name), dockerFileContent);
+  await write(getDockerFilePath(dir, app.name), dockerFileContent);
 };
 
-const dockerFileToString = (file: DockerFileContent) =>
-  file.map((line) => `${line.instruction} ${line.content}`).join("\n\n");
+export const dockerFileToString = (file: DockerFileContent) =>
+  file
+    .map(
+      (line) =>
+        `${line.instruction} ${
+          !isArray(line.content)
+            ? line.content
+            : `[${line.content
+                .map((content) => wrapInQuotes(content))
+                .join(", ")}]`
+        }`
+    )
+    .join("\n\n");

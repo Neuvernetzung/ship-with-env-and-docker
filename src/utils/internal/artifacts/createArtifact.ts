@@ -1,12 +1,20 @@
 import { EnvConfig, Server } from "../../../types/config.js";
 import {
-  getArtifactPath,
+  handleHelperFiles,
   globToPaths,
   handleComposeFile,
   handleDockerFiles,
+  clean,
+  performSingleOrMultiple,
+  removeEnv,
+  formatEnvPath,
 } from "../index.js";
 import { writeTar } from "./writeTar.js";
-import path from "path";
+import { mkdir } from "fs/promises";
+import isArray from "lodash/isArray.js";
+import { getEnvPaths } from "../env/getEnvPaths.js";
+
+export const LOCAL_DIR = "_swead";
 
 export const createArtifact = async (
   dir: string,
@@ -15,24 +23,31 @@ export const createArtifact = async (
 ) => {
   if (!deploy.artifact) return;
 
-  const paths = await globToPaths(deploy.artifact.paths);
+  await mkdir(LOCAL_DIR, { recursive: true }); // Es muss ein Extra Verzeichnis angelegt werden, da wenn Dateien im Temp Ordner gespeichert werden würden, diese dann mit Temp Pfad kopiert werden
 
-  const dockerFiles = await handleDockerFiles(deploy.apps, dir);
-  const compose = await handleComposeFile(deploy, env, dir);
+  const paths = [
+    ...(await globToPaths(deploy.artifact.paths)),
+    ...(await getEnvPaths(deploy.apps, env)),
+  ];
+
+  const helpers = await handleHelperFiles(deploy, LOCAL_DIR);
+
+  const dockerFiles = await handleDockerFiles(deploy.apps, LOCAL_DIR);
+  const compose = await handleComposeFile(deploy, env, LOCAL_DIR);
 
   const additionalFiles = [
     compose.path,
     ...(dockerFiles.map((file) => file.path).filter((v) => v) as string[]),
+    ...helpers.map((file) => file.path),
   ];
 
-  await writeTar(
-    dir,
-    additionalFiles.map((p) => path.relative(dir, p)),
-    "Docker",
-    { cwd: dir }
-  ); // Tar Datei für Dockerfiles schreiben, path.relative wird benötigt, damit nicht kompletter Temp order geprefixt wird.
+  const finalPaths = paths.concat(additionalFiles);
 
-  paths.push(`@${getArtifactPath(dir, "Docker")}`); // mit @ werden Tar Dateien der Docker.tgz in die finale Artefact.tgz kopiert
+  await writeTar(dir, finalPaths);
 
-  await writeTar(dir, paths);
+  await performSingleOrMultiple(deploy.apps, async (app) => {
+    await removeEnv(env, app.env);
+  });
+
+  await clean(LOCAL_DIR);
 };

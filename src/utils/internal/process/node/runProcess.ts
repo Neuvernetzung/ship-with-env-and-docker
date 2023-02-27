@@ -1,7 +1,4 @@
 import { execa } from "execa";
-import { Command } from "../../../../types/config.js";
-import { performSingleOrMultiple } from "../../performSingleOrMultiple.js";
-import { openInBrowser } from "./openInBrowser.js";
 
 export const runNodeProcess = async (command: string) => {
   await execa(command, { stdio: "inherit" }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten

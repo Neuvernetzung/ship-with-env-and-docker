@@ -7,7 +7,7 @@ export const removeEnv = async (
   env: EnvConfig | undefined,
   data: EnvEntry | EnvEntry[] | undefined
 ) => {
-  await performSingleOrMultiple(data, async ({ key, data }) => {
+  await performSingleOrMultiple(data, async ({ key }) => {
     const path = env?.[key]?.path;
     if (!path) return;
 

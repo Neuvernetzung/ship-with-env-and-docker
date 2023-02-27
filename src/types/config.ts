@@ -60,25 +60,27 @@ export type Artifact = {
 };
 
 type Start = {
-  cleanUp?: string | string[];
-  beforeCommands?: string | string[];
   command: string;
-  afterCommands?: string | string[];
 };
 
 type Docker = {
   image?: string;
-  ports?: number[];
+  port?: number;
   volumes?: string[];
   links?: string[];
   workDir?: string;
+  environment?: string[];
+};
+
+export type Certbot = {
+  email?: string;
 };
 
 export type App<T extends EnvConfig = EnvConfig> = {
   name: string;
   url?: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
-  docker?: Docker;
+  docker: Docker;
 } & BuildUnion;
 
 export type BuildUnion =
@@ -91,6 +93,9 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   apps: App<T>[];
   artifact?: Artifact;
   waitOn?: string | string[];
+  beforeStart?: string | string[];
+  afterStart?: string | string[];
+  certbot?: Certbot;
 };
 
 type ServerUnion<T extends EnvConfig> = Server<T> | Server<T>[];

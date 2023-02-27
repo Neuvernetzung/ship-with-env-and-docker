@@ -1,10 +1,24 @@
 export type DockerCompose = {
   version: string;
   services: DockerComposeServices;
-  volumes: Record<string, object>;
+  volumes: Record<string, DockerComposeVolume>;
 };
 
-export type DockerComposeServices = Record<string, object>;
+type DockerComposeVolume = {};
+
+export type DockerComposeService = {
+  container_name?: string;
+  image?: string;
+  restart?: string;
+  ports?: string[];
+  build?: string | { context: string; dockerfile: string };
+  env_file?: string[];
+  environment?: string[];
+  volumes?: string[];
+  links?: string[];
+};
+
+export type DockerComposeServices = Record<string, DockerComposeService>;
 
 export enum DockerFileInstructions {
   FROM = "FROM",

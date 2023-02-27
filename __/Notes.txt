@@ -63,3 +63,6 @@ Resources:
 - server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
 - reusing envs across multiple apps
 - testen ob docker-image verfügbar
+- dockerfile array ordentlich formatieren
+- möglichkeit in nginx files zu exposen
+- env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact

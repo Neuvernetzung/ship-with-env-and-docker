@@ -1,6 +1,9 @@
 import isArray from "lodash/isArray.js";
 import { App, EnvConfig } from "../../../../types/config.js";
-import { DockerComposeServices, DockerFile } from "../../../../types/docker.js";
+import {
+  DockerComposeService,
+  DockerComposeServices,
+} from "../../../../types/docker.js";
 import {
   appHasDockerFile,
   formatEnvPath,
@@ -8,6 +11,7 @@ import {
   globToPaths,
 } from "../../index.js";
 import { getWorkdirPath, getWorkdirSubPath } from "../getWorkdirPath.js";
+import { dockerComposeServiceName } from "./serviceName.js";
 
 export const createComposeServices = async (
   apps: App[],
@@ -20,7 +24,11 @@ export const createComposeServices = async (
   const services = apps.reduce(
     (prev, app) => ({
       ...prev,
-      [app.name]: createComposeService(app, env, modulePaths),
+      [dockerComposeServiceName(app.name)]: createComposeService(
+        app,
+        env,
+        modulePaths
+      ),
     }),
     {}
   );
@@ -65,13 +73,17 @@ const createComposeService = (
       ? app.env.map((e) => formatEnvPath(env[e.key].path))
       : [formatEnvPath(env[app.env.key].path)]);
 
-  const service = {
-    container_name: app.name,
+  const service: DockerComposeService = {
+    container_name: dockerComposeServiceName(app.name),
     image,
+    build,
     restart: "always",
-    ports: app.docker?.ports?.map((p) => `${p}:${p}`),
+    ports: app.docker?.port
+      ? [`${app.docker?.port}:${app.docker?.port}`]
+      : undefined,
     volumes: volumes.length !== 0 ? volumes : undefined,
     env_file: envFile,
+    environment: app.docker?.environment,
     links: app.docker?.links,
   };
 

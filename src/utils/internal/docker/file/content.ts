@@ -41,8 +41,8 @@ export const createDockerFileContent = async (
 
     createDockerFileLine(Inst.COPY, [".", "."]), // alles weitere kopieren
 
-    ...(app.docker?.ports
-      ? [createDockerFileLine(Inst.EXPOSE, app.docker.ports.join(" "))]
+    ...(app.docker?.port
+      ? [createDockerFileLine(Inst.EXPOSE, String(app.docker.port))]
       : []), // ports exposen
 
     createDockerFileLine(Inst.CMD, app.start.command),
@@ -51,7 +51,7 @@ export const createDockerFileContent = async (
   return dockerFileContent;
 };
 
-const createDockerFileLine = (
+export const createDockerFileLine = (
   instruction: Inst,
   content: string | string[]
 ) => ({ instruction, content });

@@ -1,5 +1,6 @@
 import isArray from "lodash/isArray.js";
 import { Command } from "../../../../types/config.js";
+import { wrapInQuotes } from "../../wrapInQuotes.js";
 import { commandWithWaitOn } from "./commandWithWaitOn.js";
 
 export const concurrentNodeProcess = (commands: Command | Command[]) => {
@@ -21,8 +22,6 @@ export const concurrentNodeProcess = (commands: Command | Command[]) => {
 
   return `concurrently -n ${names} -c ${colors} ${finalCommands}`;
 };
-
-const wrapInQuotes = (str: string) => `"${str}"`;
 
 const concurrentColors = [
   "bgBlue.bold",
