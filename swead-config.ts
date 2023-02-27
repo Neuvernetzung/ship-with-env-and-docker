@@ -98,12 +98,7 @@ export const config: SweadConfig<typeof env> = {
         beforeStart: "echo before",
         afterStart: ["echo after"],
         artifact: {
-          paths: [
-            "apps/admin/.next",
-            "package.json",
-            "**/package.json",
-            "package-lock.json",
-          ],
+          paths: ["apps/admin/.next"],
         },
         certbot: {
           email: "t.heerwagen@web.de",

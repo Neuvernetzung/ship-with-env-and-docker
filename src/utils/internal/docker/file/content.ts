@@ -33,7 +33,6 @@ export const createDockerFileContent = async (
     createDockerFileLine(Inst.WORKDIR, getWorkdirPath(app.docker?.workDir)), // workdir festlegen
 
     createDockerFileLine(Inst.COPY, ["package.json", "./"]), // haupt-package.json kopieren
-    createDockerFileLine(Inst.COPY, ["package-lock.json", "./"]), // package-lock kopieren
 
     createDockerFileLine(Inst.COPY, ["*/package.json", "./"]), // alle weiteren package.json's kopieren
 

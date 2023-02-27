@@ -27,6 +27,7 @@ export const createArtifact = async (
 
   const paths = [
     ...(await globToPaths(deploy.artifact.paths)),
+    ...(await globToPaths(["package.json", "**/package.json"])),
     ...(await getEnvPaths(deploy.apps, env)),
   ];
 

@@ -38,9 +38,9 @@
     "@types/tar": "^6.1.4",
     "@types/wait-on": "^5.3.1",
     "eslint": "^8.34.0",
-    "eslint-config-custom": "github:Neuvernetzung/eslint-config-custom#semver:0.0.4",
+    "eslint-config-custom": "https://github.com/Neuvernetzung/eslint-config-custom#semver:0.0.4",
     "ts-node": "^10.9.1",
-    "tsconfig": "github:Neuvernetzung/tsconfig",
+    "tsconfig": "https://github.com/Neuvernetzung/tsconfig",
     "turbo": "^1.8.1",
     "typescript": "^4.9.5"
   },
