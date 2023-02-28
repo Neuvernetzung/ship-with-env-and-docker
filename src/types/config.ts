@@ -88,7 +88,6 @@ export type BuildUnion =
   | { build?: undefined; start?: undefined };
 
 export type Server<T extends EnvConfig = EnvConfig> = {
-  branches?: string | string[];
   server: ServerDetails;
   apps: App<T>[];
   artifact?: Artifact;
@@ -100,18 +99,23 @@ export type Server<T extends EnvConfig = EnvConfig> = {
 
 type ServerUnion<T extends EnvConfig> = Server<T> | Server<T>[];
 
-type Deploy<T extends EnvConfig> = {
-  branches?: string | string[];
+export type Deploy<T extends EnvConfig = EnvConfig> = {
   deploy: ServerUnion<T>;
 };
 
 type DeployUnion<T extends EnvConfig> = Deploy<T> | Deploy<T>[];
+
+type Branches = {
+  staging?: string;
+  production?: string;
+};
 
 export type SweadConfig<T extends EnvConfig = EnvConfig> = {
   dev?: DevCommandUnion<T>;
   local?: [];
   staging?: DeployUnion<T>;
   production?: DeployUnion<T>;
+  branches?: Branches;
 };
 
 export type ConfigFile = {

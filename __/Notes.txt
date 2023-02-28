@@ -33,3 +33,5 @@ Production:
 - möglichkit ohne detached (-d) zu starten
 - möglichkeit extra kontainer in dev zu starten (zB mongo)
 - möglichkeit vor dem container start befehl in docker auszuführen
+- alles mit console.logs versehen
+- option vor dem start der docker container alle docker anwendungen zu schließen und zu löschen

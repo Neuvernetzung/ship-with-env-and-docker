@@ -47,8 +47,11 @@ export const config: SweadConfig<typeof env> = {
     },
   ],
   local: [],
+  branches: {
+    staging: "develop",
+    production: "develop",
+  },
   staging: {
-    branches: "develop",
     deploy: [
       {
         server: {
@@ -130,5 +133,81 @@ export const config: SweadConfig<typeof env> = {
       },
     ],
   },
-  production: [],
+  production: [
+    {
+      deploy: [
+        {
+          server: {
+            ip: "82.165.49.217",
+            ssh: { user: "root", password: "G!&z*Bpz35" },
+            path: "/var/www/html/current",
+            neverClean: ["mongo", "upload"],
+          },
+          apps: [
+            {
+              name: "Admin",
+              url: "https://test-backend.räucherkerzen-shop.de",
+              env: [
+                { key: "admin", data: { BASE_URL: "http://localhost:1337" } },
+              ],
+              build: {
+                command: "turbo run build --scope=admin",
+              },
+              start: {
+                command: "npx turbo run start --scope=admin -- -p 1337",
+              },
+              docker: {
+                port: 1337,
+                volumes: ["/upload"],
+                workDir: "/admin",
+              },
+            },
+          ],
+          artifact: {
+            paths: ["apps/admin/.next"],
+          },
+        },
+      ],
+    },
+    {
+      deploy: [
+        {
+          server: {
+            ip: "212.227.6.113",
+            ssh: { user: "root", password: "c%$Ottp4DG" },
+            path: "/var/www/html/current",
+          },
+          apps: [
+            {
+              name: "Store",
+              url: "https://test-frontend.räucherkerzen-shop.de",
+              env: [
+                {
+                  key: "store",
+                  data: {
+                    BASE_URL: "https://test-frontend.räucherkerzen-shop.de",
+                    ADMIN_URL: "https://test-backend.räucherkerzen-shop.de",
+                  },
+                },
+              ],
+              build: {
+                command: "turbo run build --scope=store",
+              },
+              start: {
+                command: "npx turbo run start --scope=store",
+              },
+              docker: {
+                port: 3000,
+                volumes: ["/upload"],
+                workDir: "/store",
+              },
+            },
+          ],
+          artifact: {
+            paths: ["apps/store/.next"],
+          },
+        },
+      ],
+    },
+  ],
 };
