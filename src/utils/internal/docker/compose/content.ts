@@ -29,5 +29,5 @@ export const createComposeContent = async (
 
   const services = await createComposeServices(apps, env);
 
-  return { version, services: merge(defaultServices, services), volumes };
+  return { version, services: merge(services, defaultServices), volumes };
 };

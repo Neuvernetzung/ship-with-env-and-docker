@@ -54,10 +54,7 @@ export const createCronFiles = (deploy: Server): HelperFile[] => {
 
       createDockerFileLine(Inst.RUN, `chmod +x /${CRON_SCRIPT_NAME}`),
 
-      createDockerFileLine(
-        Inst.RUN,
-        `sed -i 's/\\r//' /opt/${CRON_SCRIPT_NAME}`
-      ), // Fix line ending bugs
+      createDockerFileLine(Inst.RUN, `sed -i 's/\\r//' /${CRON_SCRIPT_NAME}`), // Fix line ending bugs
 
       createDockerFileLine(Inst.RUN, `/usr/bin/crontab /${CRON_TAB_NAME}`),
 

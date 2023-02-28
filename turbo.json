@@ -6,6 +6,7 @@
       "persistent": true
     },
     "build": {},
+    "start": {},
     "typecheck": {}
   }
 }

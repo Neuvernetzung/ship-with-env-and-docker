@@ -9,6 +9,7 @@ import {
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
 import { createNginxScript } from "./createNginxScript.js";
+import punycode from "punycode";
 
 export const NGINX_PATH = "nginx";
 
@@ -35,7 +36,7 @@ ${(
   const nginxDockerFile: HelperFile = {
     path: getHelpersPath(getDockerFilePath(NGINX_PATH)),
     content: dockerFileToString([
-      createDockerFileLine(Inst.FROM, "alpine"),
+      createDockerFileLine(Inst.FROM, "nginx:mainline-alpine"),
 
       createDockerFileLine(Inst.RUN, "apk add --no-cache openssl"),
 
@@ -48,15 +49,21 @@ ${(
 
       createDockerFileLine(Inst.COPY, `${NGINX_HSTS_CONF_NAME} /etc/nginx/`),
 
-      createDockerFileLine(Inst.COPY, `nginx.sh /customization/`),
+      createDockerFileLine(Inst.COPY, `${NGINX_SCRIPT_NAME} /customization/`),
 
-      createDockerFileLine(Inst.RUN, `chmod +x /customization/nginx.sh`),
+      createDockerFileLine(
+        Inst.RUN,
+        `chmod +x /customization/${NGINX_SCRIPT_NAME}`
+      ),
 
-      createDockerFileLine(Inst.RUN, `sed -i 's/\\r//' /opt/nginx.sh`), // Fix line ending bugs
+      createDockerFileLine(
+        Inst.RUN,
+        `sed -i 's/\\r//' /customization/${NGINX_SCRIPT_NAME}`
+      ), // Fix line ending bugs
 
       createDockerFileLine(Inst.EXPOSE, "80"),
 
-      createDockerFileLine(Inst.CMD, ["/customization/nginx.sh"]),
+      createDockerFileLine(Inst.CMD, [`/customization/${NGINX_SCRIPT_NAME}`]),
     ]),
   };
 
@@ -96,7 +103,7 @@ ${(
 const createDefaultConf = (
   app: Omit<App, "url"> & Required<Pick<App, "url">>
 ) => {
-  const finalUrl = stripHttpsFromUrl(app.url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(app.url));
 
   return `server {
   listen 80;

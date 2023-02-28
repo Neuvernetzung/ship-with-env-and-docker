@@ -70,13 +70,37 @@ export const config: SweadConfig<typeof env> = {
               afterFunction: (app) => console.log("after", app.name),
             },
             start: {
-              command: "turbo run start --scope=admin",
+              command: "npx turbo run start --scope=admin -- -p 1337",
             },
             docker: {
               port: 1337,
               volumes: ["/upload", "./logs/npm:/root/.npm/_logs"],
               links: ["mongo"],
               workDir: "/admin",
+            },
+          },
+          {
+            name: "Store",
+            url: "https://test-store.räucherkerzen-shop.de",
+            env: [
+              {
+                key: "store",
+                data: {
+                  BASE_URL: "http://localhost:3000",
+                  ADMIN_URL: "http://localhost:1337",
+                },
+              },
+            ],
+            build: {
+              command: "turbo run build --scope=store",
+            },
+            start: {
+              command: "npx turbo run start --scope=store",
+            },
+            docker: {
+              port: 3000,
+              volumes: ["./logs/npm:/root/.npm/_logs"],
+              workDir: "/store",
             },
           },
           {
@@ -98,7 +122,7 @@ export const config: SweadConfig<typeof env> = {
         beforeStart: "echo before",
         afterStart: ["echo after"],
         artifact: {
-          paths: ["apps/admin/.next"],
+          paths: ["apps/admin/.next", "apps/store/.next"],
         },
         certbot: {
           email: "t.heerwagen@web.de",

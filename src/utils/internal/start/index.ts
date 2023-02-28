@@ -16,7 +16,7 @@ export const start = async (ssh: NodeSSH, deploy: Server) => {
 
   await execCommand(
     ssh,
-    `docker-compose -f ${getComposePath(".")} up -V --build -d`,
+    `docker-compose -f ${getComposePath(".")} up -V --build`, //  -d // SPÄTER WIEDER HINZUFÜGEN
     { cwd: targetPath }
   );
 

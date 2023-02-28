@@ -1,11 +1,4 @@
-Dev:
--	Config laden
--	Config prüfen
--	Pro Environment
-o	Cleanup
-o	Env Datei schreiben
-o	(run dev Command)
--	run dev (all) Command
+
 
 Local:
 -	Lokal oder Server
@@ -20,49 +13,23 @@ o	Lokal:
 	run build (all) Command
 	run start (all) Command
 
-Staging:
-o	Server:
-	Config laden (ggf. von GitHub Actions)
-	Config prüfen
-	Pro Environment:
-•	Local cleanup
-•	Ggf. on wait (auf Admin o.ä.)
-•	Artefakte builden
-o	Env Datei schreiben
-o	mitgelieferte Pfade definieren
-o	Tar Verzeichnis schreiben
-o	danach Temp Dateien aufräumen
-•	Zu Server verbinden
-•	Server auf updates prüfen und ggf. installieren
-•	Docker Version prüfen und ggf. installieren
-•	Verzeichnis erstellen
-•	Zielverzeichnis bereinigen
-•	Artefakte übertragen
-•	Artefakt entpacken
-•	Artefakte bereinigen
-•	Artefakt lokal bereinigen
-•	Before hooks ausführen
-•	Release aktivieren
-o	Container starten
-o	Nginx usw starten
-o	alte Docker Container aufräumen
-•	After hooks ausführen
-
 Production:
 -	siehe Staging
 -	Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
 -	Möglichkeit das Deployment direkt als funktion zu nutzen
 
-Resources:
--	https://github.com/Giftora/dynamic-docker-compose/blob/main/src/DockerComposeFile.js
--	https://www.npmjs.com/package/yaml
--	
 
+- config überprüfen mit zod
+    - url direkt umwandeln zu punycode
+    - env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
+    - prüfen, dass auf einem Server nicht mehrere Apps mit dem gleichen Port existieren
 - rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI config erstellen (init)
+    - nicht verschlüsselte file zu gitignore hinzufügen
 - server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
 - reusing envs across multiple apps
 - testen ob docker-image verfügbar
-- dockerfile array ordentlich formatieren
 - möglichkeit in nginx files zu exposen
-- env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
+- möglichkit ohne detached (-d) zu starten
+- möglichkeit extra kontainer in dev zu starten (zB mongo)
+- möglichkeit vor dem container start befehl in docker auszuführen

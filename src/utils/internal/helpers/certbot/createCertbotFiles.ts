@@ -5,9 +5,11 @@ import {
   createDockerFileLine,
   dockerFileToString,
   getDockerFilePath,
+  NGINX_SERVICE_NAME,
 } from "../../index.js";
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
+import punycode from "punycode";
 
 export const CERTBOT_PATH = "certbot";
 
@@ -22,8 +24,8 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
     
     trap exit INT TERM
     
-    until nc -z nginx 80; do
-      echo "Warten, dass Nginx gestartet wird..."
+    until nc -z ${NGINX_SERVICE_NAME} 80; do
+      echo "Waiting for nginx to start..."
       sleep 5s & wait \${!}
     done
     
@@ -60,7 +62,7 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
 };
 
 const createCertbotScriptCommand = (url: string, certbot?: Certbot) => {
-  const finalUrl = stripHttpsFromUrl(url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
 
   return `if [ -d "/etc/letsencrypt/live/${finalUrl}" ]; then
 echo "Let's Encrypt Certificate for ${finalUrl} already exists."

@@ -1,5 +1,6 @@
 import { App, Server } from "../../../../types/config.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
+import punycode from "punycode";
 
 export const createNginxScript = (deploy: Server) => {
   const filteredApp = deploy.apps.filter((app) => !!app.url) as (Omit<
@@ -38,7 +39,7 @@ exec nginx -g "daemon off;"
 };
 
 const createDummyScript = (url: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
 
   return `
     if [ ! -f "/etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem" ]; then
@@ -54,10 +55,10 @@ const createDummyScript = (url: string) => {
 };
 
 const useCertificatesFunctionName = (name: string) =>
-  `use_lets_encrypt_${name}_certificates()`;
+  `use_lets_encrypt_${name}_certificates`;
 
 const createUseCertificates = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
 
   return `
     ${useCertificatesFunctionName(name)}() {
@@ -69,10 +70,10 @@ const createUseCertificates = (url: string, name: string) => {
 };
 
 const waitForLetsEncryptFunctionName = (name: string) =>
-  `wait_for_lets_${name}_encrypt()`;
+  `wait_for_lets_${name}_encrypt`;
 
 const waitForLetsEncrypt = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
 
   return `
     ${waitForLetsEncryptFunctionName(name)}() {
@@ -86,7 +87,7 @@ const waitForLetsEncrypt = (url: string, name: string) => {
 };
 
 const nginxCondition = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
 
   return `
     if [ ! -d "/etc/letsencrypt/live/${finalUrl}" ]; then
