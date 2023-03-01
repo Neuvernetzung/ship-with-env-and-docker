@@ -46,7 +46,29 @@ export const config: SweadConfig<typeof env> = {
       cleanUp: "./apps/store/.next",
     },
   ],
-  local: [],
+  local: [
+    {
+      name: "Admin",
+      env: [{ key: "admin", data: { BASE_URL: "http://localhost:1337" } }],
+      open: "http://localhost:1337",
+      build: { command: "turbo run build --scope=admin" },
+      start: { command: "turbo run start --scope=admin -- -p 1337" },
+    },
+    {
+      name: "Store",
+      env: {
+        key: "store",
+        data: {
+          BASE_URL: "http://localhost:3000",
+          ADMIN_URL: "http://localhost:1337",
+        },
+      },
+      build: { command: "turbo run build --scope=store" },
+      start: { command: "turbo run start --scope=store -- -p 3000" },
+      waitOn: ["http://localhost:1337"],
+      cleanUp: "./apps/store/.next",
+    },
+  ],
   branches: {
     staging: "develop",
     production: "develop",

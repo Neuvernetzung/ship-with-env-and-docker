@@ -55,5 +55,5 @@ export const createArtifact = async (
     await removeEnv(env, app.env);
   });
 
-  // await clean(LOCAL_DIR);
+  await clean(LOCAL_DIR);
 };

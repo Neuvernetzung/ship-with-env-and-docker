@@ -16,6 +16,9 @@ export const commandWithWaitOn = (
 export const withTcpOnDev = (waitOn: string) => {
   // nötig, da Localhost sonst versucht auf nicht vorhandene Ipv6 Adresse zuzugreifen.
   if (waitOn.includes("localhost"))
-    return `tcp:${waitOn.replace("http://", "").replace("https://", "")}`;
+    return `tcp:${waitOn
+      .replace("http://", "")
+      .replace("https://", "")
+      .replace("localhost", "127.0.0.1")}`;
   return waitOn;
 };

@@ -1,7 +1,12 @@
 import isArray from "lodash/isArray.js";
-import { Command } from "../../../../types/config.js";
 import { wrapInQuotes } from "../../wrapInQuotes.js";
 import { commandWithWaitOn } from "./commandWithWaitOn.js";
+
+type Command = {
+  name: string;
+  command: string;
+  waitOn?: string | string[];
+};
 
 export const concurrentNodeProcess = (commands: Command | Command[]) => {
   const names = isArray(commands)

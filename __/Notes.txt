@@ -13,12 +13,9 @@ o	Lokal:
 	run build (all) Command
 	run start (all) Command
 
-Production:
--	siehe Staging
--	Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
--	Möglichkeit das Deployment direkt als funktion zu nutzen
 
-
+- Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
+- Möglichkeit das Deployment direkt als funktion zu nutzen
 - config überprüfen mit zod
     - url direkt umwandeln zu punycode
     - env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
@@ -35,3 +32,4 @@ Production:
 - möglichkeit vor dem container start befehl in docker auszuführen
 - alles mit console.logs versehen
 - option vor dem start der docker container alle docker anwendungen zu schließen und zu löschen
+- types sortieren in eigene files

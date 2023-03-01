@@ -5,7 +5,7 @@ type PerformSingleOrMultipleOptions = { strict?: boolean; title?: string };
 
 export const performSingleOrMultiple = async <T>(
   dependent: T | T[],
-  fn: (values: NonNullable<T>) => Promise<any>,
+  fn: (values: NonNullable<T>, i?: number) => Promise<any>,
   options?: PerformSingleOrMultipleOptions
 ) => {
   if (isArray(dependent)) {

@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "dev:local": "ts-node-esm src/cli/dev.ts",
+    "local:local": "ts-node-esm src/cli/local.ts",
     "staging:local": "ts-node-esm src/cli/staging.ts",
     "production:local": "ts-node-esm src/cli/production.ts",
     "semantic-release": "semantic-release"

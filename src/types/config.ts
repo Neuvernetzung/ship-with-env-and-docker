@@ -21,7 +21,7 @@ export type EnvEntry<
     }
   : never;
 
-export type Command<T extends EnvConfig = EnvConfig> = {
+export type DevCommand<T extends EnvConfig = EnvConfig> = {
   name: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
   command: string;
@@ -29,8 +29,6 @@ export type Command<T extends EnvConfig = EnvConfig> = {
   open?: string;
   cleanUp?: string | string[];
 };
-
-export type DevCommand<T extends EnvConfig = EnvConfig> = Command<T>;
 
 type DevCommandUnion<T extends EnvConfig> = DevCommand<T> | DevCommand<T>[];
 
@@ -110,9 +108,27 @@ type Branches = {
   production?: string;
 };
 
+type LocalBuild = { command: string };
+
+type LocalStart = { command: string };
+
+export type LocalCommand<T extends EnvConfig = EnvConfig> = {
+  name: string;
+  env?: EnvEntry<T> | EnvEntry<T>[];
+  waitOn?: string | string[];
+  open?: string;
+  cleanUp?: string | string[];
+  build?: LocalBuild;
+  start?: LocalStart;
+};
+
+type LocalCommandUnion<T extends EnvConfig> =
+  | LocalCommand<T>
+  | LocalCommand<T>[];
+
 export type SweadConfig<T extends EnvConfig = EnvConfig> = {
   dev?: DevCommandUnion<T>;
-  local?: [];
+  local?: LocalCommandUnion<T>;
   staging?: DeployUnion<T>;
   production?: DeployUnion<T>;
   branches?: Branches;
