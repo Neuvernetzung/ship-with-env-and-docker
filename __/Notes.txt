@@ -1,9 +1,6 @@
 
 
-
-    - url direkt umwandeln zu punycode
-    - prüfen, dass auf einem Server nicht mehrere Apps mit dem gleichen Port existieren
-    - dns überprüfen
+    - ssh zugang prüfen
     
 - alles mit console.logs und loadings versehen
     

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
 import { Certbot, zCertbot } from "./helpers.js";
-import punycode from "punycode";
+import { toASCII } from "punycode";
 
 type SSH = z.infer<typeof zSSH>;
 
@@ -82,7 +82,7 @@ const zApp: z.ZodType<App> = z
       url: z
         .string()
         .url()
-        .transform((url) => punycode.toASCII(url))
+        .transform((url) => toASCII(url)) // Umwandeln zu ASCII; notwendig für Let's Encrypt etc.
         .optional(),
       env: z.union([zEnvEntry, z.array(zEnvEntry)]).optional(),
       docker: zDocker,
@@ -103,15 +103,33 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   certbot?: Certbot;
 };
 
-const zServer: z.ZodType<Server> = z.object({
-  server: zServerDetails,
-  apps: z.array(zApp),
-  artifact: zArtifact.optional(),
-  waitOn: z.union([z.string(), z.array(z.string())]).optional(),
-  beforeStart: z.union([z.string(), z.array(z.string())]).optional(),
-  afterStart: z.union([z.string(), z.array(z.string())]).optional(),
-  certbot: zCertbot.optional(),
-});
+const zServer: z.ZodType<Server> = z
+  .object({
+    server: zServerDetails,
+    apps: z.array(zApp),
+    artifact: zArtifact.optional(),
+    waitOn: z.union([z.string(), z.array(z.string())]).optional(),
+    beforeStart: z.union([z.string(), z.array(z.string())]).optional(),
+    afterStart: z.union([z.string(), z.array(z.string())]).optional(),
+    certbot: zCertbot.optional(),
+  })
+  .refine(
+    (data) => {
+      const ports: number[] = [];
+      let noDuplicates = true;
+      data.apps.forEach((app) => {
+        if (!app.docker.port) return;
+        if (ports.includes(app.docker.port)) {
+          noDuplicates = false;
+          return;
+        } else {
+          ports.push(app.docker.port);
+        }
+      });
+      return noDuplicates;
+    },
+    { message: "Multiple apps cannot use the same port" }
+  );
 
 type ServerUnion<T extends EnvConfig = EnvConfig> = Server<T> | Server<T>[];
 

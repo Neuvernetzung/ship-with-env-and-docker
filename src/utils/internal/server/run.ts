@@ -1,4 +1,5 @@
 import { Deploy, EnvConfig } from "../../../types/index.js";
+import { testDns } from "../config/testDns.js";
 import {
   createArtifact,
   withTempDir,
@@ -19,6 +20,8 @@ export const run = async (
     deploys,
     async (deploy) => {
       await performSingleOrMultiple(deploy.deploy, async (deploy) => {
+        await testDns(deploy);
+
         await waitOn(deploy.waitOn);
 
         await performSingleOrMultiple(deploy.apps, async (app) => {
