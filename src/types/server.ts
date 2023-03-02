@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
 import { Certbot, zCertbot } from "./helpers.js";
+import punycode from "punycode";
 
 type SSH = z.infer<typeof zSSH>;
 
@@ -78,7 +79,11 @@ const zApp: z.ZodType<App> = z
   .intersection(
     z.object({
       name: z.string(),
-      url: z.string().url().optional(),
+      url: z
+        .string()
+        .url()
+        .transform((url) => punycode.toASCII(url))
+        .optional(),
       env: z.union([zEnvEntry, z.array(zEnvEntry)]).optional(),
       docker: zDocker,
     }),

@@ -9,7 +9,6 @@ import {
 } from "../../index.js";
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
-import punycode from "punycode";
 
 export const CERTBOT_PATH = "certbot";
 
@@ -62,7 +61,7 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
 };
 
 const createCertbotScriptCommand = (url: string, certbot?: Certbot) => {
-  const finalUrl = punycode.toASCII(stripHttpsFromUrl(url));
+  const finalUrl = stripHttpsFromUrl(url);
 
   return `if [ -d "/etc/letsencrypt/live/${finalUrl}" ]; then
 echo "Let's Encrypt Certificate for ${finalUrl} already exists."

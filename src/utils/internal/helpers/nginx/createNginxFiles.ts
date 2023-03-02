@@ -9,7 +9,6 @@ import {
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
 import { createNginxScript } from "./createNginxScript.js";
-import punycode from "punycode";
 
 export const NGINX_PATH = "nginx";
 
@@ -103,7 +102,7 @@ ${(
 const createDefaultConf = (
   app: Omit<App, "url"> & Required<Pick<App, "url">>
 ) => {
-  const finalUrl = punycode.toASCII(stripHttpsFromUrl(app.url));
+  const finalUrl = stripHttpsFromUrl(app.url);
 
   return `server {
   listen 80;
