@@ -3,7 +3,7 @@ import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
 import { Certbot, zCertbot } from "./helpers.js";
 import { toASCII } from "punycode";
 
-type SSH = z.infer<typeof zSSH>;
+export type SSH = z.infer<typeof zSSH>;
 
 const zSSH = z.object({
   user: z.string(),

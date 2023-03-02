@@ -1,6 +1,4 @@
 
-
-    - ssh zugang prüfen
     
 - alles mit console.logs und loadings versehen
     

@@ -10,6 +10,7 @@ import {
   withSSHConnection,
   prepareServer,
   start,
+  testSSH,
 } from "../index.js";
 
 export const run = async (
@@ -21,6 +22,7 @@ export const run = async (
     async (deploy) => {
       await performSingleOrMultiple(deploy.deploy, async (deploy) => {
         await testDns(deploy);
+        await testSSH(deploy.server);
 
         await waitOn(deploy.waitOn);
 
