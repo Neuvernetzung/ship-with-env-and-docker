@@ -1,5 +1,5 @@
 import { NodeSSH } from "node-ssh";
-import { Server, ServerDetails } from "../../../types/config.js";
+import { ServerDetails } from "../../../types/index.js";
 
 export const withSSHConnection = async (
   server: ServerDetails,

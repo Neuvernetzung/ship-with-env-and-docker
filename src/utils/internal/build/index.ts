@@ -1,4 +1,4 @@
-import { App, EnvConfig } from "../../../types/config.js";
+import { App, EnvConfig } from "../../../types/index.js";
 import { clean, createEnvFiles, runNodeProcess } from "../index.js";
 
 export const build = async (app: App, env: EnvConfig | undefined) => {

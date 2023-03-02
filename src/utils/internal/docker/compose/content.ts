@@ -1,5 +1,5 @@
 import merge from "lodash/merge.js";
-import { App, EnvConfig } from "../../../../types/config.js";
+import { App, EnvConfig } from "../../../../types/index.js";
 
 import {
   DockerCompose,

@@ -1,4 +1,4 @@
-import { Deploy, EnvConfig } from "../../../types/config.js";
+import { Deploy, EnvConfig } from "../../../types/index.js";
 import {
   createArtifact,
   withTempDir,

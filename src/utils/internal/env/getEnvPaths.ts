@@ -1,5 +1,5 @@
 import isArray from "lodash/isArray.js";
-import { App, EnvConfig } from "../../../types/config.js";
+import { App, EnvConfig } from "../../../types/index.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { formatEnvPath } from "./formatEnvPath.js";
 

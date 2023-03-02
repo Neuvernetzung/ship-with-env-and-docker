@@ -1,4 +1,4 @@
-import { EnvConfig, Server } from "../../../types/config.js";
+import { EnvConfig, Server } from "../../../types/index.js";
 import {
   handleHelperFiles,
   globToPaths,

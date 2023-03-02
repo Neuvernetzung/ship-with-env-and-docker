@@ -1,4 +1,4 @@
-import { App, BuildUnion } from "../../../../types/config.js";
+import { App, BuildUnion } from "../../../../types/index.js";
 import {
   DockerFileContent,
   DockerFileInstructions as Inst,

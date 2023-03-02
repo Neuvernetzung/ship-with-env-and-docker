@@ -1,4 +1,4 @@
-import { App, Server } from "../../../types/config.js";
+import { App } from "../../../types/index.js";
 import { DockerComposeServices } from "../../../types/docker.js";
 import {
   createCertbotServices,

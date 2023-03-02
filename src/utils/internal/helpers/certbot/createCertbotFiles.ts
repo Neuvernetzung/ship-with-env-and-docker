@@ -1,4 +1,4 @@
-import { App, Certbot, Server } from "../../../../types/config.js";
+import { App, Certbot, Server } from "../../../../types/index.js";
 import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {

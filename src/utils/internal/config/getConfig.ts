@@ -1,8 +1,9 @@
 import { findUp } from "find-up";
 import "ts-node/register";
-import { ConfigFile } from "../../../types/config.js";
+import { SweadConfigFile } from "../../../types/config.js";
+import { testConfig } from "./testConfig.js";
 
-export const getConfig = async (): Promise<ConfigFile> => {
+export const getConfig = async (): Promise<SweadConfigFile> => {
   const configPath = await findUp("swead-config.ts");
   if (!configPath)
     throw new Error(
@@ -12,7 +13,11 @@ export const getConfig = async (): Promise<ConfigFile> => {
   const config = await import(`file://${configPath}`);
   if (!config) throw new Error("There was an error loading the config.");
 
-  return config.default
-    ? (config.default as ConfigFile)
-    : (config as ConfigFile);
+  const importedConfig = config.default
+    ? (config.default as SweadConfigFile)
+    : (config as SweadConfigFile);
+
+  const parsedConfig = await testConfig(importedConfig);
+
+  return parsedConfig;
 };

@@ -1,6 +1,6 @@
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { rm } from "fs/promises";
-import { EnvEntry, EnvConfig } from "../../../types/config.js";
+import { EnvEntry, EnvConfig } from "../../../types/index.js";
 import { formatEnvPath } from "./formatEnvPath.js";
 
 export const removeEnv = async (

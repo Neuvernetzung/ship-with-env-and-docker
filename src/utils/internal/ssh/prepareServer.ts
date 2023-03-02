@@ -1,5 +1,5 @@
 import { NodeSSH } from "node-ssh";
-import { Server } from "../../../types/config.js";
+import { Server } from "../../../types/index.js";
 import { execCommand } from "./execCommand.js";
 import { getTargetPath } from "./getTargetPath.js";
 

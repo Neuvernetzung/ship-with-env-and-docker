@@ -14,7 +14,8 @@
     "local:local": "ts-node-esm src/cli/local.ts",
     "staging:local": "ts-node-esm src/cli/staging.ts",
     "production:local": "ts-node-esm src/cli/production.ts",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "chalk": "^5.2.0",
@@ -32,7 +33,8 @@
     "tempy": "^3.0.0",
     "wait-on": "^7.0.1",
     "yaml": "^2.2.1",
-    "zod": "^3.20.6"
+    "zod": "^3.20.6",
+    "zod-error": "^1.5.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",

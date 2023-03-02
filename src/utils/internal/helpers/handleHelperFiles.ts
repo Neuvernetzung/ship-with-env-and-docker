@@ -1,4 +1,4 @@
-import { Server } from "../../../types/config.js";
+import { Server } from "../../../types/index.js";
 import {
   createCertbotFiles,
   createNginxFiles,

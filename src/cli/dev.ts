@@ -1,3 +1,4 @@
+import isArray from "lodash/isArray.js";
 import { errorHandler } from "../utils/internal/errorHandler.js";
 import {
   clean,
@@ -26,7 +27,15 @@ const runDev = async () => {
     }
   );
 
-  runNodeProcess(concurrentNodeProcess(config.dev)); // absichtlich nicht mit await
+  runNodeProcess(
+    concurrentNodeProcess(
+      (isArray(config.dev) ? config.dev : [config.dev]).map((app) => ({
+        command: app.dev.command,
+        name: app.name,
+        waitOn: app.waitOn,
+      }))
+    )
+  ); // absichtlich nicht mit await
 
   performSingleOrMultiple(config.dev, async (command) => {
     command.open && openInBrowser(command.open);

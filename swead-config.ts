@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { EnvConfig, SweadConfig } from "./src/types/config.js";
+import { EnvConfig, SweadConfig } from "./src/types/index.js";
 
 export const env = {
   admin: {
@@ -29,7 +29,7 @@ export const config: SweadConfig<typeof env> = {
       name: "Admin",
       env: [{ key: "admin", data: { BASE_URL: "http://localhost:1337" } }],
       open: "http://localhost:1337",
-      command: "turbo run dev --scope=admin -- -p 1337",
+      dev: { command: "turbo run dev --scope=admin -- -p 1337" },
       cleanUp: ["./apps/admin/.next"],
     },
     {
@@ -41,7 +41,7 @@ export const config: SweadConfig<typeof env> = {
           ADMIN_URL: "http://localhost:1337",
         },
       },
-      command: "turbo run dev --scope=store",
+      dev: { command: "turbo run dev --scope=store" },
       waitOn: ["http://localhost:1337"],
       cleanUp: "./apps/store/.next",
     },

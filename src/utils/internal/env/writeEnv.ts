@@ -1,4 +1,4 @@
-import { ParsedEnv } from "../../../types/config.js";
+import { ParsedEnv } from "../../../types/index.js";
 import { write } from "../index.js";
 import { formatEnvPath, formatEnvData } from "./index.js";
 

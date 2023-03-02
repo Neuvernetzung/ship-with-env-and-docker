@@ -1,7 +1,7 @@
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { parseEnv } from "./parseEnv.js";
 import { writeEnv } from "./writeEnv.js";
-import { EnvEntry, EnvConfig } from "../../../types/config.js";
+import { EnvEntry, EnvConfig } from "../../../types/index.js";
 
 export const createEnvFiles = async (
   env: EnvConfig | undefined,

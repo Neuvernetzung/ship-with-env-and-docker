@@ -1,4 +1,4 @@
-import { App, Server } from "../../../../types/config.js";
+import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import punycode from "punycode";
 

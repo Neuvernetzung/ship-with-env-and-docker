@@ -1,35 +1,36 @@
 
 
-Local:
--	Lokal oder Server
-o	Lokal:
-	Config laden
-	Config prüfen
-	Pro Environment:
-•	Cleanup
-•	Env Datei schreiben
-•	(run build Command)
-•	(run start Command)
-	run build (all) Command
-	run start (all) Command
 
+    - url direkt umwandeln zu punycode
+    - prüfen, dass auf einem Server nicht mehrere Apps mit dem gleichen Port existieren
+    - dns überprüfen
+    
+- alles mit console.logs und loadings versehen
+    
+- möglichkeit in nginx files zu exposen
+
+- env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
+
+- möglichkeit extra kontainer in dev zu starten (zB mongo)
+
+- möglichkeit vor dem container start befehl in docker auszuführen
+
+- möglichkit ohne detached (-d) zu starten
 
 - Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
+
 - Möglichkeit das Deployment direkt als funktion zu nutzen
-- config überprüfen mit zod
-    - url direkt umwandeln zu punycode
-    - env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
-    - prüfen, dass auf einem Server nicht mehrere Apps mit dem gleichen Port existieren
+
 - rein springen bei bestimmten server, bestimmten server einzelnd
-- per CLI config erstellen (init)
-    - nicht verschlüsselte file zu gitignore hinzufügen
+- per CLI 
+    - per CLI nutzbar
+    - config erstellen (init)
+        - nicht verschlüsselte file zu gitignore hinzufügen
+
 - server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
+
 - reusing envs across multiple apps
+
 - testen ob docker-image verfügbar
-- möglichkeit in nginx files zu exposen
-- möglichkit ohne detached (-d) zu starten
-- möglichkeit extra kontainer in dev zu starten (zB mongo)
-- möglichkeit vor dem container start befehl in docker auszuführen
-- alles mit console.logs versehen
+
 - option vor dem start der docker container alle docker anwendungen zu schließen und zu löschen
-- types sortieren in eigene files
