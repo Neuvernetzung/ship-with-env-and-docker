@@ -5,7 +5,7 @@ export const SSH_DEFAULT_PORT = "22";
 
 export const withSSHConnection = async (
   server: ServerDetails,
-  fn: (ssh: NodeSSH) => Promise<void>
+  fn: (ssh: NodeSSH) => Promise<any>
 ) => {
   const ssh = new NodeSSH();
 
@@ -16,7 +16,5 @@ export const withSSHConnection = async (
     password: server.ssh.password,
   });
 
-  await fn(ssh);
-
-  ssh.dispose();
+  return await fn(ssh);
 };

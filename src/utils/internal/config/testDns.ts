@@ -1,4 +1,4 @@
-import { logger } from "../logger.js";
+import { logger } from "../index.js";
 import dnsPromises from "dns/promises";
 import { Server } from "../../../types/server.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";

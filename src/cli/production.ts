@@ -3,6 +3,7 @@ import {
   errorHandler,
   run,
   validateGit,
+  exit,
 } from "../utils/internal/index.js";
 
 export const production = async () => {
@@ -14,6 +15,8 @@ export const production = async () => {
     throw new Error("Production is not defined in config.");
 
   await run(config.production, env);
+
+  exit("The production deployment has finished.");
 };
 
 production().catch(errorHandler);

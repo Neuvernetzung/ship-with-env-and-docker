@@ -1,7 +1,16 @@
 import { App, EnvConfig } from "../../../types/index.js";
-import { clean, createEnvFiles, runNodeProcess } from "../index.js";
+import {
+  clean,
+  createEnvFiles,
+  runNodeOptions,
+  runNodeProcess,
+} from "../index.js";
 
-export const build = async (app: App, env: EnvConfig | undefined) => {
+export const build = async (
+  app: App,
+  env: EnvConfig | undefined,
+  options?: runNodeOptions
+) => {
   await createEnvFiles(env, app.env);
 
   if (!app.build) return;
@@ -10,7 +19,7 @@ export const build = async (app: App, env: EnvConfig | undefined) => {
 
   await app.build.beforeFunction?.(app);
 
-  await runNodeProcess(app.build.command);
+  await runNodeProcess(app.build.command, options);
 
   await app.build.afterFunction?.(app);
 };

@@ -1,7 +1,7 @@
 import fs from "fs";
 import tar from "tar";
 import { getArtifactPath } from "../index.js";
-import { logger } from "../logger.js";
+import { logger } from "../index.js";
 import merge from "lodash/merge.js";
 
 export const writeTar = async (

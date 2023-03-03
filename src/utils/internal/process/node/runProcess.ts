@@ -1,7 +1,23 @@
 import { execa } from "execa";
 
-export const runNodeProcess = async (command: string) => {
-  await execa(command, { stdio: "inherit" }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
+export type runNodeOptions = {
+  stdout?: NodeJS.WriteStream & NodeJS.WritableStream;
+};
+
+export const runNodeProcess = async (
+  command: string,
+  options?: runNodeOptions
+) => {
+  const sub = execa(command, {
+    stdin: "inherit",
+    stdout: options?.stdout ? "pipe" : "inherit",
+  }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
+
+  if (options?.stdout) {
+    sub.stdout?.pipe(options.stdout); // Um zu ermöglichen, dass listr2 Output gut aus sieht.
+  }
+
+  await sub;
 };
 
 // concurrently(

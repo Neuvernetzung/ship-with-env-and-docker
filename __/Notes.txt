@@ -1,6 +1,6 @@
 
     
-- alles mit console.logs und loadings versehen
+- alles mit logs und loadings versehen
     
 - möglichkeit in nginx files zu exposen
 

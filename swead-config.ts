@@ -74,6 +74,7 @@ export const config: SweadConfig<typeof env> = {
     production: "develop",
   },
   staging: {
+    name: "Staging Server",
     deploy: [
       {
         server: {
@@ -157,6 +158,7 @@ export const config: SweadConfig<typeof env> = {
   },
   production: [
     {
+      name: "Production server",
       deploy: [
         {
           server: {
@@ -189,10 +191,6 @@ export const config: SweadConfig<typeof env> = {
             paths: ["apps/admin/.next"],
           },
         },
-      ],
-    },
-    {
-      deploy: [
         {
           server: {
             ip: "212.227.6.113",

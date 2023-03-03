@@ -1,6 +1,5 @@
 import { SweadConfigFile, zSweadConfigFile } from "../../../types/config.js";
-import { formatZodErrors } from "../index.js";
-import { logger } from "../logger.js";
+import { formatZodErrors, logger } from "../index.js";
 
 export const testConfig = async (
   config: SweadConfigFile
@@ -9,7 +8,7 @@ export const testConfig = async (
 
   if (!parsedConfig?.success) {
     logger.error(
-      "❌ Invalid config:\n",
+      "Invalid config:\n",
       formatZodErrors(parsedConfig.error.issues)
     );
     throw new Error("Invalid environment variables");

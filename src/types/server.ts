@@ -139,10 +139,12 @@ const zServerUnion: z.ZodType<ServerUnion> = z.union([
 ]);
 
 export type Deploy<T extends EnvConfig = EnvConfig> = {
+  name: string;
   deploy: ServerUnion<T>;
 };
 
 const zDeploy: z.ZodType<Deploy> = z.object({
+  name: z.string(),
   deploy: zServerUnion,
 });
 

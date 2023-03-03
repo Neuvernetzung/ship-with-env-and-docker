@@ -1,5 +1,5 @@
 import { NodeSSH } from "node-ssh";
-import { logger } from "../logger.js";
+import { logger } from "../index.js";
 
 export const putFile = async (ssh: NodeSSH, file: string, target: string) =>
   await ssh.putFile(file, target).then(undefined, function (error) {

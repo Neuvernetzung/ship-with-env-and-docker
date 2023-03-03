@@ -1,5 +1,5 @@
 import { NodeSSH, SSHExecCommandOptions } from "node-ssh";
-import { logger } from "../logger.js";
+import { logger } from "../index.js";
 import merge from "lodash/merge.js";
 
 const execOptions: SSHExecCommandOptions = {
@@ -12,10 +12,21 @@ const execOptions: SSHExecCommandOptions = {
   },
 };
 
+type SSHExecCommandCustomOptions = {
+  cwd?: string;
+  stdout?: NodeJS.WriteStream & NodeJS.WritableStream;
+};
+
 export const execCommand = async (
   ssh: NodeSSH,
   command: string,
-  options?: SSHExecCommandOptions
+  options?: SSHExecCommandCustomOptions
 ) => {
-  await ssh.execCommand(command, merge(execOptions, options));
+  await ssh.execCommand(
+    command,
+    merge(execOptions, {
+      cwd: options?.cwd,
+      onStdout: options?.stdout?.write || undefined,
+    })
+  );
 };

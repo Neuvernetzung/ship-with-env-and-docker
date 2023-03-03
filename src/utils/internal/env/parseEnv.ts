@@ -1,5 +1,5 @@
 import { EnvConfig } from "../../../types/index.js";
-import { logger } from "../logger.js";
+import { logger } from "../index.js";
 import { formatZodErrors } from "../zod/index.js";
 
 export const parseEnv = (
@@ -14,7 +14,7 @@ export const parseEnv = (
 
   if (!parsedEnv?.success) {
     logger.error(
-      "❌ Invalid environment variables:\n",
+      "Invalid environment variables:\n",
       formatZodErrors(parsedEnv.error.issues)
     );
     throw new Error("Invalid environment variables");
