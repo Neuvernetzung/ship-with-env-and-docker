@@ -1,3 +1,4 @@
+- wenn in gitignore bereits swead-config, dann nichts machen, genau so in package.json
 
 - files exposen in dev
 
