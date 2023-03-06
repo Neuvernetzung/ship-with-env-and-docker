@@ -48,6 +48,12 @@ export const createDockerFileContent = async (
       ? [createDockerFileLine(Inst.EXPOSE, String(app.docker.port))]
       : []), // ports exposen
 
+    ...(app.docker.beforeStart
+      ? app.docker.beforeStart.map((command) =>
+          createDockerFileLine(command.instruction, command.content)
+        )
+      : []),
+
     createDockerFileLine(Inst.CMD, app.start.command),
   ];
 

@@ -21,7 +21,9 @@ export const start = async (
 
   await execCommand(
     ssh,
-    `docker-compose -f ${getComposePath(".")} up -V --build -d`,
+    `docker-compose -f ${getComposePath(".")} up -V --build ${
+      deploy.dontDetach ? "" : "-d"
+    }`,
     { cwd: targetPath, stdout }
   );
 

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
 import { Certbot, ExposeFolder, zCertbot, zExposeFolder } from "./helpers.js";
 import { toASCII } from "punycode";
+import { DockerFileInstructions } from "./docker.js";
 
 export type SSH = z.infer<typeof zSSH>;
 
@@ -58,6 +59,14 @@ const zDocker = z.object({
   links: z.array(z.string()).optional(),
   workDir: z.string().optional(),
   environment: z.array(z.string()).optional(),
+  beforeStart: z
+    .array(
+      z.object({
+        instruction: z.nativeEnum(DockerFileInstructions),
+        content: z.string(),
+      })
+    )
+    .optional(),
 });
 
 export type BuildUnion =
@@ -103,6 +112,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   afterStart?: string | string[];
   certbot?: Certbot;
   exposeFolder?: ExposeFolder;
+  dontDetach?: boolean;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -115,6 +125,7 @@ const zServer: z.ZodType<Server> = z
     afterStart: z.union([z.string(), z.array(z.string())]).optional(),
     certbot: zCertbot.optional(),
     exposeFolder: zExposeFolder.optional(),
+    dontDetach: z.boolean().optional(),
   })
   .refine(
     (data) => {

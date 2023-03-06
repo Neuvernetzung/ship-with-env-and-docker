@@ -1,25 +1,21 @@
 
-
-- möglichkeit extra kontainer in dev zu starten (zB mongo)
-
-- möglichkeit vor dem container start befehl in docker auszuführen
-
-- möglichkit ohne detached (-d) zu starten
-
-- Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
+- server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
 
 - Möglichkeit das Deployment direkt als funktion zu nutzen
 
-- rein springen bei bestimmten server, bestimmten server einzelnd
 - per CLI 
     - per CLI nutzbar
     - config erstellen (init)
         - nicht verschlüsselte file zu gitignore hinzufügen
 
-- server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
+- rein springen bei bestimmten server, bestimmten server einzelnd
+        
+- Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
 
 - reusing envs across multiple apps
 
 - testen ob docker-image verfügbar
 
 - option vor dem start der docker container alle docker anwendungen zu schließen und zu löschen
+
+- möglichkeit extra kontainer in dev zu starten (zB mongo)
