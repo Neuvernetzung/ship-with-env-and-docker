@@ -2,7 +2,9 @@
 
 import minimist from "minimist";
 import { runDev, runLocal, runProduction, runStaging } from "../index.js";
-import { errorHandler, getConfig } from "../utils/internal/index.js";
+import { runInit } from "../main/init.js";
+import { runMethods, totalMethods } from "../types/args.js";
+import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c"],
@@ -11,14 +13,10 @@ const cliOpts: minimist.Opts = {
   },
 };
 
-const runMethods = ["production", "staging", "local", "dev"];
-
-const totalMethods = [...runMethods];
-
 const main = async () => {
-  const args = minimist(process.argv.slice(2), cliOpts);
+  const args = parseArgs(cliOpts);
 
-  const method = args._[0];
+  const method = args._;
 
   if (!method)
     throw new Error(`Please define a method. (${totalMethods.join(", ")})`);
@@ -29,23 +27,28 @@ const main = async () => {
     );
   }
 
+  if (method === "init") {
+    await runInit(args.config);
+    return;
+  }
+
   if (runMethods.includes(method)) {
     const { env, config } = await getConfig(args.config);
 
     if (method === "production") {
-      runProduction(env, config);
+      await runProduction(env, config);
       return;
     }
     if (method === "staging") {
-      runStaging(env, config);
+      await runStaging(env, config);
       return;
     }
     if (method === "local") {
-      runLocal(env, config);
+      await runLocal(env, config);
       return;
     }
     if (method === "dev") {
-      runDev(env, config);
+      await runDev(env, config);
       return;
     }
   }

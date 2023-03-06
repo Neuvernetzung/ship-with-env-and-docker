@@ -15,13 +15,12 @@
     "node": ">=14.16"
   },
   "scripts": {
+    "dev": "tsup --watch",
     "build": "tsup",
-    "dev:local": "npm run build && npm i -g && npx swead dev",
-    "local:local": "npm run build && npm i -g && npx swead local",
-    "staging:local": "npm run build && npm i -g && npx swead staging",
-    "production:local": "npm run build && npm i -g && npx swead production",
     "semantic-release": "semantic-release",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "dev:swead": "npx swead dev -c test.ts",
+    "local:swead": "npx swead local -c test.ts"
   },
   "dependencies": {
     "bundle-require": "^4.0.1",

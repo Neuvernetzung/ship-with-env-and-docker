@@ -1,8 +1,9 @@
 
 
 - per CLI 
-    - config erstellen (init)
+    - hilfe für args
         - nicht verschlüsselte file zu gitignore hinzufügen
+        - dev:swead, local:swead, zu package.json hinzufügen
 
 - files exposen in dev
 

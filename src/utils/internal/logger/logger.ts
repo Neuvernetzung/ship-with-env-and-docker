@@ -2,6 +2,9 @@
 import chalk from "chalk";
 
 export const logger = {
+  start(...args: unknown[]) {
+    console.log(chalk.blue(...args, "💦"));
+  },
   error(...args: unknown[]) {
     console.log(chalk.red("✖", ...args));
   },
@@ -21,6 +24,6 @@ export const logger = {
     console.log(chalk.green("✔"), ...args);
   },
   finished(...args: unknown[]) {
-    console.log(chalk.blue("💦"), ...args);
+    console.log(chalk.blue("💦", ...args));
   },
 };
