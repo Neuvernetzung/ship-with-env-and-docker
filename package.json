@@ -2,22 +2,29 @@
   "name": "swead",
   "version": "1.0.0",
   "description": "ship-with-env-and-docker",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "private": false,
+  "bin": {
+    "swead": "./dist/cli/index.js"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "workspaces": [
     "apps/*"
   ],
+  "engines": {
+    "node": ">=14.16"
+  },
   "scripts": {
-    "dev:local": "ts-node-esm src/cli/dev.ts",
-    "local:local": "ts-node-esm src/cli/local.ts",
-    "staging:local": "ts-node-esm src/cli/staging.ts",
-    "production:local": "ts-node-esm src/cli/production.ts",
+    "build": "tsup",
+    "dev:local": "npm run build && npm i -g && npx swead dev",
+    "local:local": "npm run build && npm i -g && npx swead local",
+    "staging:local": "npm run build && npm i -g && npx swead staging",
+    "production:local": "npm run build && npm i -g && npx swead production",
     "semantic-release": "semantic-release",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "bundle-require": "^4.0.1",
     "chalk": "^5.2.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
@@ -26,6 +33,7 @@
     "find-up": "^6.3.0",
     "listr2": "^5.0.7",
     "lodash": "^4.17.21",
+    "minimist": "^1.2.8",
     "node-ssh": "^13.0.1",
     "p-map": "^5.5.0",
     "punycode": "^2.3.0",
@@ -39,12 +47,14 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
+    "@types/minimist": "^1.2.2",
     "@types/tar": "^6.1.4",
     "@types/wait-on": "^5.3.1",
     "eslint": "^8.35.0",
     "eslint-config-custom": "https://timheerwagen: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@github.com/Neuvernetzung/eslint-config-custom#semver:0.0.4",
     "ts-node": "^10.9.1",
     "tsconfig": "https://timheerwagen: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@github.com/Neuvernetzung/tsconfig",
+    "tsup": "^6.6.3",
     "turbo": "^1.8.3",
     "typescript": "^4.9.5"
   },

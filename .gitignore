@@ -3,3 +3,4 @@ node_modules
 .log
 _swead
 turbo-*.log
+dist

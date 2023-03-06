@@ -1,19 +1,20 @@
 import isArray from "lodash/isArray.js";
-import { errorHandler } from "../utils/internal/errorHandler.js";
+import { SweadConfig } from "../types/config.js";
+import { EnvConfig } from "../types/env.js";
 import {
   clean,
   concurrentNodeProcess,
   createEnvFiles,
-  getConfig,
   performSingleOrMultiple,
   runNodeProcess,
   openInBrowser,
   runTasks,
 } from "../utils/internal/index.js";
 
-const runDev = async () => {
-  const { env, config } = await getConfig();
-
+export const runDev = async (
+  env: EnvConfig | undefined,
+  config: SweadConfig
+) => {
   if (!config.dev) throw new Error("Dev is not defined in config.");
 
   await runTasks(
@@ -56,5 +57,3 @@ const runDev = async () => {
     { ctx: config.dev }
   );
 };
-
-runDev().catch(errorHandler);

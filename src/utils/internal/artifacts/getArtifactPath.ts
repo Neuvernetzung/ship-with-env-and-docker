@@ -1,4 +1,3 @@
-import path from "path";
 import { join } from "../index.js";
 
 export const ARTIFACT_NAME = "Artifact";

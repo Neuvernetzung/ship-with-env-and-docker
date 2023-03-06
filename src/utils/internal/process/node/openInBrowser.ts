@@ -1,8 +1,9 @@
-import open from "open";
+// import open from "open"; verursacht: Error: Dynamic require of "path" is not supported
 import waitOn from "wait-on";
-import { withTcpOnDev } from "./commandWithWaitOn.js";
+import { withTcpOnDev, runNodeProcess } from "./index.js";
 
 export const openInBrowser = async (url: string) => {
   await waitOn({ resources: [withTcpOnDev(url)] });
-  open(url);
+  await runNodeProcess(`npx -y open-cli ${url}`); // Stattdessen CLI Version davon nutzen
+  // open(url);
 };

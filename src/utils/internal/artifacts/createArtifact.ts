@@ -11,7 +11,6 @@ import {
 import { writeTar } from "./writeTar.js";
 import { mkdir } from "fs/promises";
 import { getEnvPaths } from "../env/getEnvPaths.js";
-import path from "path";
 
 export const LOCAL_DIR = "_swead";
 

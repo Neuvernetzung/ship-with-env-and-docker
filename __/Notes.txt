@@ -1,10 +1,10 @@
 
-- Möglichkeit das Deployment direkt als funktion zu nutzen
 
 - per CLI 
-    - per CLI nutzbar
     - config erstellen (init)
         - nicht verschlüsselte file zu gitignore hinzufügen
+
+- files exposen in dev
 
 - rein springen bei bestimmten server, bestimmten server einzelnd
         

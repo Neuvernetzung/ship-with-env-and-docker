@@ -1,7 +1,7 @@
 import isArray from "lodash/isArray.js";
+import { SweadConfig } from "../types/config.js";
+import { EnvConfig } from "../types/env.js";
 import {
-  getConfig,
-  errorHandler,
   performSingleOrMultiple,
   clean,
   createEnvFiles,
@@ -11,10 +11,11 @@ import {
   runTasks,
 } from "../utils/internal/index.js";
 
-export const production = async () => {
-  const { env, config } = await getConfig();
-
-  if (!config.local) throw new Error("Production is not defined in config.");
+export const runLocal = async (
+  env: EnvConfig | undefined,
+  config: SweadConfig
+) => {
+  if (!config.local) throw new Error("Local is not defined in config.");
 
   await runTasks(
     [
@@ -58,5 +59,3 @@ export const production = async () => {
     { ctx: config.local }
   );
 };
-
-production().catch(errorHandler);
