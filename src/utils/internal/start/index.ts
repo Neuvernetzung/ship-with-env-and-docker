@@ -39,4 +39,10 @@ export const start = async (
     cwd: targetPath,
     stdout,
   });
+
+  if (deploy.server.rebootAfterUpdate) {
+    await execCommand(ssh, "reboot");
+  }
+
+  ssh.dispose();
 };

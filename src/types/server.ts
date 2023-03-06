@@ -19,6 +19,7 @@ const zServerDetails = z.object({
   ssh: zSSH,
   path: z.string().optional(),
   neverClean: z.array(z.string()).optional(),
+  rebootAfterUpdate: z.boolean().optional(),
 });
 
 type Build = {

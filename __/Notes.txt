@@ -1,6 +1,4 @@
 
-- server nach update neu starten, (reboot), danach waitOn auf server und dann neu verbinden. evtl. einfacher möglich
-
 - Möglichkeit das Deployment direkt als funktion zu nutzen
 
 - per CLI 
