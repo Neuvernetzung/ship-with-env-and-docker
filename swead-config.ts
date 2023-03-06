@@ -190,7 +190,7 @@ export const config: SweadConfig<typeof env> = {
           artifact: {
             paths: ["apps/admin/.next", "apps/admin/public"],
           },
-          expose_folder: {
+          exposeFolder: {
             url: "https://test-images.räucherkerzen-shop.de",
             path: "/apps/admin/public",
           },

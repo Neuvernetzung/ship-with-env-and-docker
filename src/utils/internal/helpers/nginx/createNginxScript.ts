@@ -1,7 +1,7 @@
 import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 
-const EXPOSE_FOLDER_FUNCTION_NAME = "expose_folder";
+const exposeFolder_FUNCTION_NAME = "exposeFolder";
 
 export const createNginxScript = (deploy: Server) => {
   const filteredApp = deploy.apps.filter((app) => !!app.url) as (Omit<
@@ -17,7 +17,7 @@ set -e
 
 ${filteredApp.map((app) => createDummyScript(app.url)).join("\n\n")}
 
-${deploy.expose_folder ? createDummyScript(deploy.expose_folder.url) : ""}
+${deploy.exposeFolder ? createDummyScript(deploy.exposeFolder.url) : ""}
 
 if [ ! -f /etc/nginx/ssl/ssl-dhparams.pem ]; then
     openssl dhparam -out /etc/nginx/ssl/ssl-dhparams.pem 2048
@@ -28,10 +28,10 @@ ${filteredApp
   .join("\n\n")}
 
   ${
-    deploy.expose_folder
+    deploy.exposeFolder
       ? createUseCertificates(
-          deploy.expose_folder.url,
-          EXPOSE_FOLDER_FUNCTION_NAME
+          deploy.exposeFolder.url,
+          exposeFolder_FUNCTION_NAME
         )
       : ""
   }
@@ -45,16 +45,16 @@ reload_nginx() {
 ${filteredApp.map((app) => waitForLetsEncrypt(app.url, app.name)).join("\n\n")}
 
 ${
-  deploy.expose_folder
-    ? waitForLetsEncrypt(deploy.expose_folder.url, EXPOSE_FOLDER_FUNCTION_NAME)
+  deploy.exposeFolder
+    ? waitForLetsEncrypt(deploy.exposeFolder.url, exposeFolder_FUNCTION_NAME)
     : ""
 }
 
 ${filteredApp.map((app) => nginxCondition(app.url, app.name)).join("\n\n")}
 
 ${
-  deploy.expose_folder
-    ? nginxCondition(deploy.expose_folder.url, EXPOSE_FOLDER_FUNCTION_NAME)
+  deploy.exposeFolder
+    ? nginxCondition(deploy.exposeFolder.url, exposeFolder_FUNCTION_NAME)
     : ""
 }
 

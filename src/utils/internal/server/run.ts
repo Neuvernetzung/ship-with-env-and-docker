@@ -42,9 +42,9 @@ export const run = async (
                       title: `Testing server dns`,
                       task: async () => {
                         await testDns(server);
-                        if (!server.expose_folder) return;
+                        if (!server.exposeFolder) return;
                         await testDomainDns(
-                          server.expose_folder?.url,
+                          server.exposeFolder?.url,
                           server.server.ip
                         );
                       },

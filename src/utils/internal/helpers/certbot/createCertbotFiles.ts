@@ -36,8 +36,8 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
       .join("\n\n")}
     
       ${
-        deploy.expose_folder
-          ? createCertbotScriptCommand(deploy.expose_folder.url, deploy.certbot)
+        deploy.exposeFolder
+          ? createCertbotScriptCommand(deploy.exposeFolder.url, deploy.certbot)
           : ""
       }
       `,

@@ -16,8 +16,8 @@ export const createNginxServices = (deploy: Server) => {
     `${CERTBOT_VOLUME}:/var/www/certbot`,
   ];
 
-  if (deploy.expose_folder) {
-    volumes.push(`.${deploy.expose_folder.path}:${deploy.expose_folder.path}`);
+  if (deploy.exposeFolder) {
+    volumes.push(`.${deploy.exposeFolder.path}:${deploy.exposeFolder.path}`);
   }
 
   const cron: DockerComposeService = {

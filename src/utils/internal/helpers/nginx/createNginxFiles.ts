@@ -30,7 +30,7 @@ ${(
   .map((app) => createDefaultConf(app))
   .join("\n\n")}
 
-  ${deploy.expose_folder ? createExposeConf(deploy.expose_folder) : ""}
+  ${deploy.exposeFolder ? createExposeConf(deploy.exposeFolder) : ""}
 `,
   };
 

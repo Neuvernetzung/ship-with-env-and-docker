@@ -36,7 +36,7 @@ export const createArtifact = async (
 
   const paths = [
     ...(await globToPaths(artifactPaths)),
-    ...(await getEnvPaths(deploy.apps, env)),
+    ...(!deploy.artifact.excludeEnv ? await getEnvPaths(deploy.apps, env) : []),
   ];
 
   const helpers = await handleHelperFiles(deploy, LOCAL_DIR);

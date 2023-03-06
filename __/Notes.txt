@@ -1,8 +1,4 @@
 
-    
-    
-
-- env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
 
 - möglichkeit extra kontainer in dev zu starten (zB mongo)
 

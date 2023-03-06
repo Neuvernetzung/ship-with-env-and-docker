@@ -40,6 +40,7 @@ export type Artifact = z.infer<typeof zArtifact>;
 
 const zArtifact = z.object({
   paths: z.array(z.string()),
+  excludeEnv: z.boolean().optional(),
 });
 
 type Start = z.infer<typeof zStart>;
@@ -101,7 +102,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   beforeStart?: string | string[];
   afterStart?: string | string[];
   certbot?: Certbot;
-  expose_folder?: ExposeFolder;
+  exposeFolder?: ExposeFolder;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -113,7 +114,7 @@ const zServer: z.ZodType<Server> = z
     beforeStart: z.union([z.string(), z.array(z.string())]).optional(),
     afterStart: z.union([z.string(), z.array(z.string())]).optional(),
     certbot: zCertbot.optional(),
-    expose_folder: zExposeFolder.optional(),
+    exposeFolder: zExposeFolder.optional(),
   })
   .refine(
     (data) => {
