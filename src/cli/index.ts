@@ -8,8 +8,10 @@ import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c"],
+  boolean: ["h"],
   alias: {
     c: "config",
+    h: "help",
   },
 };
 

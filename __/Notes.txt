@@ -1,10 +1,4 @@
 
-
-- per CLI 
-    - hilfe für args
-        - nicht verschlüsselte file zu gitignore hinzufügen
-        - dev:swead, local:swead, zu package.json hinzufügen
-
 - files exposen in dev
 
 - rein springen bei bestimmten server, bestimmten server einzelnd

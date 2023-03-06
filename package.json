@@ -19,8 +19,8 @@
     "build": "tsup",
     "semantic-release": "semantic-release",
     "type-check": "tsc --noEmit",
-    "dev:swead": "npx swead dev -c test.ts",
-    "local:swead": "npx swead local -c test.ts"
+    "dev:swead": "npx swead dev -c undefined.ts",
+    "local:swead": "npx swead local -c undefined.ts"
   },
   "dependencies": {
     "bundle-require": "^4.0.1",

@@ -10,9 +10,9 @@ export const zArgs = z.object({
   _: z.array(z.enum(totalMethods)).transform((arr) => arr[0]),
   config: z
     .string()
-    .optional()
     .transform((str) => {
       if (str?.includes(".ts") || str?.includes(".js")) return str;
       return `${str}.ts`;
-    }),
+    })
+    .optional(),
 });
