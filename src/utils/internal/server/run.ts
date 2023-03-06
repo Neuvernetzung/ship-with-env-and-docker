@@ -1,6 +1,7 @@
+import { ListrTask } from "listr2";
 import isArray from "lodash/isArray.js";
 import { Deploy, EnvConfig } from "../../../types/index.js";
-import { testDns } from "../config/testDns.js";
+import { testDns, testDomainDns } from "../config/testDns.js";
 import {
   createArtifact,
   withTempDir,
@@ -39,7 +40,14 @@ export const run = async (
                   task.newListr([
                     {
                       title: `Testing server dns`,
-                      task: async () => await testDns(server),
+                      task: async () => {
+                        await testDns(server);
+                        if (!server.expose_folder) return;
+                        await testDomainDns(
+                          server.expose_folder?.url,
+                          server.server.ip
+                        );
+                      },
                     },
                     {
                       title: `Testing ssh connection`,
@@ -73,29 +81,35 @@ export const run = async (
                       title: "Creating artifacts",
                       task: async () => await createArtifact(dir, server, env),
                     },
-                    ...(await withSSHConnection(server.server, async (ssh) => [
-                      {
-                        title: "Preparing server",
-                        task: async () =>
-                          await prepareServer(ssh, server, task.stdout()),
-                      },
-                      {
-                        title: "Transfer artifact and extract",
-                        task: async () =>
-                          await transferArtifactAndExtract(
-                            ssh,
-                            dir,
-                            server.server.path,
-                            task.stdout()
-                          ),
-                      },
-                      {
-                        title: "Starting apps",
-                        task: async () =>
-                          await start(ssh, server, task.stdout()),
-                        options: { bottomBar: Infinity },
-                      },
-                    ])),
+                    ...(await withSSHConnection(
+                      server.server,
+                      async (ssh) =>
+                        [
+                          {
+                            title: "Preparing server",
+                            task: async (_, task) =>
+                              await prepareServer(ssh, server, task.stdout()),
+                            options: { bottomBar: Infinity },
+                          },
+                          {
+                            title: "Transfer artifact and extract",
+                            task: async (_, task) =>
+                              await transferArtifactAndExtract(
+                                ssh,
+                                dir,
+                                server.server.path,
+                                task.stdout()
+                              ),
+                            options: { bottomBar: Infinity },
+                          },
+                          {
+                            title: "Starting apps",
+                            task: async (_, task) =>
+                              await start(ssh, server, task.stdout()),
+                            options: { bottomBar: Infinity },
+                          },
+                        ] satisfies ListrTask[]
+                    )),
                   ]),
               }))
             ),

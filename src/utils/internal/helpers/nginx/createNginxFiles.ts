@@ -1,4 +1,4 @@
-import { App, Server } from "../../../../types/index.js";
+import { App, ExposeFolder, Server } from "../../../../types/index.js";
 import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
@@ -21,7 +21,7 @@ export const createNginxFiles = (deploy: Server): HelperFile[] => {
   const defaultConf: HelperFile = {
     path: getHelpersPath(`${NGINX_PATH}/${NGINX_DEFAULT_CONF_NAME}`),
     content: `server_names_hash_bucket_size 64;
-    client_max_body_size 1G;
+client_max_body_size 1G;
 
 ${(
   deploy.apps.filter((app) => !!app.url) as (Omit<App, "url"> &
@@ -29,6 +29,8 @@ ${(
 )
   .map((app) => createDefaultConf(app))
   .join("\n\n")}
+
+  ${deploy.expose_folder ? createExposeConf(deploy.expose_folder) : ""}
 `,
   };
 
@@ -134,11 +136,81 @@ server {
 
   location / {
       proxy_pass http://${app.name}:${app.docker.port};
-  proxy_http_version 1.1;
+      proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection 'upgrade';
       proxy_set_header Host $host;
       proxy_cache_bypass $http_upgrade;
+  }
+}
+
+server {
+  listen 80;
+
+  server_name www.${finalUrl};
+
+  location /.well-known/acme-challenge/ {
+      allow all;
+      root /var/www/certbot;
+  }
+
+  location / {
+      return 301 https://${finalUrl}$request_uri;
+  }
+}
+
+server {
+  listen       443 ssl http2;
+  server_name  www.${finalUrl};
+
+  ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
+
+  include /etc/nginx/options-ssl-nginx.conf;
+
+  ssl_dhparam /etc/nginx/ssl/ssl-dhparams.pem;
+
+  include /etc/nginx/hsts.conf;
+
+  location / {
+      return 301 https://${finalUrl}$request_uri;
+  }
+}`;
+};
+
+const createExposeConf = (expose: ExposeFolder) => {
+  const finalUrl = stripHttpsFromUrl(expose.url);
+
+  return `server {
+  listen 80;
+
+  server_name ${finalUrl};
+
+  location /.well-known/acme-challenge/ {
+      allow all;
+      root /var/www/certbot;
+  }
+
+  location / {
+      return 301 https://$host$request_uri;
+  }
+}
+
+server {
+  listen       443 ssl http2;
+  server_name  ${finalUrl};
+
+  ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
+  ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
+
+  include /etc/nginx/options-ssl-nginx.conf;
+
+  ssl_dhparam /etc/nginx/ssl/ssl-dhparams.pem;
+
+  include /etc/nginx/hsts.conf;
+
+  location / {
+      root ${expose.path};
   }
 }
 

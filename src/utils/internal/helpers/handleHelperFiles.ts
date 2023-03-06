@@ -5,7 +5,6 @@ import {
   createCronFiles,
 } from "./index.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
-import path from "path";
 import { join, write } from "../index.js";
 
 export type HelperFile = { path: string; content: string };

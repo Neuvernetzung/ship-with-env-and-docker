@@ -8,19 +8,25 @@ export const NGINX_SERVICE_NAME = "nginx";
 
 export const NGINX_SSL_VOLUME = "nginx_ssl";
 
-export const createNginxServices = (apps: App[]) => {
+export const createNginxServices = (deploy: Server) => {
+  const volumes = [
+    "./logs/nginx:/var/log/nginx",
+    `${NGINX_SSL_VOLUME}:/etc/nginx/ssl`,
+    `${CERTBOT_CERTS_VOLUME}:/etc/letsencrypt`,
+    `${CERTBOT_VOLUME}:/var/www/certbot`,
+  ];
+
+  if (deploy.expose_folder) {
+    volumes.push(`.${deploy.expose_folder.path}:${deploy.expose_folder.path}`);
+  }
+
   const cron: DockerComposeService = {
     container_name: NGINX_SERVICE_NAME,
     build: getHelpersPath(NGINX_PATH),
     ports: ["80:80", "443:443"],
-    volumes: [
-      "./logs/nginx:/var/log/nginx",
-      `${NGINX_SSL_VOLUME}:/etc/nginx/ssl`,
-      `${CERTBOT_CERTS_VOLUME}:/etc/letsencrypt`,
-      `${CERTBOT_VOLUME}:/var/www/certbot`,
-    ],
+    volumes,
     restart: "always",
-    links: apps
+    links: deploy.apps
       .filter((app) => app.url)
       .map((app) => dockerComposeServiceName(app.name)),
   };

@@ -1,4 +1,4 @@
-import { App } from "../../../types/index.js";
+import { App, Server } from "../../../types/index.js";
 import { DockerComposeServices } from "../../../types/docker.js";
 import {
   createCertbotServices,
@@ -6,10 +6,10 @@ import {
   createCronServices,
 } from "./index.js";
 
-export const createHelperServices = (apps: App[]) => {
+export const createHelperServices = (deploy: Server) => {
   const certbot = createCertbotServices();
   const cron = createCronServices();
-  const nginx = createNginxServices(apps);
+  const nginx = createNginxServices(deploy);
 
   const services: DockerComposeServices = {
     certbot,

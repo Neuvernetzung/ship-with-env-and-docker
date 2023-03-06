@@ -11,6 +11,7 @@ import {
 import { writeTar } from "./writeTar.js";
 import { mkdir } from "fs/promises";
 import { getEnvPaths } from "../env/getEnvPaths.js";
+import path from "path";
 
 export const LOCAL_DIR = "_swead";
 
@@ -31,8 +32,10 @@ export const createArtifact = async (
 
   await mkdir(LOCAL_DIR, { recursive: true }); // Es muss ein Extra Verzeichnis angelegt werden, da wenn Dateien im Temp Ordner gespeichert werden würden, diese dann mit Temp Pfad kopiert werden
 
+  const artifactPaths = [...deploy.artifact.paths, ...defaultPaths];
+
   const paths = [
-    ...(await globToPaths([...deploy.artifact.paths, ...defaultPaths])),
+    ...(await globToPaths(artifactPaths)),
     ...(await getEnvPaths(deploy.apps, env)),
   ];
 

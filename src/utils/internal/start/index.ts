@@ -1,6 +1,5 @@
 import { NodeSSH } from "node-ssh";
 import { Server } from "../../../types/index.js";
-import { testDns } from "../config/testDns.js";
 import { getComposePath } from "../index.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { execCommand, getTargetPath } from "../ssh/index.js";

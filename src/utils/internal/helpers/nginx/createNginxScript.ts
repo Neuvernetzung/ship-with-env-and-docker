@@ -1,6 +1,8 @@
 import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 
+const EXPOSE_FOLDER_FUNCTION_NAME = "expose_folder";
+
 export const createNginxScript = (deploy: Server) => {
   const filteredApp = deploy.apps.filter((app) => !!app.url) as (Omit<
     App,
@@ -15,6 +17,8 @@ set -e
 
 ${filteredApp.map((app) => createDummyScript(app.url)).join("\n\n")}
 
+${deploy.expose_folder ? createDummyScript(deploy.expose_folder.url) : ""}
+
 if [ ! -f /etc/nginx/ssl/ssl-dhparams.pem ]; then
     openssl dhparam -out /etc/nginx/ssl/ssl-dhparams.pem 2048
 fi
@@ -22,6 +26,15 @@ fi
 ${filteredApp
   .map((app) => createUseCertificates(app.url, app.name))
   .join("\n\n")}
+
+  ${
+    deploy.expose_folder
+      ? createUseCertificates(
+          deploy.expose_folder.url,
+          EXPOSE_FOLDER_FUNCTION_NAME
+        )
+      : ""
+  }
 
 reload_nginx() {
     echo "Reload nginx configuration."
@@ -31,7 +44,19 @@ reload_nginx() {
 
 ${filteredApp.map((app) => waitForLetsEncrypt(app.url, app.name)).join("\n\n")}
 
+${
+  deploy.expose_folder
+    ? waitForLetsEncrypt(deploy.expose_folder.url, EXPOSE_FOLDER_FUNCTION_NAME)
+    : ""
+}
+
 ${filteredApp.map((app) => nginxCondition(app.url, app.name)).join("\n\n")}
+
+${
+  deploy.expose_folder
+    ? nginxCondition(deploy.expose_folder.url, EXPOSE_FOLDER_FUNCTION_NAME)
+    : ""
+}
 
 exec nginx -g "daemon off;"
 `;

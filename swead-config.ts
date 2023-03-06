@@ -100,7 +100,7 @@ export const config: SweadConfig<typeof env> = {
             },
             docker: {
               port: 1337,
-              volumes: ["/upload", "./logs/npm:/root/.npm/_logs"],
+              volumes: ["./logs/npm:/root/.npm/_logs"],
               links: ["mongo"],
               workDir: "/admin",
             },
@@ -182,13 +182,17 @@ export const config: SweadConfig<typeof env> = {
               },
               docker: {
                 port: 1337,
-                volumes: ["/upload"],
+                volumes: ["/apps/admin/public"],
                 workDir: "/admin",
               },
             },
           ],
           artifact: {
-            paths: ["apps/admin/.next"],
+            paths: ["apps/admin/.next", "apps/admin/public"],
+          },
+          expose_folder: {
+            url: "https://test-images.räucherkerzen-shop.de",
+            path: "/apps/admin/public",
           },
         },
         {
@@ -218,7 +222,6 @@ export const config: SweadConfig<typeof env> = {
               },
               docker: {
                 port: 3000,
-                volumes: ["/upload"],
                 workDir: "/store",
               },
             },

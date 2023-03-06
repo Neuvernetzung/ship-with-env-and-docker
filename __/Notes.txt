@@ -1,8 +1,6 @@
 
     
-- alles mit logs und loadings versehen
     
-- möglichkeit in nginx files zu exposen
 
 - env sind per default enthalten, möglichkeit für excludeEnv, danach granular env hinzufügbar über artefact
 

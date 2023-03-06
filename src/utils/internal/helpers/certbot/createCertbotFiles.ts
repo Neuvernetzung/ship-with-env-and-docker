@@ -34,7 +34,13 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
     )
       .map((app) => createCertbotScriptCommand(app.url, deploy.certbot))
       .join("\n\n")}
-    `,
+    
+      ${
+        deploy.expose_folder
+          ? createCertbotScriptCommand(deploy.expose_folder.url, deploy.certbot)
+          : ""
+      }
+      `,
   };
 
   const certbotDockerFile: HelperFile = {

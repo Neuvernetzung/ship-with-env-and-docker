@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
-import { Certbot, zCertbot } from "./helpers.js";
+import { Certbot, ExposeFolder, zCertbot, zExposeFolder } from "./helpers.js";
 import { toASCII } from "punycode";
 
 export type SSH = z.infer<typeof zSSH>;
@@ -101,6 +101,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   beforeStart?: string | string[];
   afterStart?: string | string[];
   certbot?: Certbot;
+  expose_folder?: ExposeFolder;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -112,6 +113,7 @@ const zServer: z.ZodType<Server> = z
     beforeStart: z.union([z.string(), z.array(z.string())]).optional(),
     afterStart: z.union([z.string(), z.array(z.string())]).optional(),
     certbot: zCertbot.optional(),
+    expose_folder: zExposeFolder.optional(),
   })
   .refine(
     (data) => {

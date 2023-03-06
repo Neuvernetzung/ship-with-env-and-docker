@@ -9,7 +9,7 @@ export const handleComposeFile = async (
   env: EnvConfig | undefined,
   dir: string
 ) => {
-  await saveComposeFile(await createComposeContent(deploy.apps, env), dir);
+  await saveComposeFile(await createComposeContent(deploy, env), dir);
 
   return { path: getComposePath(dir) };
 };
