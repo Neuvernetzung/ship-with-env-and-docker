@@ -1,4 +1,5 @@
-- wenn in gitignore bereits swead-config, dann nichts machen, genau so in package.json
+
+- gh action files generieren
 
 - files exposen in dev
 
