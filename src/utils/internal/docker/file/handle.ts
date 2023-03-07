@@ -1,5 +1,5 @@
 import pMap from "p-map";
-import { App, EnvConfig } from "../../../../types/index.js";
+import { App } from "../../../../types/index.js";
 import { DockerFile } from "../../../../types/docker.js";
 import { createDockerFileContent } from "./content.js";
 import { getDockerFilePath } from "./getDockerFilePath.js";

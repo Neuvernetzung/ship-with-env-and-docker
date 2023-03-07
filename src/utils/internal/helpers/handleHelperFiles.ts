@@ -14,7 +14,7 @@ export const handleHelperFiles = async (
   dir: string
 ): Promise<HelperFile[]> => {
   const certbotFiles = createCertbotFiles(deploy);
-  const cronFiles = createCronFiles(deploy);
+  const cronFiles = createCronFiles();
   const nginxFiles = createNginxFiles(deploy);
 
   const allHelperFiles = [...certbotFiles, ...cronFiles, ...nginxFiles];
