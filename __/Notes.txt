@@ -1,6 +1,4 @@
 
-
-- rein springen bei bestimmten server, bestimmten server einzelnd
         
 - Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
 

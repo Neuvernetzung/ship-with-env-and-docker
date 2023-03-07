@@ -15,4 +15,8 @@ export const zArgs = z.object({
       return `${str}.ts`;
     })
     .optional(),
+  skip: z
+    .string()
+    .regex(/^\d+$/, { message: "The skip argument is not an integer." })
+    .transform(Number),
 });
