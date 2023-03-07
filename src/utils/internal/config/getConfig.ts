@@ -9,17 +9,24 @@ export const CONFIG_DEFAULT_NAME = "swead-config.ts";
 
 export const ENC_CONFIG_DEFAULT_NAME = "swead-config.enc";
 
+type ConfigOptions = {
+  config?: string;
+  password?: string;
+};
+
 export const getConfig = async (
-  configName?: string
+  opts: ConfigOptions
 ): Promise<SweadConfigFile> => {
   const encConfigPath = await findUp(
-    configName
-      ? configName.replace(".js", ".enc").replace(".ts", ".enc")
+    opts.config
+      ? opts.config.replace(".js", ".enc").replace(".ts", ".enc")
       : ENC_CONFIG_DEFAULT_NAME
   );
   let password: string;
 
-  if (encConfigPath) {
+  if (opts.password) {
+    password = opts.password;
+  } else if (encConfigPath) {
     const result = await inquirer.prompt([
       {
         type: "password",
@@ -40,11 +47,11 @@ export const getConfig = async (
       if (encConfigPath) {
         config = await decryptConfigData(password, encConfigPath);
       } else {
-        const configPath = await findUp(configName || CONFIG_DEFAULT_NAME);
+        const configPath = await findUp(opts.config || CONFIG_DEFAULT_NAME);
         if (!configPath)
           throw new Error(
             `No configuration file found. Please create "${
-              configName || CONFIG_DEFAULT_NAME
+              opts.config || CONFIG_DEFAULT_NAME
             }" in your root directory.`
           );
         const { mod } = await bundleRequire({

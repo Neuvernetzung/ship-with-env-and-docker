@@ -22,4 +22,5 @@ export const zArgs = z.object({
     .optional(),
   attached: z.boolean().optional(),
   remove: z.boolean().optional(),
+  password: z.string().optional(),
 });

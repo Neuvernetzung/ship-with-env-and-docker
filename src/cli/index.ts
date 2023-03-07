@@ -14,7 +14,7 @@ import { runMethods, totalMethods } from "../types/args.js";
 import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
-  string: ["_", "c", "s"],
+  string: ["_", "c", "s", "p"],
   boolean: ["h", "a", "r"],
   alias: {
     c: "config",
@@ -22,6 +22,7 @@ const cliOpts: minimist.Opts = {
     s: "skip",
     a: "attached",
     r: "remove",
+    p: "password",
   },
 };
 
@@ -29,9 +30,7 @@ const main = async () => {
   const args = parseArgs(cliOpts);
 
   const method = args._;
-  const skip = args.skip;
-  const attached = args.attached;
-  const remove = args.remove;
+  const { config: configName, skip, attached, remove, password } = args;
 
   if (!method)
     throw new Error(`Please define a method. (${totalMethods.join(", ")})`);
@@ -56,7 +55,7 @@ const main = async () => {
   }
 
   if (runMethods.includes(method)) {
-    const { env, config } = await getConfig(args.config);
+    const { env, config } = await getConfig({ config: configName, password });
 
     if (method === "production") {
       await runProduction(env, config, { skip, attached, remove });
