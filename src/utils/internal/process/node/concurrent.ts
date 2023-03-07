@@ -31,7 +31,10 @@ export const concurrentNodeProcess = (commands: Command | Command[]) => {
 const concurrentColors = [
   "bgBlue.bold",
   "bgGreen.bold",
-  "bgViolet.bold",
+  "bgYellow.bold",
   "bgMagenta.bold",
   "bgCyan.bold",
+  "bgRed.bold",
+  "bgWhite.bold",
+  "bgBlack.bold",
 ];

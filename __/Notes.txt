@@ -1,13 +1,12 @@
 
-- gh action files generieren
-
-- files exposen in dev
 
 - rein springen bei bestimmten server, bestimmten server einzelnd
         
 - Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
 
 - reusing envs across multiple apps
+
+- gh action files generieren
 
 - testen ob docker-image verfügbar
 
