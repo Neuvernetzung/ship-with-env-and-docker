@@ -39,14 +39,14 @@ export const run = async (
     await runTasks(
       await singleOrMultipleTasks(deploys, async (deploy, i) => ({
         title: `Running deployment for '${bold(deploy.name)}'${
-          isArray(deploys) && taskIndex(i, deploys.length)
+          isArray(deploys) ? taskIndex(i, deploys.length) : ""
         }.`,
         skip: skip ? skip > i + 1 : false,
         task: async (_, task) =>
           task.newListr(
             await singleOrMultipleTasks(deploy.deploy, async (server, i) => ({
               title: `Running deployment for '${bold(server.server.ip)}'${
-                isArray(deploy.deploy) && taskIndex(i, deploy.deploy.length)
+                isArray(deploy.deploy) ? taskIndex(i, deploy.deploy.length) : ""
               }`,
               task: async (_, task) =>
                 task.newListr([
@@ -77,8 +77,9 @@ export const run = async (
                           server.apps,
                           async (app, i) => ({
                             title: `Building app ${bold(app.name)}${
-                              isArray(server.apps) &&
-                              taskIndex(i, server.apps.length)
+                              isArray(server.apps)
+                                ? taskIndex(i, server.apps.length)
+                                : ""
                             }`,
                             task: async (_, task) =>
                               await build(app, env, {

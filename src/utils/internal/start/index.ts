@@ -11,6 +11,14 @@ export const start = async (
 ) => {
   const targetPath = getTargetPath(deploy.server.path);
 
+  if (deploy.cleanDockerImagesBefore) {
+    await execCommand(
+      ssh,
+      `docker stop $(docker ps -aq) && docker rm $(docker ps -aq)`,
+      { cwd: targetPath, stdout }
+    );
+  }
+
   if (deploy.beforeStart) {
     await performSingleOrMultiple(
       deploy.beforeStart,

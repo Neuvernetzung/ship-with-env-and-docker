@@ -114,6 +114,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   certbot?: Certbot;
   exposeFolder?: ExposeFolder;
   dontDetach?: boolean;
+  cleanDockerImagesBefore?: boolean;
 };
 
 const zServer: z.ZodType<Server> = z

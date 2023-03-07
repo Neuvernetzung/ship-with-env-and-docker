@@ -1,12 +1,5 @@
-
-    
-
 - reusing envs across multiple apps
 
 - gh action files generieren
-
-- testen ob docker-image verfügbar
-
-- option vor dem start der docker container alle docker anwendungen zu schließen und zu löschen
 
 - möglichkeit extra kontainer in dev zu starten (zB mongo)
