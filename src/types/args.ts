@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const helperMethods = ["init"] as const;
+export const helperMethods = ["init", "encrypt", "decrypt"] as const;
 
 export const runMethods = ["production", "staging", "local", "dev"] as const;
 
@@ -18,5 +18,6 @@ export const zArgs = z.object({
   skip: z
     .string()
     .regex(/^\d+$/, { message: "The skip argument is not an integer." })
-    .transform(Number),
+    .transform(Number)
+    .optional(),
 });

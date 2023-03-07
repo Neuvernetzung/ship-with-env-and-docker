@@ -1,7 +1,14 @@
 #!/usr/bin/env node
 
 import minimist from "minimist";
-import { runDev, runLocal, runProduction, runStaging } from "../index.js";
+import {
+  runDev,
+  runEncrypt,
+  runLocal,
+  runProduction,
+  runStaging,
+} from "../index.js";
+import { runDecrypt } from "../main/decrypt.js";
 import { runInit } from "../main/init.js";
 import { runMethods, totalMethods } from "../types/args.js";
 import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
@@ -33,6 +40,14 @@ const main = async () => {
 
   if (method === "init") {
     await runInit(args.config);
+    return;
+  }
+  if (method === "encrypt") {
+    await runEncrypt(args.config);
+    return;
+  }
+  if (method === "decrypt") {
+    await runDecrypt(args.config);
     return;
   }
 

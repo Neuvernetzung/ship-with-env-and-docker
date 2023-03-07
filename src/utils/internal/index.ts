@@ -21,3 +21,4 @@ export * from "./logger/index.js";
 export * from "./args/index.js";
 export * from "./boilerplate/index.js";
 export * from "./packages/index.js";
+export * from "./encryption/index.js";

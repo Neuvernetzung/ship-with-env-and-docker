@@ -18,18 +18,18 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "semantic-release": "semantic-release",
-    "type-check": "tsc --noEmit",
-    "dev:swead": "npx swead dev -c undefined.ts",
-    "local:swead": "npx swead local -c undefined.ts"
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "bundle-require": "^4.0.1",
     "chalk": "^5.2.0",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
+    "cryptr": "^6.2.0",
     "execa": "^7.0.0",
     "fast-glob": "^3.2.12",
     "find-up": "^6.3.0",
+    "inquirer": "^9.1.4",
     "listr2": "^5.0.7",
     "lodash": "^4.17.21",
     "minimist": "^1.2.8",
@@ -45,6 +45,7 @@
     "zod-error": "^1.5.0"
   },
   "devDependencies": {
+    "@types/inquirer": "^9.0.3",
     "@types/lodash": "^4.14.191",
     "@types/minimist": "^1.2.2",
     "@types/tar": "^6.1.4",

@@ -1,6 +1,5 @@
 
-        
-- Möglichkeit mit Passwort die Config Datei zu ver- und entschlüsseln
+    
 
 - reusing envs across multiple apps
 

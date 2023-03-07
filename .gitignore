@@ -5,3 +5,4 @@ _swead
 turbo-*.log
 dist
 swead-config.ts
+swead-config.enc
