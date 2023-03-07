@@ -1,7 +1,7 @@
 import { NodeSSH } from "node-ssh";
 import { ServerDetails } from "../../../types/index.js";
 
-export const SSH_DEFAULT_PORT = "22";
+export const SSH_DEFAULT_PORT = 22;
 
 export const withSSHConnection = async (
   server: ServerDetails,

@@ -55,6 +55,10 @@ Standard Options:
 
   stop and remove other docker containers before starting the new containers
 
+ -p, --password
+
+  password for encrypted config file
+
  -h, --help
 
   Show this message`;
