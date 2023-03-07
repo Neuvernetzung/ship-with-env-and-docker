@@ -1,6 +1,4 @@
-import { App, Certbot, Server } from "../../../../types/index.js";
 import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
   createDockerFileLine,
   dockerFileToString,
@@ -15,7 +13,7 @@ export const CRON_TAB_NAME = "crontab.txt";
 
 export const CRON_SCRIPT_NAME = "renew_certs.sh";
 
-export const createCronFiles = (deploy: Server): HelperFile[] => {
+export const createCronFiles = (): HelperFile[] => {
   const cronTab: HelperFile = {
     path: getHelpersPath(`${CRON_PATH}/${CRON_TAB_NAME}`),
     content: `0 0 * * * /${CRON_SCRIPT_NAME} >> /var/log/cron/renew_certs.log`,

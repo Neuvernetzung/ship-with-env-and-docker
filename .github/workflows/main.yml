@@ -1,0 +1,48 @@
+name: Semantic release
+
+on: push
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: NodeJs aufsetzen
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: GitHub Token einstellen für Private packages
+        run: git config --global url."https://${{ secrets.GH_TOKEN }}@github.com/".insteadOf ssh://git@github.com/ # Personal Access Token hinzufügen um Private Github Repos installieren zu können.
+
+      # NPM ci mit Cache
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        id: npm-cache
+        with:
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci
+      #
+
+      - name: Commit message checken
+        run: npx commitlint --from=HEAD~1 --config commitlint.config.cts
+
+      - name: Build
+        run: npm run build
+
+      - name: Semantic release
+        if: ${{ github.ref == 'refs/heads/master' }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: rm .npmrc && npx semantic-release # .npmrc vorher löschen, da sonst NPM_TOKEN überschrieben wird, obwohl in .npmrc nicht vorhanden.

@@ -1,4 +1,4 @@
-import { App, Server } from "../../../../types/index.js";
+import { Server } from "../../../../types/index.js";
 import { DockerComposeService } from "../../../../types/docker.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 import { getHelpersPath } from "../getHelpersPath.js";
