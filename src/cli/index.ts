@@ -15,11 +15,13 @@ import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c", "s"],
-  boolean: ["h"],
+  boolean: ["h", "a", "r"],
   alias: {
     c: "config",
     h: "help",
     s: "skip",
+    a: "attached",
+    r: "remove",
   },
 };
 
@@ -28,6 +30,8 @@ const main = async () => {
 
   const method = args._;
   const skip = args.skip;
+  const attached = args.attached;
+  const remove = args.remove;
 
   if (!method)
     throw new Error(`Please define a method. (${totalMethods.join(", ")})`);
@@ -55,11 +59,11 @@ const main = async () => {
     const { env, config } = await getConfig(args.config);
 
     if (method === "production") {
-      await runProduction(env, config, skip);
+      await runProduction(env, config, { skip, attached, remove });
       return;
     }
     if (method === "staging") {
-      await runStaging(env, config, skip);
+      await runStaging(env, config, { skip, attached, remove });
       return;
     }
     if (method === "local") {

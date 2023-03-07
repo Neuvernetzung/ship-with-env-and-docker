@@ -1,1 +1,0 @@
-0 0 * * * /renew_certs.sh >> /var/log/cron/renew_certs.log

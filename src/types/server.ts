@@ -113,8 +113,8 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   afterStart?: string | string[];
   certbot?: Certbot;
   exposeFolder?: ExposeFolder;
-  dontDetach?: boolean;
-  cleanDockerImagesBefore?: boolean;
+  attached?: boolean;
+  removeDockerImagesBefore?: boolean;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -127,7 +127,7 @@ const zServer: z.ZodType<Server> = z
     afterStart: z.union([z.string(), z.array(z.string())]).optional(),
     certbot: zCertbot.optional(),
     exposeFolder: zExposeFolder.optional(),
-    dontDetach: z.boolean().optional(),
+    attached: z.boolean().optional(),
   })
   .refine(
     (data) => {

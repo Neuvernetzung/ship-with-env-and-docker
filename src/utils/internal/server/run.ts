@@ -18,19 +18,25 @@ import {
   bold,
 } from "../index.js";
 
+export type RunOptions = {
+  skip?: number;
+  attached?: boolean;
+  remove?: boolean;
+};
+
 export const run = async (
   deploys: Deploy | Deploy[],
   env: EnvConfig | undefined,
-  skip: number | undefined
+  opts: RunOptions
 ) => {
   await withTempDir(async (dir) => {
-    if (skip) {
+    if (opts.skip) {
       // Testen ob skip unnötig ist und ob skip eventuell größer als die Anzahl der Server.
       if (!isArray(deploys))
         throw new Error(
           "It is not possible to skip if there is only one deployment."
         );
-      if (deploys.length < skip)
+      if (deploys.length < opts.skip)
         throw new Error(
           "The number of deployments to be skipped is greater than the number of available deployments."
         );
@@ -41,7 +47,7 @@ export const run = async (
         title: `Running deployment for '${bold(deploy.name)}'${
           isArray(deploys) ? taskIndex(i, deploys.length) : ""
         }.`,
-        skip: skip ? skip > i + 1 : false,
+        skip: opts.skip ? opts.skip > i + 1 : false,
         task: async (_, task) =>
           task.newListr(
             await singleOrMultipleTasks(deploy.deploy, async (server, i) => ({
@@ -118,7 +124,13 @@ export const run = async (
                         {
                           title: "Starting apps",
                           task: async (_, task) =>
-                            await start(ssh, server, task.stdout()),
+                            await start(
+                              ssh,
+                              server,
+                              task.stdout(),
+                              opts.attached,
+                              opts.remove
+                            ),
                           options: { bottomBar: Infinity },
                         },
                       ] satisfies ListrTask[]

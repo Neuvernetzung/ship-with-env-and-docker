@@ -1,5 +1,0 @@
-- reusing envs across multiple apps
-
-- gh action files generieren
-
-- möglichkeit extra kontainer in dev zu starten (zB mongo)

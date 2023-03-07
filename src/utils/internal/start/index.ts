@@ -7,11 +7,13 @@ import { execCommand, getTargetPath } from "../ssh/index.js";
 export const start = async (
   ssh: NodeSSH,
   deploy: Server,
-  stdout?: NodeJS.WriteStream & NodeJS.WritableStream
+  stdout: NodeJS.WriteStream & NodeJS.WritableStream,
+  attached: boolean | undefined,
+  remove: boolean | undefined
 ) => {
   const targetPath = getTargetPath(deploy.server.path);
 
-  if (deploy.cleanDockerImagesBefore) {
+  if (deploy.removeDockerImagesBefore ?? remove) {
     await execCommand(
       ssh,
       `docker stop $(docker ps -aq) && docker rm $(docker ps -aq)`,
@@ -30,7 +32,7 @@ export const start = async (
   await execCommand(
     ssh,
     `docker-compose -f ${getComposePath(".")} up -V --build ${
-      deploy.dontDetach ? "" : "-d"
+      deploy.attached ?? attached ? "" : "-d"
     }`,
     { cwd: targetPath, stdout }
   );
