@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.0...v1.1.1) (2023-03-08)
+
+
+### Bug Fixes
+
+* **types:** Export types [#19](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/19) ([b20f35c](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/b20f35cb6cf77e3d9c7257b03a669f2991237cbe))
+
 # [1.1.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.0.0...v1.1.0) (2023-03-08)
 
 
