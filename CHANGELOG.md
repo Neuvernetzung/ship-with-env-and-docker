@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.0.0...v1.1.0) (2023-03-08)
+
+
+### Features
+
+* **enc:** Verschlüsselung granular gestalten [#16](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/16) ([4cf9708](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/4cf9708445ec6e0a21dc00df3b68236de6ed950d))
+
 # 1.0.0 (2023-03-07)
 
 
