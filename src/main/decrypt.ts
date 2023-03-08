@@ -1,13 +1,15 @@
-import Cryptr from "cryptr";
 import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import {
   CONFIG_DEFAULT_NAME,
+  createConfig,
   ENC_CONFIG_DEFAULT_NAME,
+  getConfig,
   logger,
+  updateConfig,
 } from "../utils/internal/index.js";
-import { writeFile, readFile } from "fs/promises";
+import { unlink } from "fs/promises";
 
 export const runDecrypt = async (configName?: string) => {
   const cfgName = configName || CONFIG_DEFAULT_NAME;
@@ -20,8 +22,6 @@ export const runDecrypt = async (configName?: string) => {
 
   if (!fs.existsSync(encConfigPath))
     throw new Error(`Config file "${encCfgName}" does not exist.`);
-  if (fs.existsSync(configPath))
-    throw new Error(`Config file "${cfgName}" already exists.`);
 
   const { password } = await inquirer.prompt([
     {
@@ -33,15 +33,19 @@ export const runDecrypt = async (configName?: string) => {
     },
   ]);
 
-  const cryptr = new Cryptr(password);
+  const { config } = await getConfig({
+    config: configName,
+    password,
+  });
 
-  const file = await readFile(encConfigPath, "utf8");
+  if (fs.existsSync(configPath)) {
+    await updateConfig(config, { name: configName });
+  } else {
+    await createConfig({ name: configName });
+    await updateConfig(config, { name: configName });
+  }
 
-  const encryptedString = cryptr.decrypt(file);
-
-  await writeFile(configPath, encryptedString);
-
-  fs.unlinkSync(encConfigPath);
+  await unlink(encConfigPath);
 
   logger.finished("The server data has been decrypted and can now be edited.");
 };
