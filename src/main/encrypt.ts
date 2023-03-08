@@ -1,13 +1,17 @@
 import fs from "fs";
-import { writeFile, readFile } from "fs/promises";
+import { writeFile } from "fs/promises";
 import path from "path";
 import inquirer from "inquirer";
 import {
   CONFIG_DEFAULT_NAME,
+  updateConfig,
   ENC_CONFIG_DEFAULT_NAME,
+  getConfig,
   logger,
 } from "../utils/internal/index.js";
+import pick from "lodash/pick.js";
 import Cryptr from "cryptr";
+import omit from "lodash/omit.js";
 
 export const runEncrypt = async (configName?: string) => {
   const cfgName = configName || CONFIG_DEFAULT_NAME;
@@ -23,7 +27,23 @@ export const runEncrypt = async (configName?: string) => {
   if (fs.existsSync(encConfigPath))
     throw new Error(`Config file "${encCfgName}" already exists.`);
 
-  const { password } = await inquirer.prompt([
+  const { config } = await getConfig({
+    config: configName,
+    password: undefined,
+  });
+
+  const { methods, password, cfPassword } = await inquirer.prompt([
+    {
+      type: "checkbox",
+      name: "methods",
+      choices: [
+        { name: "production", checked: true },
+        { name: "staging", checked: true },
+        { name: "local" },
+        { name: "dev" },
+      ],
+      message: "Please choose the methods you want to encrypt.",
+    },
     {
       type: "password",
       name: "password",
@@ -31,28 +51,28 @@ export const runEncrypt = async (configName?: string) => {
       message:
         "Enter the password with which the server data is to be decrypted.",
     },
-  ]);
-  const { password: cf_password } = await inquirer.prompt([
     {
       type: "password",
-      name: "password",
+      name: "cfPassword",
       mask: "*",
       message: "Please confirm the password.",
     },
   ]);
-  if (password !== cf_password) {
+
+  if (password !== cfPassword) {
     throw new Error(`The two passwords do not match.`);
   }
 
   const cryptr = new Cryptr(password);
 
-  const file = await readFile(configPath, "utf8");
+  const configToEncrypt = JSON.stringify(pick(config, methods));
 
-  const encryptedString = cryptr.encrypt(file);
+  const encryptedString = cryptr.encrypt(configToEncrypt);
 
   await writeFile(encConfigPath, encryptedString);
 
-  fs.unlinkSync(configPath);
+  const remainingConfig = omit(config, methods);
+  await updateConfig(remainingConfig, { name: configName });
 
   logger.finished("The server data has been successfully encrypted.");
 };
