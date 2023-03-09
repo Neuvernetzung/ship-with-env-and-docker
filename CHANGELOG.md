@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.4...v1.1.5) (2023-03-09)
+
+
+### Bug Fixes
+
+* **docker:** Relativen Pfad nutzen für Docker packages.json [#32](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/32) ([345b73b](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/345b73be089d33f32f14fb9741a7a9b7ae176581))
+
 ## [1.1.4](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.3...v1.1.4) (2023-03-09)
 
 
