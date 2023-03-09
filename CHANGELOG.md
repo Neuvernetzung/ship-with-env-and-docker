@@ -1,3 +1,11 @@
+## [1.1.7](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.6...v1.1.7) (2023-03-09)
+
+
+### Bug Fixes
+
+* **docker:** Sichergehen, dass alle dir Pfade in Dockerfile mit / aufhören [#40](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/40) ([9c488d6](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/9c488d61ab385704e17d509663c83e157a7f3364))
+* **nginx:** Bei verknüpfter nginx Url dockerComposeServiceName nutzen [#41](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/41) ([9df044c](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/9df044c77272600a2f98620ad3a5e56d239d5f1f))
+
 ## [1.1.6](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.5...v1.1.6) (2023-03-09)
 
 
