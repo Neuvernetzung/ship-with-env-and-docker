@@ -37,7 +37,7 @@ export const createDockerFileContent = async (
     createDockerFileLine(Inst.COPY, ["package.json", "."]), // haupt-package.json kopieren
 
     ...(await globToPaths(["**/package.json"])).map((p) =>
-      createDockerFileLine(Inst.COPY, [p, path.dirname(p)])
+      createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}`])
     ), // alle weiteren package.json's kopieren
     // funktioniert (noch) nicht - createDockerFileLine(Inst.COPY, ["*/package.json", "."]),
 
@@ -57,7 +57,7 @@ export const createDockerFileContent = async (
 
     createDockerFileLine(Inst.CMD, app.start.command),
   ];
-  console.log(dockerFileContent);
+
   return dockerFileContent;
 };
 
