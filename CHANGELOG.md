@@ -1,3 +1,11 @@
+## [1.1.2](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.1...v1.1.2) (2023-03-09)
+
+
+### Bug Fixes
+
+* **init:** Config Boilerplate anpassen [#22](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/22) ([935e7e5](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/935e7e58226adcee5865f034d2657016b89a810d))
+* **logs:** Error handling bei Zod-Errors fixen [#24](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/24) ([d22e796](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/d22e796b1c34e5d7abfd84a4d28c910240e6a428))
+
 ## [1.1.1](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.0...v1.1.1) (2023-03-08)
 
 
