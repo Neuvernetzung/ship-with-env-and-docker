@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.2...v1.1.3) (2023-03-09)
+
+
+### Bug Fixes
+
+* **run:** In Compose File Leerzeichen des Namens durch "-" ersetzen [#28](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/28) ([60fe66e](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/60fe66ee696a1cb51056d383e7953dd064e30319))
+
 ## [1.1.2](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.1...v1.1.2) (2023-03-09)
 
 
