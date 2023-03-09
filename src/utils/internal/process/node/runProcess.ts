@@ -10,6 +10,7 @@ export const runNodeProcess = async (
 ) => {
   const sub = execa(command, {
     stdin: "inherit",
+    stderr: options?.stdout ? "pipe" : "inherit",
     stdout: options?.stdout ? "pipe" : "inherit",
   }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
 
