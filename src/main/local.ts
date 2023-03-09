@@ -34,6 +34,7 @@ export const runLocal = async (
             }
           );
         },
+        options: { bottomBar: Infinity },
       },
       {
         title: "Building and starting local servers.",
