@@ -1,5 +1,6 @@
 import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 
 const exposeFolder_FUNCTION_NAME = "exposeFolder";
 
@@ -24,7 +25,9 @@ if [ ! -f /etc/nginx/ssl/ssl-dhparams.pem ]; then
 fi
 
 ${filteredApp
-  .map((app) => createUseCertificates(app.url, app.name))
+  .map((app) =>
+    createUseCertificates(app.url, dockerComposeServiceName(app.name))
+  )
   .join("\n\n")}
 
   ${
@@ -42,7 +45,9 @@ reload_nginx() {
     echo "Nginx configuration reloaded successful."
 }
 
-${filteredApp.map((app) => waitForLetsEncrypt(app.url, app.name)).join("\n\n")}
+${filteredApp
+  .map((app) => waitForLetsEncrypt(app.url, dockerComposeServiceName(app.name)))
+  .join("\n\n")}
 
 ${
   deploy.exposeFolder
@@ -50,7 +55,9 @@ ${
     : ""
 }
 
-${filteredApp.map((app) => nginxCondition(app.url, app.name)).join("\n\n")}
+${filteredApp
+  .map((app) => nginxCondition(app.url, dockerComposeServiceName(app.name)))
+  .join("\n\n")}
 
 ${
   deploy.exposeFolder
