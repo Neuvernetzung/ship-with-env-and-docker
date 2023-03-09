@@ -9,6 +9,7 @@ import {
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
 import { createNginxScript } from "./createNginxScript.js";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 
 export const NGINX_PATH = "nginx";
 
@@ -135,7 +136,9 @@ server {
   include /etc/nginx/hsts.conf;
 
   location / {
-      proxy_pass http://${app.name}:${app.docker.port};
+      proxy_pass http://${dockerComposeServiceName(app.name)}:${
+    app.docker.port
+  };
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection 'upgrade';
