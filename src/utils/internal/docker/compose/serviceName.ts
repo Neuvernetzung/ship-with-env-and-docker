@@ -1,1 +1,2 @@
-export const dockerComposeServiceName = (name: string) => name.toLowerCase();
+export const dockerComposeServiceName = (name: string) =>
+  name.toLowerCase().replace(" ", "-");
