@@ -38,13 +38,13 @@ export const createDockerFileContent = async (
     createDockerFileLine(Inst.COPY, ["package-lock.json", "./"]), // haupt-package-lock.json kopieren
 
     ...(await globToPaths(["**/package.json", "!package.json"])).map((p) =>
-      createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}`])
+      createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}/`])
     ), // alle weiteren package.json's kopieren
     // funktioniert (noch) nicht - createDockerFileLine(Inst.COPY, ["*/package.json", "."]),
 
     createDockerFileLine(Inst.RUN, "npm i --omit=dev"), // installieren, bis auf dev-Deps
 
-    createDockerFileLine(Inst.COPY, ". ."), // alles weitere kopieren
+    createDockerFileLine(Inst.COPY, [".", "."]), // alles weitere kopieren
 
     ...(app.docker?.port
       ? [createDockerFileLine(Inst.EXPOSE, String(app.docker.port))]
