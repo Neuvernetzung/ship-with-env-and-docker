@@ -23,7 +23,10 @@ const configBoilerPlate = `import { z } from "zod";
 import { EnvConfig, SweadConfig } from "swead";
 
 export const env = {
-  example: z.string(),
+  example: {
+    path: ".",
+    schema: z.object({}),
+  },
 } satisfies EnvConfig;
 
 export const config: SweadConfig<typeof env> = {
