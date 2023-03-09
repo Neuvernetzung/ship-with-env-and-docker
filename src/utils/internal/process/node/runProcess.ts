@@ -12,9 +12,11 @@ export const runNodeProcess = async (
     stdin: "inherit",
     stderr: options?.stdout ? "pipe" : "inherit",
     stdout: options?.stdout ? "pipe" : "inherit",
+    shell: true, // Workaround: https://github.com/sindresorhus/execa/issues/543
   }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
 
   if (options?.stdout) {
+    sub.stdout?.pipe(options.stdout); // Um zu ermöglichen, dass listr2 Output gut aus sieht.
     sub.stdout?.pipe(options.stdout); // Um zu ermöglichen, dass listr2 Output gut aus sieht.
   }
 
