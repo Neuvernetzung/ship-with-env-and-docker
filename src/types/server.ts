@@ -58,7 +58,7 @@ const zDocker = z.object({
   port: z.number().optional(),
   volumes: z.array(z.string()).optional(),
   links: z.array(z.string()).optional(),
-  workDir: z.string().optional(),
+  workDir: z.string().startsWith("/").optional(),
   environment: z.array(z.string()).optional(),
   beforeStart: z
     .array(
