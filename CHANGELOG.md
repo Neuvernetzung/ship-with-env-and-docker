@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.3...v1.1.4) (2023-03-09)
+
+
+### Bug Fixes
+
+* **docker:** Dockerfile Package.json glob kopieren in dirname statt . [#32](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/32) ([370af52](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/370af524716f6c0152835ce26a84a78d9d24b940))
+
 ## [1.1.3](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.2...v1.1.3) (2023-03-09)
 
 
