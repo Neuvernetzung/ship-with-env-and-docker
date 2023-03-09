@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.7...v1.1.8) (2023-03-09)
+
+
+### Bug Fixes
+
+* **exec:** RunNodeProcess stderr ebenfalls pipen [#45](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/45) ([9356c87](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/9356c87d5f4621479454f96dac214b4cfc20d890))
+
 ## [1.1.7](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.6...v1.1.7) (2023-03-09)
 
 
