@@ -5,6 +5,7 @@ import {
 } from "../../../../types/docker.js";
 import { globToPaths } from "../../index.js";
 import { getWorkdirPath } from "../getWorkdirPath.js";
+import path from "path";
 
 const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:18-alpine";
 
@@ -35,8 +36,8 @@ export const createDockerFileContent = async (
 
     createDockerFileLine(Inst.COPY, ["package.json", "."]), // haupt-package.json kopieren
 
-    ...(await globToPaths(["**/package.json"])).map((path) =>
-      createDockerFileLine(Inst.COPY, [path, "."])
+    ...(await globToPaths(["**/package.json"])).map((p) =>
+      createDockerFileLine(Inst.COPY, [p, path.dirname(p)])
     ), // alle weiteren package.json's kopieren
     // funktioniert (noch) nicht - createDockerFileLine(Inst.COPY, ["*/package.json", "."]),
 
@@ -56,7 +57,7 @@ export const createDockerFileContent = async (
 
     createDockerFileLine(Inst.CMD, app.start.command),
   ];
-
+  console.log(dockerFileContent);
   return dockerFileContent;
 };
 
