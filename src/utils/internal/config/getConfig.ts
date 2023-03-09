@@ -86,7 +86,6 @@ export const getConfig = async (
 
       const parsedConfig = await testConfig(importedConfig);
 
-      console.log("parsed", parsedConfig);
       ctx.env = parsedConfig.env;
       ctx.config = parsedConfig.config;
     },

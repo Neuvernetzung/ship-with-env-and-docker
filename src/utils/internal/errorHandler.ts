@@ -13,7 +13,7 @@ export const errorHandler = async (err: any) => {
     logger.error(
       "An unknown error has occurred. Please open an issue on github with the below:"
     );
-    console.log(err);
+    logger.default(err);
   }
   process.exit(1);
 };
