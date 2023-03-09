@@ -1,3 +1,10 @@
+## [1.1.6](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.5...v1.1.6) (2023-03-09)
+
+
+### Bug Fixes
+
+* **docker:** Docker file issues beheben [#37](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/37) ([37d53ee](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/37d53ee7fd58310dfa032207f2defd230eef2ecd))
+
 ## [1.1.5](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.4...v1.1.5) (2023-03-09)
 
 
