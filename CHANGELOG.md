@@ -1,3 +1,10 @@
+## [1.1.10](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.9...v1.1.10) (2023-03-10)
+
+
+### Bug Fixes
+
+* **ssh:** Nach Test - ssh dispose ([bd2c4fd](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/bd2c4fd36bad8766a32bfa7103f3818c8a31ad82))
+
 ## [1.1.9](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.8...v1.1.9) (2023-03-09)
 
 
