@@ -1,4 +1,4 @@
-import { execa } from "execa";
+import { execaCommand } from "execa";
 
 export type runNodeOptions = {
   stdout?: NodeJS.WriteStream & NodeJS.WritableStream;
@@ -8,11 +8,10 @@ export const runNodeProcess = async (
   command: string,
   options?: runNodeOptions
 ) => {
-  const sub = execa(command, {
+  const sub = execaCommand(command, {
     stdin: "inherit",
     stderr: options?.stdout ? "pipe" : "inherit",
     stdout: options?.stdout ? "pipe" : "inherit",
-    shell: true, // Workaround: https://github.com/sindresorhus/execa/issues/543
   }); // inherit um das verschwinden der Logs zu verhindern, welche durch concurrently auftreten
 
   if (options?.stdout) {
