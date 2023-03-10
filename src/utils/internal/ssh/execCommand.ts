@@ -27,6 +27,7 @@ export const execCommand = async (
     merge(execOptions, {
       cwd: options?.cwd,
       onStdout: options?.stdout?.write || undefined,
+      onStderr: options?.stdout?.write || undefined,
     })
   );
 };
