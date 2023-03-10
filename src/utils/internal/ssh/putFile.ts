@@ -1,8 +1,8 @@
 import { NodeSSH } from "node-ssh";
-import { logger } from "../index.js";
 
 export const putFile = async (ssh: NodeSSH, file: string, target: string) =>
-  await ssh.putFile(file, target).then(undefined, function (error) {
-    logger.error("Es ist ein Fehler aufgetreten.");
-    throw new Error(error);
+  await ssh.putFile(file, target).catch((error) => {
+    throw new Error(
+      `${error}\nAn error occured while transfering a file to Server.`
+    );
   });

@@ -26,9 +26,12 @@ export const prepareServer = async (
 
   await execCommand(
     ssh,
-    `find ${getTargetPath(deploy.server.path)} ${deploy.server.neverClean
-      ?.map((path) => `! -name \"${path}\"`)
-      .join(" ")} -exec rm -rf {} +`,
+    `find ${getTargetPath(deploy.server.path)} ${
+      deploy.server.neverClean &&
+      `! ${deploy.server.neverClean
+        ?.map((path) => `-name \"${path}\"`)
+        .join(" ")}`
+    } -exec rm -rf {} +`,
     { stdout }
   );
 };
