@@ -1,3 +1,10 @@
+## [1.1.12](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.11...v1.1.12) (2023-03-10)
+
+
+### Bug Fixes
+
+* **exec:** ExecaCommand statt execa nutzen [#58](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/58) ([d2c0e4f](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/d2c0e4f11e908dc7e50038ed87e4aaa44d1c4176))
+
 ## [1.1.11](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.10...v1.1.11) (2023-03-10)
 
 
