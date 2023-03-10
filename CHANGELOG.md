@@ -1,3 +1,11 @@
+## [1.1.11](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.10...v1.1.11) (2023-03-10)
+
+
+### Bug Fixes
+
+* **ssh:** NeverClean funktioniert nun mit mehreren paths [#54](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/54) ([c018398](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/c0183981702d1c421d574eedeab373cab15a2467))
+* **ssh:** OnStderr ebenfalls loggen ([7f2b910](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/7f2b910e73b509f05c0d9027afd10043e44a182a))
+
 ## [1.1.10](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.9...v1.1.10) (2023-03-10)
 
 
