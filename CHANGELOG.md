@@ -1,3 +1,10 @@
+## [1.1.13](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.12...v1.1.13) (2023-03-11)
+
+
+### Bug Fixes
+
+* **node:** ExecaCommand zurück zu execa mit shell für node prozesse [#61](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/61) ([9b35739](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/9b35739654e52cd2e634f9ea996447a275c7abea))
+
 ## [1.1.12](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.11...v1.1.12) (2023-03-10)
 
 
