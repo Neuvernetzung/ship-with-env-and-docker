@@ -19,7 +19,9 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "semantic-release": "semantic-release",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "dev:swead": "npx swead dev ",
+    "local:swead": "npx swead local "
   },
   "dependencies": {
     "bundle-require": "^4.0.1",

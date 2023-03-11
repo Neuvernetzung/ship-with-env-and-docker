@@ -25,7 +25,7 @@ export const concurrentNodeProcess = (commands: Command | Command[]) => {
     ? wrapInQuotes(concurrentColors.slice(0, commands.length).join(","))
     : wrapInQuotes(concurrentColors[0]);
 
-  return `concurrently -n ${names} -c ${colors} ${finalCommands}`;
+  return `npx concurrently -n ${names} -c ${colors} ${finalCommands}`;
 };
 
 const concurrentColors = [
