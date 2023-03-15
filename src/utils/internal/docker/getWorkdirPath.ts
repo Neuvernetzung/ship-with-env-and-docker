@@ -1,6 +1,6 @@
 import { join } from "../index.js";
 
-export const WORKDIR_NAME = "workdir";
+export const WORKDIR_NAME = "/workdir";
 
 export const getWorkdirPath = (dir?: string) =>
   dir ? dir : join(".", WORKDIR_NAME);
