@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["custom"],
+  extends: ["@neuvernetzung/eslint-config-custom"],
   globals: {
     JSX: true,
   },
