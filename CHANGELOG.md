@@ -1,3 +1,10 @@
+## [1.1.14](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.13...v1.1.14) (2023-03-15)
+
+
+### Bug Fixes
+
+* **workdir:** Workdir Path gefixt und Conditional bei neverClean gefixt [#65](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/65) ([7eac5b9](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/7eac5b9f0ae5a8a64eadedd5d4659a76dd10ed25))
+
 ## [1.1.13](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.12...v1.1.13) (2023-03-11)
 
 
