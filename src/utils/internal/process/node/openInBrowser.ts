@@ -4,6 +4,8 @@ import { withTcpOnDev, runNodeProcess } from "./index.js";
 
 export const openInBrowser = async (url: string) => {
   await waitOn({ resources: [withTcpOnDev(url)] });
-  await runNodeProcess(`npx -y open-cli ${url}`); // Stattdessen CLI Version davon nutzen
+  await runNodeProcess(
+    `npx -y open-cli ${url.includes("http://") ? url : `http://${url}`}`
+  ); // Stattdessen CLI Version davon nutzen
   // open(url);
 };
