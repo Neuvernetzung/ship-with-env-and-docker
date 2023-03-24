@@ -14,6 +14,6 @@ export const getEnvPaths = async (
           return app.env.map((e) => formatEnvPath(env[e.key].path));
         return [formatEnvPath(env[app.env.key].path)];
       }
-      return;
+      return [];
     })
   ).flat();

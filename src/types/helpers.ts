@@ -9,6 +9,7 @@ export const zExposeFolder = z.object({
     .url()
     .transform((url) => toASCII(url)), // Umwandeln zu ASCII; notwendig für Let's Encrypt etc.,
   path: z.string().startsWith("/"),
+  showFolderContent: z.boolean().optional(),
 });
 
 export type Certbot = z.infer<typeof zCertbot>;
