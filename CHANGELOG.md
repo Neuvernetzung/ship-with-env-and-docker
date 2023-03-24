@@ -1,3 +1,11 @@
+## [1.1.15](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.14...v1.1.15) (2023-03-24)
+
+
+### Bug Fixes
+
+* **dev:** Open Prefixen mit http:// [#68](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/68) ([62d87e1](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/62d87e183c88c70d6d781c789f54b4117ad994da))
+* **prepare:** NeverClean löscht zwar den Ordner nicht, aber dafür die Unterordner [#69](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/69) ([c63689a](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/c63689ab2c665c572e00306eb918349dd53fba63))
+
 ## [1.1.14](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.13...v1.1.14) (2023-03-15)
 
 
