@@ -214,6 +214,7 @@ server {
 
   location / {
       root ${expose.path};
+      ${expose.showFolderContent ? "autoindex on;" : ""}
   }
 }
 

@@ -4,12 +4,14 @@ import pMap from "p-map";
 
 export const runTasks = async <C extends any>(
   fns: ListrTask<C> | ListrTask<C>[],
-  options?: ListrBaseClassOptions<C> // Context muss durchgepasst werden, da Typescript sonst nicht sicher ist, wann die funktion läuft und somit checks auf undefined usw. vorher nicht im Type berücksichtigt werden.
+  options?: ListrBaseClassOptions<C>, // Context muss durchgepasst werden, da Typescript sonst nicht sicher ist, wann die funktion läuft und somit checks auf undefined usw. vorher nicht im Type berücksichtigt werden.
+  verbose?: boolean
 ) => {
-  const tasks = new Listr<C>(fns, {
+  const tasks = new Listr<C, "default" | "verbose">(fns, {
     ctx: options?.ctx,
     concurrent: 1,
     rendererOptions: { collapse: false },
+    renderer: verbose ? "verbose" : "default",
   });
 
   return await tasks.run();

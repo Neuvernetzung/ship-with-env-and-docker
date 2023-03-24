@@ -15,7 +15,7 @@ import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c", "s", "p"],
-  boolean: ["h", "a", "r"],
+  boolean: ["h", "a", "r", "v"],
   alias: {
     c: "config",
     h: "help",
@@ -23,6 +23,7 @@ const cliOpts: minimist.Opts = {
     a: "attached",
     r: "remove",
     p: "password",
+    v: "verbose",
   },
 };
 
@@ -30,7 +31,14 @@ const main = async () => {
   const args = parseArgs(cliOpts);
 
   const method = args._;
-  const { config: configName, skip, attached, remove, password } = args;
+  const {
+    config: configName,
+    skip,
+    attached,
+    remove,
+    password,
+    verbose,
+  } = args;
 
   if (!method)
     throw new Error(`Please define a method. (${totalMethods.join(", ")})`);
@@ -61,7 +69,7 @@ const main = async () => {
         password,
         method: "production",
       });
-      await runProduction(env, config, { skip, attached, remove });
+      await runProduction(env, config, { skip, attached, remove, verbose });
       return;
     }
     if (method === "staging") {
@@ -70,7 +78,7 @@ const main = async () => {
         password,
         method: "staging",
       });
-      await runStaging(env, config, { skip, attached, remove });
+      await runStaging(env, config, { skip, attached, remove, verbose });
       return;
     }
     if (method === "local") {

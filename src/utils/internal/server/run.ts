@@ -22,6 +22,7 @@ export type RunOptions = {
   skip?: number;
   attached?: boolean;
   remove?: boolean;
+  verbose?: boolean;
 };
 
 export const run = async (
@@ -138,7 +139,9 @@ export const run = async (
                 ]),
             }))
           ),
-      }))
+      })),
+      {},
+      opts.verbose
     );
   });
 };
