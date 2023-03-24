@@ -1,67 +1,43 @@
 import { logger } from "../index.js";
 
 const usage = `
-Usage: swead {METHOD} {OPTIONS}
+Usage: swead {METHOD} {ARGS}
 
 Main-Methods:
 
- - production
- 
-  start production deployment
+ - production - start production deployment
   
- - staging
+ - staging - start staging deployment
 
-  start staging deployment
+ - local - start local server
 
- - local
-
-  start local server
-
- - dev
-
-  start development server
+ - dev - start development server
 
 
 Helper-Methods:
 
- - init
- 
-  initialize new deployment config
+ - init - initialize new deployment config
 
- - encrypt
+ - encrypt - encrypt deployment config
 
-  encrypt deployment config
-
- - decrypt
-
-  decrypt deployment config
+ - decrypt - decrypt deployment config
 
 
-Standard Options:
+Arguments:
 
- -c, --config
+ -c, --config - custom path to ts or js config file. Default is swead-config.ts
 
-  custom path to ts or js config file. Default is swead-config.ts
+ -s, --skip - skip to the provided deployment-task (number)
 
- -s, --skip
+ -a, --attached - keep the docker-compose process attached (, to see docker-compose logs for debugging)
 
-  skip to the provided deployment-task (number)
+ -r, --remove - stop and remove other docker containers before starting the new containers
 
- -a, --attached
+ -p, --password - password for encrypted config file
 
-  keep the docker-compose process attached (, to see docker-compose logs for debugging)
+ -v, --verbose - show verbose log output
 
- -r, --remove
-
-  stop and remove other docker containers before starting the new containers
-
- -p, --password
-
-  password for encrypted config file
-
- -h, --help
-
-  Show this message`;
+ -h, --help - Show this message`;
 
 export const showUsage = () => {
   logger.default(usage);

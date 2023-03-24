@@ -2,7 +2,7 @@ import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 
-const exposeFolder_FUNCTION_NAME = "exposeFolder";
+const exposeFolder_FOLDER_NAME = "exposeFolder";
 
 export const createNginxScript = (deploy: Server) => {
   const filteredApp = deploy.apps.filter((app) => !!app.url) as (Omit<
@@ -32,10 +32,7 @@ ${filteredApp
 
   ${
     deploy.exposeFolder
-      ? createUseCertificates(
-          deploy.exposeFolder.url,
-          exposeFolder_FUNCTION_NAME
-        )
+      ? createUseCertificates(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
       : ""
   }
 
@@ -51,7 +48,7 @@ ${filteredApp
 
 ${
   deploy.exposeFolder
-    ? waitForLetsEncrypt(deploy.exposeFolder.url, exposeFolder_FUNCTION_NAME)
+    ? waitForLetsEncrypt(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
     : ""
 }
 
@@ -61,7 +58,7 @@ ${filteredApp
 
 ${
   deploy.exposeFolder
-    ? nginxCondition(deploy.exposeFolder.url, exposeFolder_FUNCTION_NAME)
+    ? nginxCondition(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
     : ""
 }
 

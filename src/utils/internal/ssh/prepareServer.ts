@@ -24,15 +24,16 @@ export const prepareServer = async (
     stdout,
   });
 
+  const extendedNeverClean: string[] = [
+    ...(deploy.server.neverClean || []),
+    "logs",
+  ];
+
   await execCommand(
     ssh,
-    `find ${getTargetPath(deploy.server.path)} ${
-      deploy.server.neverClean
-        ? `! ${deploy.server.neverClean
-            ?.map((path) => `-name \"${path}\"`)
-            .join(" ")}`
-        : ""
-    } -exec rm -rf {} +`,
-    { stdout }
+    `rm -rf $(ls -A | grep -vE '${extendedNeverClean
+      .map((v) => `(${v})`)
+      .join("|")}')`,
+    { stdout, cwd: getTargetPath(deploy.server.path) }
   );
 };
