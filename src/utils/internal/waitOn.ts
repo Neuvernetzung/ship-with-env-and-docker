@@ -5,5 +5,6 @@ export const waitOn = async (resources: string | string[] | undefined) => {
   if (!resources) return;
   await _waitOn({
     resources: isArray(resources) ? resources : [resources],
+    log: true,
   });
 };

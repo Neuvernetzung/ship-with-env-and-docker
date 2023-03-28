@@ -31,9 +31,9 @@ export const start = async (
 
   await execCommand(
     ssh,
-    `docker-compose -f ${getComposePath(".")} up -V --build ${
-      deploy.attached ?? attached ? "" : "-d"
-    }`,
+    `COMPOSE_HTTP_TIMEOUT=120 docker-compose -f ${getComposePath(
+      "."
+    )} up -V --build ${deploy.attached ?? attached ? "" : "-d"}`,
     { cwd: targetPath, stdout }
   );
 

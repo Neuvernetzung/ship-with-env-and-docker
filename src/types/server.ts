@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
 import { Certbot, ExposeFolder, zCertbot, zExposeFolder } from "./helpers.js";
-import { toASCII } from "punycode";
 import { DockerFileInstructions } from "./docker.js";
+import { zUrl } from "./url.js";
 
 export type SSH = z.infer<typeof zSSH>;
 
@@ -90,11 +90,7 @@ const zApp: z.ZodType<App> = z
   .intersection(
     z.object({
       name: z.string(),
-      url: z
-        .string()
-        .url()
-        .transform((url) => toASCII(url)) // Umwandeln zu ASCII; notwendig für Let's Encrypt etc.
-        .optional(),
+      url: zUrl.optional(),
       env: z.union([zEnvEntry, z.array(zEnvEntry)]).optional(),
       docker: zDocker,
     }),
