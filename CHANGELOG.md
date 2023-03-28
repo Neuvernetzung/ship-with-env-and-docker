@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.16...v1.2.0) (2023-03-28)
+
+
+### Bug Fixes
+
+* **types:** ZUrl transformiert falsch, außerdem zUrl exposen [#81](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/81) ([c76a68e](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/c76a68eeeed44f85bd2268c589ea0e51bd1ad2e1))
+
+
+### Features
+
+* **docker:** Timeout bei Docker-compose erhöhen [#82](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/82) ([cd0463c](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/cd0463cdc4b61fd4743208fd54d8391bbe3bc5ad))
+* **tar:** Generell node_modules skippen [#80](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/80) ([af54884](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/af548842f45219898e0f315341bb945c2d90fe96))
+* **wait:** Wait-on Task in Production mit Output [#79](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/79) ([d4de2a3](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/d4de2a3f60ff6d56e1fd881d5ac5044f75839a7b))
+
 ## [1.1.16](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.15...v1.1.16) (2023-03-28)
 
 
