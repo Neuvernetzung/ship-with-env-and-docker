@@ -12,14 +12,13 @@ export const writeTar = async (
 ) => {
   const path = getArtifactPath(dir, name);
 
+  console.log(path);
   const defaultIgnoreList = ["node_modules", ".turbo", ".git"];
 
   const defaultOptions: tar.CreateOptions = {
     cwd: ".",
     gzip: true,
-    filter: (path) => {
-      return !defaultIgnoreList.includes(path);
-    },
+    filter: (path) => !defaultIgnoreList.some((item) => path.includes(item)),
     portable: true,
     onwarn: (message, data) => {
       logger.warn(message, data);
