@@ -1,3 +1,11 @@
+## [1.1.16](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.15...v1.1.16) (2023-03-28)
+
+
+### Bug Fixes
+
+* **prepare:** Apt-get upgrade -y nicht noninteractive [#73](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/73) ([a06f655](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/a06f655325d58ef3ff78279376930a9c3777c64c))
+* **transfer:** Verbose output für transfer Artifact [#74](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/74) ([ab42618](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/ab42618083b72b98c4d6131c26dfa5ee94263af7))
+
 ## [1.1.15](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.14...v1.1.15) (2023-03-24)
 
 
