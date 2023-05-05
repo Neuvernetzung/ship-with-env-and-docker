@@ -12,7 +12,7 @@ export const writeTar = async (
   const artifactPath = getArtifactPath(dir);
 
   const defaultIgnoreList = ["node_modules", ".turbo", ".git"];
-  console.log(paths);
+
   const defaultOptions: tar.CreateOptions = {
     cwd: ".",
     gzip: true,
@@ -32,7 +32,7 @@ export const writeTar = async (
   const writeStream = fs.createWriteStream(artifactPath);
 
   const archiver = tar.c(defaultOptions, paths).pipe(writeStream);
-  console.log(artifactPath);
+
   await new Promise((resolve, reject) => {
     archiver.on("error", (err) => {
       logger.error("There was an error writing the tar archive.");
@@ -44,6 +44,4 @@ export const writeTar = async (
     });
     archiver.on("finish", resolve);
   });
-
-  process.exit();
 };
