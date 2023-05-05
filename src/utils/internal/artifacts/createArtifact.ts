@@ -14,16 +14,6 @@ import { getEnvPaths } from "../env/getEnvPaths.js";
 
 export const LOCAL_DIR = "_swead";
 
-const defaultPaths = [
-  "package.json",
-  "**/package.json",
-  "package-lock.json",
-  "**/package-lock.json",
-  "turbo.json",
-  "!node_modules",
-  "!**/node_modules",
-];
-
 export const createArtifact = async (
   dir: string,
   deploy: Server,
@@ -33,10 +23,8 @@ export const createArtifact = async (
 
   await mkdir(LOCAL_DIR, { recursive: true }); // Es muss ein Extra Verzeichnis angelegt werden, da wenn Dateien im Temp Ordner gespeichert werden würden, diese dann mit Temp Pfad kopiert werden
 
-  const artifactPaths = [...deploy.artifact.paths, ...defaultPaths];
-
   const paths = [
-    ...(await globToPaths(artifactPaths)),
+    ...(await globToPaths(deploy.artifact.paths, { unique: true })),
     ...(!deploy.artifact.excludeEnv ? await getEnvPaths(deploy.apps, env) : []),
   ];
 
@@ -58,6 +46,5 @@ export const createArtifact = async (
   await performSingleOrMultiple(deploy.apps, async (app) => {
     await removeEnv(env, app.env);
   });
-
   await clean(LOCAL_DIR);
 };
