@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.4...v1.2.5) (2023-05-05)
+
+
+### Bug Fixes
+
+* **build:** Generierung der node_modules Paths wiederherstellen zu 1.2.0 [#105](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/105) ([9a9a6b7](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/9a9a6b7a66345f9100aa574cad141477a8b971d8))
+
 ## [1.2.4](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.3...v1.2.4) (2023-05-05)
 
 
