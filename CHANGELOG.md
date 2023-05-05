@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.1...v1.2.2) (2023-05-05)
+
+
+### Bug Fixes
+
+* **build:** process.exit entfernen [#96](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/96) ([d7cb0e4](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/d7cb0e47ed5f58aea6e34b1e278b9a174ecc655d))
+
 ## [1.2.1](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.0...v1.2.1) (2023-05-05)
 
 
