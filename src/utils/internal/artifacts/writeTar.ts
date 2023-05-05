@@ -2,35 +2,37 @@ import fs from "fs";
 import tar from "tar";
 import { getArtifactPath } from "../index.js";
 import { logger } from "../index.js";
-import merge from "lodash/merge.js";
+import path from "path";
 
 export const writeTar = async (
   dir: string,
   paths: string[],
-  name?: string,
-  options?: tar.CreateOptions
+  originalPaths: string[]
 ) => {
-  const path = getArtifactPath(dir, name);
+  const artifactPath = getArtifactPath(dir);
 
-  console.log(path);
   const defaultIgnoreList = ["node_modules", ".turbo", ".git"];
-
+  console.log(paths);
   const defaultOptions: tar.CreateOptions = {
     cwd: ".",
     gzip: true,
-    filter: (path) => !defaultIgnoreList.some((item) => path.includes(item)),
+    filter: (p) =>
+      !defaultIgnoreList.some(
+        (item) => p.includes(item) && path.basename(p) === path.basename(item)
+      ) ||
+      originalPaths.some(
+        (_p) => p.includes(_p) && path.basename(p) === path.basename(_p)
+      ),
     portable: true,
     onwarn: (message, data) => {
       logger.warn(message, data);
     },
   };
 
-  const writeStream = fs.createWriteStream(path);
+  const writeStream = fs.createWriteStream(artifactPath);
 
-  const archiver = tar
-    .c(merge(defaultOptions, options), paths)
-    .pipe(writeStream);
-
+  const archiver = tar.c(defaultOptions, paths).pipe(writeStream);
+  console.log(artifactPath);
   await new Promise((resolve, reject) => {
     archiver.on("error", (err) => {
       logger.error("There was an error writing the tar archive.");
@@ -42,4 +44,6 @@ export const writeTar = async (
     });
     archiver.on("finish", resolve);
   });
+
+  process.exit();
 };
