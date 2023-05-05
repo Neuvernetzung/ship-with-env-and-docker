@@ -37,9 +37,17 @@ export const createDockerFileContent = async (
     createDockerFileLine(Inst.COPY, ["package.json", "./"]), // haupt-package.json kopieren
     createDockerFileLine(Inst.COPY, ["package-lock.json", "./"]), // haupt-package-lock.json kopieren
 
-    ...(await globToPaths(["**/package.json", "!package.json"])).map((p) =>
-      createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}/`])
-    ), // alle weiteren package.json's kopieren
+    ...(
+      await globToPaths([
+        "**/package.json",
+        "!package.json",
+        "!node_modules",
+        "!**/node_modules",
+      ])
+    ) // Node modules entfernen, falls node_modules erlaubt sind in Artefakt
+      .map((p) =>
+        createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}/`])
+      ), // alle weiteren package.json's kopieren
     // funktioniert (noch) nicht - createDockerFileLine(Inst.COPY, ["*/package.json", "."]),
 
     createDockerFileLine(Inst.RUN, "npm i --omit=dev"), // installieren, bis auf dev-Deps
