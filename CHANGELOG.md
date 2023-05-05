@@ -1,3 +1,11 @@
+## [1.2.1](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.0...v1.2.1) (2023-05-05)
+
+
+### Bug Fixes
+
+* **build:** Tar Ignore fixen [#91](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/91) ([a0c6746](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/a0c67466544b7d01478568ab57c77ac539ab48de))
+* **deps:** yaml updaten [#93](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/93) ([6a2b5dd](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/6a2b5dda573d8a397d6331d68304bb3f854a985c))
+
 # [1.2.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.1.16...v1.2.0) (2023-03-28)
 
 
