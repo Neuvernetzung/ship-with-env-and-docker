@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.2...v1.2.3) (2023-05-05)
+
+
+### Bug Fixes
+
+* **docker:** Node_module package.jsons entfernen in Docker Copy, falls erlaubt in Artefakt [#99](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/99) ([520eb16](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/520eb16992d65a91fad8644fc153099a35e116aa))
+
 ## [1.2.2](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.1...v1.2.2) (2023-05-05)
 
 
