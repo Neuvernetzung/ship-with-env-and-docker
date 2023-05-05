@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.3...v1.2.4) (2023-05-05)
+
+
+### Bug Fixes
+
+* **build:** package.json usw wird doppelt in Tar gepackt [#102](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/102) ([e02f8e1](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/e02f8e11798ab0ced44fb64c86a1354d6a8f9d20))
+
 ## [1.2.3](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.2...v1.2.3) (2023-05-05)
 
 
