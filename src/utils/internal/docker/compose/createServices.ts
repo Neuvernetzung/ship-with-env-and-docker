@@ -17,9 +17,7 @@ export const createComposeServices = async (
   apps: App[],
   env: EnvConfig | undefined
 ): Promise<DockerComposeServices> => {
-  const modulePaths = (await globToPaths("./**/package.json")).map((p) =>
-    p.replace("package.json", "node_modules")
-  );
+  const modulePaths = await globToPaths("./**/node_modules");
 
   const services = apps.reduce(
     (prev, app) => ({

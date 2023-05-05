@@ -1,7 +1,6 @@
 import glob from "fast-glob";
 import { Options } from "fast-glob/out/settings.js";
 import isArray from "lodash/isArray.js";
-import merge from "lodash/merge.js";
 
 export const globToPaths = async (
   paths: string | string[],
@@ -26,10 +25,7 @@ export const globToPaths = async (
     }
   }
 
-  const globPaths = await glob(
-    dynamicPaths,
-    merge({ ignore: ["**/node_modules/**"] }, options)
-  );
+  const globPaths = await glob(dynamicPaths, options);
 
   return [...inDynamicPaths, ...globPaths];
 };

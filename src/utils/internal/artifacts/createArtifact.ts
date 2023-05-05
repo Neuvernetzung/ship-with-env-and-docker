@@ -20,6 +20,8 @@ const defaultPaths = [
   "package-lock.json",
   "**/package-lock.json",
   "turbo.json",
+  "!node_modules",
+  "!**/node_modules",
 ];
 
 export const createArtifact = async (
@@ -51,7 +53,7 @@ export const createArtifact = async (
 
   const finalPaths = paths.concat(additionalFiles);
 
-  await writeTar(dir, finalPaths);
+  await writeTar(dir, finalPaths, deploy.artifact.paths);
 
   await performSingleOrMultiple(deploy.apps, async (app) => {
     await removeEnv(env, app.env);
