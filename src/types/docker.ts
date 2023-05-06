@@ -16,6 +16,7 @@ export type DockerComposeService = {
   environment?: string[];
   volumes?: string[];
   links?: string[];
+  command?: string;
 };
 
 export type DockerComposeServices = Record<string, DockerComposeService>;

@@ -85,6 +85,7 @@ const createComposeService = (
     env_file: envFile,
     environment: app.docker?.environment,
     links: app.docker?.links,
+    command: app.docker?.command,
   };
 
   return service;
