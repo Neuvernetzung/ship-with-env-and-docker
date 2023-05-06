@@ -55,7 +55,7 @@ type Docker = z.infer<typeof zDocker>;
 
 const zDocker = z.object({
   image: z.string().optional(),
-  port: z.number().optional(),
+  port: z.array(z.number()).optional(),
   volumes: z.array(z.string()).optional(),
   links: z.array(z.string()).optional(),
   workDir: z.string().startsWith("/").optional(),
@@ -132,11 +132,11 @@ const zServer: z.ZodType<Server> = z
       let noDuplicates = true;
       data.apps.forEach((app) => {
         if (!app.docker.port) return;
-        if (ports.includes(app.docker.port)) {
+        if (ports.find((port) => app.docker.port?.includes(port))) {
           noDuplicates = false;
           return;
         } else {
-          ports.push(app.docker.port);
+          ports.push(...app.docker.port);
         }
       });
       return noDuplicates;
