@@ -60,6 +60,7 @@ const zDocker = z.object({
   links: z.array(z.string()).optional(),
   workDir: z.string().startsWith("/").optional(),
   environment: z.array(z.string()).optional(),
+  command: z.string().optional(),
   beforeStart: z
     .array(
       z.object({
