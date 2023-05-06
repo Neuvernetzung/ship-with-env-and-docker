@@ -79,12 +79,13 @@ const createComposeService = (
     build,
     restart: "always",
     ports: app.docker?.port
-      ? [`${app.docker?.port}:${app.docker?.port}`]
+      ? app.docker?.port.map((port) => `${port}:${port}`)
       : undefined,
     volumes: volumes.length !== 0 ? volumes : undefined,
     env_file: envFile,
     environment: app.docker?.environment,
     links: app.docker?.links,
+    command: app.docker?.command,
   };
 
   return service;
