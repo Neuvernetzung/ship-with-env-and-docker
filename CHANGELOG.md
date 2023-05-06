@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
+
+
+### Features
+
+* **docker:** Docker command hinzufügen [#109](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/109) ([c06a34b](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/c06a34b6cae0a2bdaf0e93baac022b6a3cf7cc8c))
+* **docker:** Docker Port zu Array ändern [#108](https://github.com/Neuvernetzung/ship-with-env-and-docker/issues/108) ([43b5be0](https://github.com/Neuvernetzung/ship-with-env-and-docker/commit/43b5be000ceab187acd56f93978624cbb48c472f))
+
 ## [1.2.5](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.4...v1.2.5) (2023-05-05)
 
 
