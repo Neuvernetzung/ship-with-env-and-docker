@@ -1,6 +1,12 @@
 import { SweadConfig } from "../types/config.js";
 import { EnvConfig } from "../types/env.js";
-import { run, validateGit, exit, RunOptions } from "../utils/internal/index.js";
+import {
+  run,
+  validateGit,
+  exit,
+  RunOptions,
+  logger,
+} from "../utils/internal/index.js";
 
 export const runStaging = async (
   env: EnvConfig | undefined,
@@ -8,6 +14,8 @@ export const runStaging = async (
   opts: RunOptions
 ) => {
   await validateGit(config.branches?.staging);
+
+  logger.start("Swead staging started.");
 
   if (!config.staging) throw new Error("Staging is not defined in config.");
 

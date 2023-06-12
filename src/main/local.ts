@@ -9,6 +9,7 @@ import {
   concurrentNodeProcess,
   openInBrowser,
   runTasks,
+  logger,
 } from "../utils/internal/index.js";
 
 export const runLocal = async (
@@ -16,6 +17,8 @@ export const runLocal = async (
   config: SweadConfig
 ) => {
   if (!config.local) throw new Error("Local is not defined in config.");
+
+  logger.start("Swead local started.");
 
   await runTasks(
     [
