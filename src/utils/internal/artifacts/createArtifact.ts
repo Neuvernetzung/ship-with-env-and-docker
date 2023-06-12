@@ -34,12 +34,14 @@ export const createArtifact = async (
 
   const packagePaths = [
     ...(await globToPaths(
-      paths
-        .filter((p) => fs.lstatSync(p).isDirectory())
-        .map((p) => {
-          console.log(join(p, "package.json"));
-          return join(p, "package.json");
-        }),
+      [
+        ...paths
+          .filter((p) => fs.lstatSync(p).isDirectory())
+          .map((p) => {
+            return join(p, "**/package.json");
+          }),
+        "!**/node_modules/**/package.json",
+      ],
       { unique: true }
     )),
     ...paths.filter(
@@ -67,4 +69,6 @@ export const createArtifact = async (
     await removeEnv(env, app.env);
   });
   await clean(LOCAL_DIR);
+
+  process.exit();
 };
