@@ -26,6 +26,9 @@ export const prepareServer = async (
 
   const extendedNeverClean: string[] = [
     ...(deploy.server.neverClean || []),
+    ...deploy.apps
+      .map((app) => app.docker.volumes?.map((v) => v.split(":")[0]) || [])
+      .flat(),
     "logs",
   ];
 
