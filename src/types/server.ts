@@ -112,6 +112,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   exposeFolder?: ExposeFolder;
   attached?: boolean;
   removeDockerImagesBefore?: boolean;
+  removeOrphans?: boolean;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -125,6 +126,8 @@ const zServer: z.ZodType<Server> = z
     certbot: zCertbot.optional(),
     exposeFolder: zExposeFolder.optional(),
     attached: z.boolean().optional(),
+    removeDockerImagesBefore: z.boolean().optional(),
+    removeOrphans: z.boolean().optional(),
   })
   .refine(
     (data) => {
