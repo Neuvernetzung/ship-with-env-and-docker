@@ -61,6 +61,7 @@ const zDocker = z.object({
   workDir: z.string().startsWith("/").optional(),
   environment: z.array(z.string()).optional(),
   command: z.string().optional(),
+  skipInstall: z.boolean().optional(),
   beforeStart: z
     .array(
       z.object({
