@@ -40,14 +40,13 @@ export const createArtifact = async (
           .map((p) => {
             return join(p, "**/package.json");
           }),
-        "!**/node_modules/**/package.json",
       ],
       { unique: true }
     )),
     ...paths.filter(
       (p) => p.includes("package.json") || p.includes("package-lock.json")
     ),
-  ];
+  ].filter((p) => !p.includes("node_modules"));
 
   const dockerFiles = await handleDockerFiles(
     deploy.apps,
@@ -69,4 +68,5 @@ export const createArtifact = async (
     await removeEnv(env, app.env);
   });
   await clean(LOCAL_DIR);
+  process.exit(); //////////////////////////////////////////
 };
