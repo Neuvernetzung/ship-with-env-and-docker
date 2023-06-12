@@ -126,7 +126,8 @@ export const run = async (
                               ssh,
                               dir,
                               server.server.path,
-                              task.stdout()
+                              task.stdout(),
+                              opts.verbose
                             ),
                           options: { bottomBar: Infinity },
                         },
