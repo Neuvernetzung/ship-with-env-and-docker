@@ -9,6 +9,7 @@ import {
   runNodeProcess,
   openInBrowser,
   runTasks,
+  logger,
 } from "../utils/internal/index.js";
 
 export const runDev = async (
@@ -16,6 +17,8 @@ export const runDev = async (
   config: SweadConfig
 ) => {
   if (!config.dev) throw new Error("Dev is not defined in config.");
+
+  logger.start("Swead dev started.");
 
   await runTasks(
     [
