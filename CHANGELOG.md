@@ -1,5 +1,13 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 1.4.1
+
+### Patch Changes
+
+- eff8f57: Package.json nicht für jedes Dir versuchen zu kopieren in packagePaths, sondern nur wenn vorhanden #125
+- 9fdb223: Benötigte Zeit bei Erfolg ausgeben #123
+- a7c3521: Tar Logs nur bei verbose Mode #124
+
 ## 1.4.0
 
 ### Minor Changes
