@@ -7,10 +7,12 @@ import {
   clean,
   performSingleOrMultiple,
   removeEnv,
+  join,
 } from "../index.js";
 import { writeTar } from "./writeTar.js";
 import { mkdir } from "fs/promises";
 import { getEnvPaths } from "../env/getEnvPaths.js";
+import fs from "fs";
 
 export const LOCAL_DIR = "_swead";
 
@@ -30,7 +32,26 @@ export const createArtifact = async (
 
   const helpers = await handleHelperFiles(deploy, LOCAL_DIR);
 
-  const dockerFiles = await handleDockerFiles(deploy.apps, LOCAL_DIR);
+  const packagePaths = [
+    ...(await globToPaths(
+      paths
+        .filter((p) => fs.lstatSync(p).isDirectory())
+        .map((p) => {
+          console.log(join(p, "package.json"));
+          return join(p, "package.json");
+        }),
+      { unique: true }
+    )),
+    ...paths.filter(
+      (p) => p.includes("package.json") || p.includes("package-lock.json")
+    ),
+  ];
+
+  const dockerFiles = await handleDockerFiles(
+    deploy.apps,
+    LOCAL_DIR,
+    packagePaths
+  );
   const compose = await handleComposeFile(deploy, env, LOCAL_DIR);
 
   const additionalFiles = [
@@ -40,7 +61,6 @@ export const createArtifact = async (
   ];
 
   const finalPaths = paths.concat(additionalFiles);
-
   await writeTar(dir, finalPaths, deploy.artifact.paths);
 
   await performSingleOrMultiple(deploy.apps, async (app) => {
