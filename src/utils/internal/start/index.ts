@@ -33,7 +33,9 @@ export const start = async (
     ssh,
     `COMPOSE_HTTP_TIMEOUT=120 docker-compose -f ${getComposePath(
       "."
-    )} up -V --build ${deploy.attached ?? attached ? "" : "-d"}`,
+    )} up -V --build ${deploy.attached ?? attached ? "" : "-d"} ${
+      deploy.removeOrphans ? "--remove-orphans" : ""
+    }`,
     { cwd: targetPath, stdout }
   );
 
