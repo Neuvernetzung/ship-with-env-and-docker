@@ -14,7 +14,7 @@ import { runMethods, totalMethods } from "../types/args.js";
 import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
 
 const cliOpts: minimist.Opts = {
-  string: ["_", "c", "s", "p"],
+  string: ["_", "c", "s", "p", "specific"],
   boolean: ["h", "a", "r", "v"],
   alias: {
     c: "config",
@@ -34,6 +34,7 @@ const main = async () => {
   const {
     config: configName,
     skip,
+    specific,
     attached,
     remove,
     password,
@@ -69,7 +70,13 @@ const main = async () => {
         password,
         method: "production",
       });
-      await runProduction(env, config, { skip, attached, remove, verbose });
+      await runProduction(env, config, {
+        skip,
+        specific,
+        attached,
+        remove,
+        verbose,
+      });
       return;
     }
     if (method === "staging") {
@@ -78,7 +85,13 @@ const main = async () => {
         password,
         method: "staging",
       });
-      await runStaging(env, config, { skip, attached, remove, verbose });
+      await runStaging(env, config, {
+        skip,
+        specific,
+        attached,
+        remove,
+        verbose,
+      });
       return;
     }
     if (method === "local") {
