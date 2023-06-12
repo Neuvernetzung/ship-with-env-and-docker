@@ -79,6 +79,7 @@ const main = async () => {
       });
       return;
     }
+
     if (method === "staging") {
       const { env, config } = await getConfig({
         config: configName,

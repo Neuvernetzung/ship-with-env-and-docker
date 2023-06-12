@@ -3,9 +3,12 @@ import chalk from "chalk";
 
 export const logger = {
   start(...args: unknown[]) {
+    console.time(chalk.blue("Time to completion"));
+    console.time(chalk.red("Time until error"));
     console.log(chalk.blue(...args, "💦"));
   },
   error(...args: unknown[]) {
+    console.timeEnd(chalk.red("Time until error"));
     console.log(chalk.red("✖", ...args));
   },
   warn(...args: unknown[]) {
@@ -24,6 +27,7 @@ export const logger = {
     console.log(chalk.green("✔"), ...args);
   },
   finished(...args: unknown[]) {
+    console.timeEnd(chalk.blue("Time to completion"));
     console.log(chalk.blue("💦", ...args));
   },
 };
