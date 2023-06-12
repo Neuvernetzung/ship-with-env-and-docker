@@ -61,6 +61,7 @@ const zDocker = z.object({
   workDir: z.string().startsWith("/").optional(),
   environment: z.array(z.string()).optional(),
   command: z.string().optional(),
+  skipInstall: z.boolean().optional(),
   beforeStart: z
     .array(
       z.object({
@@ -112,6 +113,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   exposeFolder?: ExposeFolder;
   attached?: boolean;
   removeDockerImagesBefore?: boolean;
+  removeOrphans?: boolean;
 };
 
 const zServer: z.ZodType<Server> = z
@@ -125,6 +127,8 @@ const zServer: z.ZodType<Server> = z
     certbot: zCertbot.optional(),
     exposeFolder: zExposeFolder.optional(),
     attached: z.boolean().optional(),
+    removeDockerImagesBefore: z.boolean().optional(),
+    removeOrphans: z.boolean().optional(),
   })
   .refine(
     (data) => {

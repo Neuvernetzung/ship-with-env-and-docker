@@ -23,6 +23,7 @@ export type RunOptions = {
   attached?: boolean;
   remove?: boolean;
   verbose?: boolean;
+  specific?: number;
 };
 
 export const run = async (
@@ -31,13 +32,16 @@ export const run = async (
   opts: RunOptions
 ) => {
   await withTempDir(async (dir) => {
-    if (opts.skip) {
+    if (opts.skip || opts.specific) {
       // Testen ob skip unnötig ist und ob skip eventuell größer als die Anzahl der Server.
       if (!isArray(deploys))
         throw new Error(
           "It is not possible to skip if there is only one deployment."
         );
-      if (deploys.length < opts.skip)
+      if (
+        deploys.length < (opts.skip || 0) ||
+        deploys.length < (opts.specific || 0)
+      )
         throw new Error(
           "The number of deployments to be skipped is greater than the number of available deployments."
         );
@@ -48,7 +52,11 @@ export const run = async (
         title: `Running deployment for '${bold(deploy.name)}'${
           isArray(deploys) ? taskIndex(i, deploys.length) : ""
         }.`,
-        skip: opts.skip ? opts.skip > i + 1 : false,
+        skip: opts.skip
+          ? opts.skip > i + 1
+          : opts.specific
+          ? opts.specific !== i + 1
+          : false,
         task: async (_, task) =>
           task.newListr(
             await singleOrMultipleTasks(deploy.deploy, async (server, i) => ({

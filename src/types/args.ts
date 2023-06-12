@@ -20,6 +20,11 @@ export const zArgs = z.object({
     .regex(/^\d+$/, { message: "The skip argument is not an integer." })
     .transform(Number)
     .optional(),
+  specific: z
+    .string()
+    .regex(/^\d+$/, { message: "The skip argument is not an integer." })
+    .transform(Number)
+    .optional(),
   attached: z.boolean().optional(),
   remove: z.boolean().optional(),
   password: z.string().optional(),

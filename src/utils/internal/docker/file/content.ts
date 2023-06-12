@@ -3,14 +3,13 @@ import {
   DockerFileContent,
   DockerFileInstructions as Inst,
 } from "../../../../types/docker.js";
-import { globToPaths } from "../../index.js";
 import { getWorkdirPath } from "../getWorkdirPath.js";
-import path from "path";
 
 const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:18-alpine";
 
 export const createDockerFileContent = async (
-  app: Omit<App, "build" | "start"> & Required<BuildUnion>
+  app: Omit<App, "build" | "start"> & Required<BuildUnion>,
+  packagePaths: string[]
 ): Promise<DockerFileContent> => {
   const baseImage = app.docker?.image || DEFAULT_DOCKER_FILE_BASE_IMAGE;
 
@@ -34,23 +33,15 @@ export const createDockerFileContent = async (
 
     createDockerFileLine(Inst.WORKDIR, getWorkdirPath(app.docker?.workDir)), // workdir festlegen
 
-    createDockerFileLine(Inst.COPY, ["package.json", "./"]), // haupt-package.json kopieren
-    createDockerFileLine(Inst.COPY, ["package-lock.json", "./"]), // haupt-package-lock.json kopieren
+    ...(app.docker.skipInstall
+      ? []
+      : [
+          ...packagePaths.map(
+            (p) => createDockerFileLine(Inst.COPY, [p, "./"]) // package.json und package-lock.json kopieren
+          ), // createDockerFileLine(Inst.COPY, ["*/package.json", "."]) funktioniert (noch) nicht
 
-    ...(
-      await globToPaths([
-        "**/package.json",
-        "!package.json",
-        "!node_modules",
-        "!**/node_modules",
-      ])
-    ) // Node modules entfernen, falls node_modules erlaubt sind in Artefakt
-      .map((p) =>
-        createDockerFileLine(Inst.COPY, [p, `./${path.dirname(p)}/`])
-      ), // alle weiteren package.json's kopieren
-    // funktioniert (noch) nicht - createDockerFileLine(Inst.COPY, ["*/package.json", "."]),
-
-    createDockerFileLine(Inst.RUN, "npm i --omit=dev"), // installieren, bis auf dev-Deps
+          createDockerFileLine(Inst.RUN, "npm i --omit=dev"), // installieren, bis auf dev-Deps
+        ]),
 
     createDockerFileLine(Inst.COPY, [".", "."]), // alles weitere kopieren
 
