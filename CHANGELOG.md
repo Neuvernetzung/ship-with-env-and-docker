@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 1.4.3
+
+### Patch Changes
+
+- dd06a8c: exit entfernen
+
 ## 1.4.2
 
 ### Patch Changes
