@@ -9,26 +9,30 @@ export const transferArtifactAndExtract = async (
   ssh: NodeSSH,
   dir: string,
   target?: string,
-  stdout?: NodeJS.WriteStream & NodeJS.WritableStream
+  stdout?: NodeJS.WriteStream & NodeJS.WritableStream,
+  verbose?: boolean
 ) => {
   const targetPath = getTargetPath(target);
 
   await putFile(ssh, getArtifactPath(dir), getArtifactPath(targetPath));
 
-  await execCommand(ssh, `tar -zxvf ${getArtifactName()}`, {
+  await execCommand(ssh, `tar -zx${verbose ? "v" : ""}f ${getArtifactName()}`, {
     cwd: targetPath,
     stdout,
   });
 
-  await execCommand(ssh, `rm -rfv ${getArtifactName()}`, {
+  await execCommand(ssh, `rm -rf${verbose ? "v" : ""} ${getArtifactName()}`, {
     cwd: targetPath,
     stdout,
   });
 
-  await execCommand(ssh, `cp -rfv ${LOCAL_DIR}/* .`, {
+  await execCommand(ssh, `cp -rf${verbose ? "v" : ""} ${LOCAL_DIR}/* .`, {
     cwd: targetPath,
     stdout,
   }); // Aus notwendigen LocalDir heraus kopieren in das RootDir
 
-  await execCommand(ssh, `rm -rfv ${LOCAL_DIR}`, { cwd: targetPath, stdout });
+  await execCommand(ssh, `rm -rf${verbose ? "v" : ""} ${LOCAL_DIR}`, {
+    cwd: targetPath,
+    stdout,
+  });
 };

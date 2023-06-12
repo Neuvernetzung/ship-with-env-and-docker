@@ -10,7 +10,7 @@ export const prepareServer = async (
 ) => {
   await execCommand(ssh, "apt-get update -y", { stdout });
 
-  // await execCommand(ssh, "apt-get upgrade -y", { stdout });
+  // await execCommand(ssh, "apt-get upgrade -y", { stdout }); // Kann zum hängen des Server deploys führen, sollte lieber händisch passieren
 
   await execCommand(ssh, "apt-get autoremove -y", { stdout }); // automatisch nicht weiter benötigte packages entfernen
 
