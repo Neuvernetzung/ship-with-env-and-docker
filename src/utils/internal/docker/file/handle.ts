@@ -7,11 +7,12 @@ import { saveDockerFile } from "./save.js";
 
 export const handleDockerFiles = async (
   apps: App[],
-  dir: string
+  dir: string,
+  packagePaths: string[]
 ): Promise<DockerFile[]> => {
   const files = await pMap(apps, async (app) => {
     if (!app.build) return { name: app.name };
-    const content = await createDockerFileContent(app);
+    const content = await createDockerFileContent(app, packagePaths);
 
     await saveDockerFile(content, app, dir);
 
