@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 1.5.1
+
+### Patch Changes
+
+- 1875915: DockerFileInstructions Enum durch Arraytype ersetzen #141
+
 ## 1.5.0
 
 ### Minor Changes
