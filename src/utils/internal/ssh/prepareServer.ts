@@ -20,12 +20,16 @@ export const prepareServer = async (
     { stdout }
   );
 
-  await execCommand(ssh, `mkdir -p ${getTargetPath(deploy.server.path)}`, {
-    stdout,
-  });
+  await execCommand(
+    ssh,
+    `mkdir -p ${getTargetPath(deploy.serverConfig?.path)}`,
+    {
+      stdout,
+    }
+  );
 
   const extendedNeverClean: string[] = [
-    ...(deploy.server.neverClean || []),
+    ...(deploy.serverConfig?.neverClean || []),
     ...deploy.apps
       .map((app) => app.docker.volumes?.map((v) => v.split(":")[0]) || [])
       .flat(),
@@ -37,6 +41,6 @@ export const prepareServer = async (
     `rm -rf $(ls -A | grep -vE '${extendedNeverClean
       .map((v) => `(${v})`)
       .join("|")}')`,
-    { stdout, cwd: getTargetPath(deploy.server.path) }
+    { stdout, cwd: getTargetPath(deploy.serverConfig?.path) }
   );
 };

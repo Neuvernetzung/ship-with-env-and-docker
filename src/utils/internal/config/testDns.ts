@@ -1,11 +1,11 @@
 import { logger } from "../index.js";
 import dnsPromises from "dns/promises";
-import { Server } from "../../../types/server.js";
+import { Server, ServerDetails } from "../../../types/server.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
 
 export const testDns = async (deploy: Server) => {
-  const ip = deploy.server.ip;
+  const ip = (deploy.server as ServerDetails).ip;
 
   await dnsPromises.lookup(ip).catch((error) => {
     logger.error(error);

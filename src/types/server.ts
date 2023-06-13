@@ -17,6 +17,11 @@ export type ServerDetails = z.infer<typeof zServerDetails>;
 const zServerDetails = z.object({
   ip: z.string(),
   ssh: zSSH,
+});
+
+export type ServerConfig = z.infer<typeof zServerConfig>;
+
+const zServerConfig = z.object({
   path: z.string().optional(),
   neverClean: z.array(z.string()).optional(),
   rebootAfterUpdate: z.boolean().optional(),
@@ -103,7 +108,8 @@ const zApp: z.ZodType<App> = z
   });
 
 export type Server<T extends EnvConfig = EnvConfig> = {
-  server: ServerDetails;
+  server?: ServerDetails; // absichtlich optional, damit config auch ohne server wenn verschlüsselt kein Type-Error anzeigt. Wird trotzdem korrekt geparst in zServer
+  serverConfig?: ServerConfig;
   apps: App<T>[];
   artifact?: Artifact;
   waitOn?: string | string[];
@@ -119,6 +125,7 @@ export type Server<T extends EnvConfig = EnvConfig> = {
 const zServer: z.ZodType<Server> = z
   .object({
     server: zServerDetails,
+    serverConfig: zServerConfig.optional(),
     apps: z.array(zApp),
     artifact: zArtifact.optional(),
     waitOn: z.union([z.string(), z.array(z.string())]).optional(),
