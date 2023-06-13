@@ -1,12 +1,9 @@
 import Cryptr from "cryptr";
-import { readFile } from "fs/promises";
 
-export const decryptConfigData = async (password: string, encPath: string) => {
+export const decryptConfigData = (password: string, encryptedData: string) => {
   const cryptr = new Cryptr(password);
 
-  const file = await readFile(encPath, "utf8");
-
-  const decryptedConfig = cryptr.decrypt(file);
+  const decryptedConfig = cryptr.decrypt(encryptedData);
 
   return JSON.parse(decryptedConfig);
 };
