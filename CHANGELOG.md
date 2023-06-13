@@ -1,5 +1,12 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 1.5.0
+
+### Minor Changes
+
+- 7baa09c: Möglichkeit artifacts auf apps aufzusplitten #136
+- c70c08d: Bei Verschlüsselung nur die envs und server daten verschlüsseln. #64
+
 ## 1.4.3
 
 ### Patch Changes
