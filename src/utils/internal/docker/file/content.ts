@@ -4,6 +4,7 @@ import {
   DockerFileInstruction,
 } from "../../../../types/docker.js";
 import { getWorkdirPath } from "../getWorkdirPath.js";
+import compact from "lodash/compact.js";
 
 const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:18-alpine";
 
@@ -14,14 +15,18 @@ export const createDockerFileContent = async (
 ): Promise<DockerFileContent> => {
   const baseImage = app.docker?.image || DEFAULT_DOCKER_FILE_BASE_IMAGE;
 
-  const dockerFileContent: DockerFileContent = [
+  const dockerFileContent: DockerFileContent = compact([
     createDockerFileLine("FROM", baseImage),
 
-    createDockerFileLine("RUN", "npm install -g npm@latest"), // npm updaten
+    ...(baseImage === DEFAULT_DOCKER_FILE_BASE_IMAGE
+      ? [
+          createDockerFileLine("RUN", "npm install -g npm@latest"), // npm updaten
 
-    createDockerFileLine("RUN", "apk add --no-cache libc6-compat"), // libc6-compat hinzufügen um turborepo bugs zu fixen
+          createDockerFileLine("RUN", "apk add --no-cache libc6-compat"), // libc6-compat hinzufügen um turborepo bugs zu fixen
 
-    createDockerFileLine("RUN", "apk update && apk add git"), // linux updaten und git installieren
+          createDockerFileLine("RUN", "apk update && apk add git"), // linux updaten und git installieren
+        ]
+      : []),
 
     createDockerFileLine(
       "RUN",
@@ -34,7 +39,7 @@ export const createDockerFileContent = async (
 
     createDockerFileLine("WORKDIR", getWorkdirPath(app.docker?.workDir)), // workdir festlegen
 
-    ...(app.docker.skipInstall
+    ...(app.docker.skipInstall || baseImage !== DEFAULT_DOCKER_FILE_BASE_IMAGE
       ? []
       : [
           ...packagePaths.map(
@@ -44,9 +49,11 @@ export const createDockerFileContent = async (
           createDockerFileLine("RUN", "npm i --omit=dev"), // installieren, bis auf dev-Deps
         ]),
 
-    ...(app.docker.copyArtifactOnly
-      ? artifactPaths.map((p) => createDockerFileLine("COPY", [p, "."]))
-      : [createDockerFileLine("COPY", [".", "."])]), // alles weitere kopieren
+    ...(baseImage == DEFAULT_DOCKER_FILE_BASE_IMAGE
+      ? app.docker.copyArtifactOnly
+        ? artifactPaths.map((p) => createDockerFileLine("COPY", [p, "."]))
+        : [createDockerFileLine("COPY", [".", "."])] // alles weitere kopieren
+      : []),
 
     ...(app.docker?.port
       ? app.docker?.port.map((port) =>
@@ -61,7 +68,7 @@ export const createDockerFileContent = async (
       : []),
 
     createDockerFileLine("CMD", app.start.command),
-  ];
+  ]);
 
   return dockerFileContent;
 };
