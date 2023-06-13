@@ -11,7 +11,7 @@ export const start = async (
   attached: boolean | undefined,
   remove: boolean | undefined
 ) => {
-  const targetPath = getTargetPath(deploy.server.path);
+  const targetPath = getTargetPath(deploy.serverConfig?.path);
 
   if (deploy.removeDockerImagesBefore ?? remove) {
     await execCommand(
@@ -52,7 +52,7 @@ export const start = async (
     stdout,
   });
 
-  if (deploy.server.rebootAfterUpdate) {
+  if (deploy.serverConfig?.rebootAfterUpdate) {
     await execCommand(ssh, "reboot");
   }
 

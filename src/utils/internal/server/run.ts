@@ -1,6 +1,6 @@
 import { ListrTask } from "listr2";
 import isArray from "lodash/isArray.js";
-import { Deploy, EnvConfig } from "../../../types/index.js";
+import { Deploy, EnvConfig, ServerDetails } from "../../../types/index.js";
 import { testDns, testDomainDns } from "../config/testDns.js";
 import {
   createArtifact,
@@ -60,7 +60,9 @@ export const run = async (
         task: async (_, task) =>
           task.newListr(
             await singleOrMultipleTasks(deploy.deploy, async (server, i) => ({
-              title: `Running deployment for '${bold(server.server.ip)}'${
+              title: `Running deployment for '${bold(
+                (server.server as ServerDetails).ip
+              )}'${
                 isArray(deploy.deploy) ? taskIndex(i, deploy.deploy.length) : ""
               }`,
               task: async (_, task) =>
@@ -72,13 +74,14 @@ export const run = async (
                       if (!server.exposeFolder) return;
                       await testDomainDns(
                         server.exposeFolder?.url,
-                        server.server.ip
+                        (server.server as ServerDetails).ip
                       );
                     },
                   },
                   {
                     title: `Testing ssh connection`,
-                    task: async () => await testSSH(server.server),
+                    task: async () =>
+                      await testSSH(server.server as ServerDetails),
                   },
                   {
                     skip: !server.waitOn,
@@ -110,7 +113,7 @@ export const run = async (
                     task: async () => await createArtifact(dir, server, env),
                   },
                   ...(await withSSHConnection(
-                    server.server,
+                    server.server as ServerDetails,
                     async (ssh) =>
                       [
                         {
@@ -125,7 +128,7 @@ export const run = async (
                             await transferArtifactAndExtract(
                               ssh,
                               dir,
-                              server.server.path,
+                              server.serverConfig?.path,
                               task.stdout(),
                               opts.verbose
                             ),

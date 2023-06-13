@@ -15,6 +15,7 @@ export type SweadConfig<T extends EnvConfig = EnvConfig> = {
   staging?: DeployUnion<T>;
   production?: DeployUnion<T>;
   branches?: Branches;
+  encrypted?: string;
 };
 
 export const zSweadConfig: z.ZodType<SweadConfig> = z.object({
@@ -23,6 +24,7 @@ export const zSweadConfig: z.ZodType<SweadConfig> = z.object({
   staging: zDeployUnion.optional(),
   production: zDeployUnion.optional(),
   branches: zBranches,
+  encrypted: z.string().optional(),
 });
 
 export type SweadConfigFile = {
