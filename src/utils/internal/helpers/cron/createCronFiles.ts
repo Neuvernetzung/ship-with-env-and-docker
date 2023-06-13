@@ -1,4 +1,3 @@
-import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
 import {
   createDockerFileLine,
   dockerFileToString,
@@ -36,29 +35,26 @@ export const createCronFiles = (): HelperFile[] => {
   const cronDockerFile: HelperFile = {
     path: getHelpersPath(getDockerFilePath(CRON_PATH)),
     content: dockerFileToString([
-      createDockerFileLine(Inst.FROM, "alpine"),
+      createDockerFileLine("FROM", "alpine"),
 
       createDockerFileLine(
-        Inst.RUN,
+        "RUN",
         "apk update && apk add --no-cache docker-cli certbot"
       ),
 
-      createDockerFileLine(Inst.ADD, `${CRON_TAB_NAME} /${CRON_TAB_NAME}`),
+      createDockerFileLine("ADD", `${CRON_TAB_NAME} /${CRON_TAB_NAME}`),
 
-      createDockerFileLine(
-        Inst.COPY,
-        `${CRON_SCRIPT_NAME} /${CRON_SCRIPT_NAME}`
-      ),
+      createDockerFileLine("COPY", `${CRON_SCRIPT_NAME} /${CRON_SCRIPT_NAME}`),
 
-      createDockerFileLine(Inst.RUN, `chmod +x /${CRON_SCRIPT_NAME}`),
+      createDockerFileLine("RUN", `chmod +x /${CRON_SCRIPT_NAME}`),
 
-      createDockerFileLine(Inst.RUN, `sed -i 's/\\r//' /${CRON_SCRIPT_NAME}`), // Fix line ending bugs
+      createDockerFileLine("RUN", `sed -i 's/\\r//' /${CRON_SCRIPT_NAME}`), // Fix line ending bugs
 
-      createDockerFileLine(Inst.RUN, `/usr/bin/crontab /${CRON_TAB_NAME}`),
+      createDockerFileLine("RUN", `/usr/bin/crontab /${CRON_TAB_NAME}`),
 
-      createDockerFileLine(Inst.WORKDIR, `/workdir`),
+      createDockerFileLine("WORKDIR", `/workdir`),
 
-      createDockerFileLine(Inst.CMD, ["crond", "-f", "-l", "8"]),
+      createDockerFileLine("CMD", ["crond", "-f", "-l", "8"]),
     ]),
   };
 
