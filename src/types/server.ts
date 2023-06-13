@@ -71,7 +71,7 @@ const zDocker = z.object({
   beforeStart: z
     .array(
       z.object({
-        instruction: z.nativeEnum(DockerFileInstructions),
+        instruction: z.enum(DockerFileInstructions),
         content: z.string(),
       })
     )

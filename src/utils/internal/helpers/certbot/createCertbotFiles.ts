@@ -1,5 +1,4 @@
 import { App, Certbot, Server } from "../../../../types/index.js";
-import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
   createDockerFileLine,
@@ -46,20 +45,20 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
   const certbotDockerFile: HelperFile = {
     path: getHelpersPath(getDockerFilePath(CERTBOT_PATH)),
     content: dockerFileToString([
-      createDockerFileLine(Inst.FROM, "certbot/certbot"),
+      createDockerFileLine("FROM", "certbot/certbot"),
 
-      createDockerFileLine(Inst.RUN, "apk add --no-cache bash"),
+      createDockerFileLine("RUN", "apk add --no-cache bash"),
 
-      createDockerFileLine(Inst.COPY, `${CERTBOT_SCRIPT_NAME} /opt/`),
+      createDockerFileLine("COPY", `${CERTBOT_SCRIPT_NAME} /opt/`),
 
-      createDockerFileLine(Inst.RUN, `chmod +x /opt/${CERTBOT_SCRIPT_NAME}`),
+      createDockerFileLine("RUN", `chmod +x /opt/${CERTBOT_SCRIPT_NAME}`),
 
       createDockerFileLine(
-        Inst.RUN,
+        "RUN",
         `sed -i 's/\\r//' /opt/${CERTBOT_SCRIPT_NAME}`
       ), // Fix line ending bugs
 
-      createDockerFileLine(Inst.ENTRYPOINT, [`/opt/${CERTBOT_SCRIPT_NAME}`]),
+      createDockerFileLine("ENTRYPOINT", [`/opt/${CERTBOT_SCRIPT_NAME}`]),
     ]),
   };
 

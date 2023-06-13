@@ -1,5 +1,4 @@
 import { App, ExposeFolder, Server } from "../../../../types/index.js";
-import { DockerFileInstructions as Inst } from "../../../../types/docker.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
   createDockerFileLine,
@@ -38,34 +37,34 @@ ${(
   const nginxDockerFile: HelperFile = {
     path: getHelpersPath(getDockerFilePath(NGINX_PATH)),
     content: dockerFileToString([
-      createDockerFileLine(Inst.FROM, "nginx:mainline-alpine"),
+      createDockerFileLine("FROM", "nginx:mainline-alpine"),
 
-      createDockerFileLine(Inst.RUN, "apk add --no-cache openssl"),
+      createDockerFileLine("RUN", "apk add --no-cache openssl"),
 
       createDockerFileLine(
-        Inst.COPY,
+        "COPY",
         `${NGINX_DEFAULT_CONF_NAME} /etc/nginx/conf.d/`
       ),
 
-      createDockerFileLine(Inst.COPY, `options-ssl-nginx.conf /etc/nginx/`),
+      createDockerFileLine("COPY", `options-ssl-nginx.conf /etc/nginx/`),
 
-      createDockerFileLine(Inst.COPY, `${NGINX_HSTS_CONF_NAME} /etc/nginx/`),
+      createDockerFileLine("COPY", `${NGINX_HSTS_CONF_NAME} /etc/nginx/`),
 
-      createDockerFileLine(Inst.COPY, `${NGINX_SCRIPT_NAME} /customization/`),
+      createDockerFileLine("COPY", `${NGINX_SCRIPT_NAME} /customization/`),
 
       createDockerFileLine(
-        Inst.RUN,
+        "RUN",
         `chmod +x /customization/${NGINX_SCRIPT_NAME}`
       ),
 
       createDockerFileLine(
-        Inst.RUN,
+        "RUN",
         `sed -i 's/\\r//' /customization/${NGINX_SCRIPT_NAME}`
       ), // Fix line ending bugs
 
-      createDockerFileLine(Inst.EXPOSE, "80"),
+      createDockerFileLine("EXPOSE", "80"),
 
-      createDockerFileLine(Inst.CMD, [`/customization/${NGINX_SCRIPT_NAME}`]),
+      createDockerFileLine("CMD", [`/customization/${NGINX_SCRIPT_NAME}`]),
     ]),
   };
 

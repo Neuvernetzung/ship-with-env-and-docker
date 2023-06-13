@@ -21,28 +21,30 @@ export type DockerComposeService = {
 
 export type DockerComposeServices = Record<string, DockerComposeService>;
 
-export enum DockerFileInstructions {
-  FROM = "FROM",
-  RUN = "RUN",
-  CMD = "CMD",
-  LABEL = "LABEL",
-  EXPOSE = "EXPOSE",
-  ENV = "ENV",
-  ADD = "ADD",
-  COPY = "COPY",
-  ENTRYPOINT = "ENTRYPOINT",
-  VOLUME = "VOLUME",
-  USER = "USER",
-  WORKDIR = "WORKDIR",
-  ARG = "ARG",
-  ONBUILD = "ONBUILD",
-  STOPSIGNAL = "STOPSIGNAL",
-  HEALTHCHECK = "HEALTCHECK",
-  SHELL = "SHELL",
-}
+export const DockerFileInstructions = [
+  "FROM",
+  "RUN",
+  "CMD",
+  "LABEL",
+  "EXPOSE",
+  "ENV",
+  "ADD",
+  "COPY",
+  "ENTRYPOINT",
+  "VOLUME",
+  "USER",
+  "WORKDIR",
+  "ARG",
+  "ONBUILD",
+  "STOPSIGNAL",
+  "HEALTHCHECK",
+  "SHELL",
+] as const;
+
+export type DockerFileInstruction = (typeof DockerFileInstructions)[number];
 
 export type DockerFileLine = {
-  instruction: DockerFileInstructions;
+  instruction: DockerFileInstruction;
   content: string | string[];
 };
 
