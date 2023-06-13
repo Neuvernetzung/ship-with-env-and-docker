@@ -67,6 +67,7 @@ const zDocker = z.object({
   environment: z.array(z.string()).optional(),
   command: z.string().optional(),
   skipInstall: z.boolean().optional(),
+  copyArtifactOnly: z.boolean().optional(),
   beforeStart: z
     .array(
       z.object({
@@ -91,6 +92,7 @@ export type App<T extends EnvConfig = EnvConfig> = {
   url?: string;
   env?: EnvEntry<T> | EnvEntry<T>[];
   docker: Docker;
+  artifact?: Artifact;
 } & BuildUnion;
 
 const zApp: z.ZodType<App> = z
@@ -100,6 +102,7 @@ const zApp: z.ZodType<App> = z
       url: zUrl.optional(),
       env: z.union([zEnvEntry, z.array(zEnvEntry)]).optional(),
       docker: zDocker,
+      artifact: zArtifact.optional(),
     }),
     zBuildUnion
   )

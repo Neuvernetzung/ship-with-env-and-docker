@@ -9,7 +9,8 @@ const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:18-alpine";
 
 export const createDockerFileContent = async (
   app: Omit<App, "build" | "start"> & Required<BuildUnion>,
-  packagePaths: string[]
+  packagePaths: string[],
+  artifactPaths: string[]
 ): Promise<DockerFileContent> => {
   const baseImage = app.docker?.image || DEFAULT_DOCKER_FILE_BASE_IMAGE;
 
@@ -43,7 +44,9 @@ export const createDockerFileContent = async (
           createDockerFileLine(Inst.RUN, "npm i --omit=dev"), // installieren, bis auf dev-Deps
         ]),
 
-    createDockerFileLine(Inst.COPY, [".", "."]), // alles weitere kopieren
+    ...(app.docker.copyArtifactOnly
+      ? artifactPaths.map((p) => createDockerFileLine(Inst.COPY, [p, "."]))
+      : [createDockerFileLine(Inst.COPY, [".", "."])]), // alles weitere kopieren
 
     ...(app.docker?.port
       ? app.docker?.port.map((port) =>
