@@ -122,8 +122,10 @@ const createDefaultConf = (
 }
 
 server {
-  listen       443 ssl http2;
+  listen       443 ssl;
   server_name  ${finalUrl};
+  
+  http2        on;
 
   ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
@@ -162,8 +164,10 @@ server {
 }
 
 server {
-  listen       443 ssl http2;
+  listen       443 ssl;
   server_name  www.${finalUrl};
+  
+  http2        on;
 
   ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
@@ -199,8 +203,10 @@ const createExposeConf = (expose: ExposeFolder) => {
 }
 
 server {
-  listen       443 ssl http2;
+  listen       443 ssl;
   server_name  ${finalUrl};
+  
+  http2        on;
 
   ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
@@ -233,8 +239,10 @@ server {
 }
 
 server {
-  listen       443 ssl http2;
+  listen       443 ssl;
   server_name  www.${finalUrl};
+  
+  http2        on;
 
   ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
   ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
