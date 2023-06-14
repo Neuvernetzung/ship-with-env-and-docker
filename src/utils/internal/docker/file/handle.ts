@@ -17,7 +17,7 @@ export const handleDockerFiles = async (
 
     const appArtifactPaths = await getAppArtifactPaths(deploy, env, app);
 
-    const packagePaths = await getPackagePaths(deploy, env);
+    const packagePaths = await getPackagePaths(deploy, env, app);
 
     const content = await createDockerFileContent(
       app,
