@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 1.5.3
+
+### Patch Changes
+
+- 261013c: Packagepath pro App erstellen, nicht pro Server #150
+
 ## 1.5.2
 
 ### Patch Changes
