@@ -10,6 +10,7 @@ import {
 import { writeTar } from "./writeTar.js";
 import { mkdir } from "fs/promises";
 import { getArtifactPaths } from "./getArtifactPaths.js";
+import compact from "lodash/compact.js";
 
 export const LOCAL_DIR = "_swead";
 
@@ -36,7 +37,10 @@ export const createArtifact = async (
   ];
 
   const finalPaths = paths.concat(additionalFiles);
-  await writeTar(dir, finalPaths, deploy.artifact.paths);
+  await writeTar(dir, finalPaths, [
+    ...deploy.artifact.paths,
+    ...compact(deploy.apps.map((app) => app.artifact?.paths).flat()),
+  ]);
 
   await performSingleOrMultiple(deploy.apps, async (app) => {
     await removeEnv(env, app.env);
