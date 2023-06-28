@@ -1,15 +1,15 @@
-import { EnvConfig } from "../../../types/index.js";
+import { EnvSchemas } from "../../../types/index.js";
 import { formatZodErrors } from "../zod/index.js";
 
 export const parseEnv = (
-  env: EnvConfig | undefined,
+  envSchemas: EnvSchemas | undefined,
   key: string,
   data: Record<string, any>
 ) => {
-  if (!env) return;
-  const _env = env?.[key];
+  if (!envSchemas) return;
+  const _env = envSchemas?.[key];
   if (!_env) throw new Error(`Env config for ${key} was not found.`);
-  const parsedEnv = _env.schema.safeParse(data);
+  const parsedEnv = _env.safeParse(data);
 
   if (!parsedEnv?.success) {
     throw new Error(
@@ -19,5 +19,5 @@ export const parseEnv = (
     );
   }
 
-  return { ..._env, data: parsedEnv.data };
+  return { key, data: parsedEnv.data };
 };

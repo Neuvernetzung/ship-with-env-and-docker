@@ -4,17 +4,13 @@ export const helperMethods = ["init", "encrypt", "decrypt"] as const;
 
 export const runMethods = ["production", "staging", "local", "dev"] as const;
 
+export type RunMethods = (typeof runMethods)[number];
+
 export const totalMethods = [...helperMethods, ...runMethods] as const;
 
 export const zArgs = z.object({
   _: z.array(z.enum(totalMethods)).transform((arr) => arr[0]),
-  config: z
-    .string()
-    .transform((str) => {
-      if (str?.includes(".ts") || str?.includes(".js")) return str;
-      return `${str}.ts`;
-    })
-    .optional(),
+  config: z.string().optional(),
   skip: z
     .string()
     .regex(/^\d+$/, { message: "The skip argument is not an integer." })
@@ -30,3 +26,5 @@ export const zArgs = z.object({
   password: z.string().optional(),
   verbose: z.boolean().optional(),
 });
+
+export type Args = z.infer<typeof zArgs>;

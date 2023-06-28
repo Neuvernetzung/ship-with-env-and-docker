@@ -1,5 +1,5 @@
 import merge from "lodash/merge.js";
-import { EnvConfig, Server } from "../../../../types/index.js";
+import { EnvSchemas, Server } from "../../../../types/index.js";
 
 import {
   DockerCompose,
@@ -12,14 +12,19 @@ import {
   NGINX_SSL_VOLUME,
 } from "../../index.js";
 import { createComposeServices } from "./createServices.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
 
 export const createComposeContent = async (
-  deploy: Server,
-  env: EnvConfig | undefined
+  server: Server,
+  deploy: ServerDeploy,
+  env: EnvSchemas | undefined
 ): Promise<DockerCompose> => {
   const version = "3.8";
 
-  const defaultServices: DockerComposeServices = createHelperServices(deploy);
+  const defaultServices: DockerComposeServices = createHelperServices(
+    server,
+    deploy
+  );
 
   const volumes = {
     [NGINX_SSL_VOLUME]: {},
@@ -27,7 +32,7 @@ export const createComposeContent = async (
     [CERTBOT_VOLUME]: {},
   };
 
-  const services = await createComposeServices(deploy.apps, env);
+  const services = await createComposeServices(server.apps, env);
 
   return { version, services: merge(services, defaultServices), volumes };
 };

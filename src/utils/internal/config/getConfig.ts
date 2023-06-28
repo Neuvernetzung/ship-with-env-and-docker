@@ -1,65 +1,49 @@
-import { findUp } from "find-up";
-import { SweadConfigFile } from "../../../types/config.js";
-import { decryptConfigData, logger } from "../index.js";
-import { testConfig } from "./testConfig.js";
+import { join, logger } from "../index.js";
+import { ParsedConfigs, parseConfig } from "./parseConfig.js";
 import { bundleRequire } from "bundle-require";
-import inquirer from "inquirer";
-import merge from "lodash/merge.js";
-import { runMethods } from "../../../types/args.js";
 
-export const CONFIG_DEFAULT_NAME = "swead-config.ts";
+export const SWEAD_BASE_PATH = "_swead";
+
+export const CONFIG_NAME = "config.ts";
+export const ENV_SCHEMAS_NAME = "envSchemas.ts";
 
 type ConfigOptions = {
   config?: string;
   password?: string;
-  method?: (typeof runMethods)[number];
 };
 
 export const getConfig = async (
   opts: ConfigOptions
-): Promise<SweadConfigFile> => {
-  const configPath = await findUp(opts.config || CONFIG_DEFAULT_NAME);
+): Promise<ParsedConfigs> => {
+  const configBasePath = opts.config || SWEAD_BASE_PATH;
+  const configPath = join(configBasePath, CONFIG_NAME);
 
   if (!configPath)
     throw new Error(
-      `No configuration file found. Please create "${
-        opts.config || CONFIG_DEFAULT_NAME
-      }" in your root directory.`
+      `No configuration file found. Please create "${configPath}" in your root directory.`
     );
 
-  const { mod } = await bundleRequire({
+  const { mod: configMod } = await bundleRequire({
     filepath: configPath,
   });
 
-  const needsDecryption =
-    opts.password ||
-    (mod.config.encrypted && opts.method ? mod.config[opts.method] : false);
+  const envSchemasPath = join(configBasePath, ENV_SCHEMAS_NAME);
 
-  const result = opts.password
-    ? { password: opts.password }
-    : needsDecryption &&
-      (await inquirer.prompt([
-        {
-          type: "password",
-          name: "password",
-          mask: "*",
-          message:
-            "Enter the password with which the server data is to be decrypted.",
-        },
-      ]));
+  if (!envSchemasPath)
+    throw new Error(
+      `No env Schemas file found. Please create "${envSchemasPath}" in your root directory.`
+    );
+
+  const { mod: envSchemasMod } = await bundleRequire({
+    filepath: envSchemasPath,
+  });
+
+  const parsedConfigFile = await parseConfig(
+    configMod.default,
+    envSchemasMod.default
+  );
 
   logger.task("Loading config");
 
-  const importedConfigFile: SweadConfigFile = needsDecryption
-    ? merge(
-        {
-          config: decryptConfigData(result.password, mod.config.encrypted),
-        },
-        mod
-      )
-    : mod;
-
-  const parsedConfigFile = await testConfig(importedConfigFile);
-
-  return { env: parsedConfigFile.env, config: parsedConfigFile.config };
+  return parsedConfigFile;
 };

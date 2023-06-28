@@ -1,26 +1,23 @@
+import { Args } from "../index.js";
 import { SweadConfig } from "../types/config.js";
-import { EnvConfig } from "../types/env.js";
-import {
-  run,
-  validateGit,
-  exit,
-  RunOptions,
-  logger,
-} from "../utils/internal/index.js";
+import { EnvSchemas } from "../types/env.js";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
+import { run, validateGit, exit, logger } from "../utils/internal/index.js";
 
 export const runProduction = async (
-  env: EnvConfig | undefined,
+  env: EnvSchemas | undefined,
   config: SweadConfig,
-  opts: RunOptions
+  args: Args
 ) => {
   await validateGit(config.branches?.production);
 
   logger.start("Swead production started.");
 
-  if (!config.production)
-    throw new Error("Production is not defined in config.");
+  if (!config.server) throw new Error("Server is not defined in config.");
 
-  await run(config.production, env, opts);
+  const serverDeploy = await loadDeploy("production", args);
+
+  await run(config.server, env, serverDeploy, args);
 
   exit("The production deployment has finished.");
 };

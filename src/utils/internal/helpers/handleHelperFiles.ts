@@ -6,16 +6,18 @@ import {
 } from "./index.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { join, write } from "../index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export type HelperFile = { path: string; content: string };
 
 export const handleHelperFiles = async (
-  deploy: Server,
+  server: Server,
+  deploy: ServerDeploy,
   dir: string
 ): Promise<HelperFile[]> => {
-  const certbotFiles = createCertbotFiles(deploy);
+  const certbotFiles = createCertbotFiles(server, deploy);
   const cronFiles = createCronFiles();
-  const nginxFiles = createNginxFiles(deploy);
+  const nginxFiles = createNginxFiles(server, deploy);
 
   const allHelperFiles = [...certbotFiles, ...cronFiles, ...nginxFiles];
 

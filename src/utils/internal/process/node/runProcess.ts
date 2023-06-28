@@ -1,7 +1,7 @@
 import { execa } from "execa";
 
 export type runNodeOptions = {
-  stdout?: NodeJS.WriteStream & NodeJS.WritableStream;
+  stdout?: NodeJS.WritableStream;
 };
 
 export const runNodeProcess = async (

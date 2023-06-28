@@ -8,15 +8,16 @@ import {
   writePkgJson,
   GITIGNORE_FILE_PATH,
 } from "../utils/internal/index.js";
-import { createConfig } from "../utils/internal/index.js";
+import { createConfigs } from "../utils/internal/index.js";
+import { Args } from "../index.js";
 
-export const runInit = async (configName?: string) => {
+export const runInit = async (args: Args) => {
   logger.start("Swead initialization started.");
 
   await runTasks([
     {
       title: "Creating config boilerplate",
-      task: async () => await createConfig({ name: configName }),
+      task: async () => await createConfigs(args),
     },
     {
       title: "Updating Package.json",
@@ -24,9 +25,8 @@ export const runInit = async (configName?: string) => {
         const pkgJson = await getPkgJson();
         pkgJson.scripts = {
           ...pkgJson.scripts,
-          "dev:swead": `npx swead dev ${configName ? `-c ${configName}` : ""}`,
-          "local:swead": `npx swead local ${
-            configName ? `-c ${configName}` : ""
+          "dev:swead": `npx swead dev${
+            args.config ? ` -c ${args.config}` : ""
           }`,
         };
         await writePkgJson(pkgJson);
@@ -44,7 +44,7 @@ export const runInit = async (configName?: string) => {
     {
       title: "Update .gitignore",
       skip: !existsSync(GITIGNORE_FILE_PATH),
-      task: async () => await updateGitIgnore(configName),
+      task: async () => await updateGitIgnore(args.config),
     },
   ]);
 

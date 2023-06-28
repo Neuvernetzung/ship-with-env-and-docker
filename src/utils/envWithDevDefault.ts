@@ -1,4 +1,5 @@
-import { z, TypeOf } from "zod";
+import { z } from "zod";
+import type { TypeOf } from "zod";
 
 export const envWithDevDefault = <T extends z.ZodTypeAny>(
   schema: T,

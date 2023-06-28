@@ -3,17 +3,19 @@ import { Server } from "../../../types/index.js";
 import { getComposePath } from "../index.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { execCommand, getTargetPath } from "../ssh/index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export const start = async (
   ssh: NodeSSH,
-  deploy: Server,
-  stdout: NodeJS.WriteStream & NodeJS.WritableStream,
+  server: Server,
+  deploy: ServerDeploy,
+  stdout: NodeJS.WritableStream,
   attached: boolean | undefined,
   remove: boolean | undefined
 ) => {
-  const targetPath = getTargetPath(deploy.serverConfig?.path);
+  const targetPath = getTargetPath(deploy.server?.path);
 
-  if (deploy.removeDockerImagesBefore ?? remove) {
+  if (server.removeDockerImagesBefore ?? remove) {
     await execCommand(
       ssh,
       `docker stop $(docker ps -aq) && docker rm $(docker ps -aq)`,
@@ -21,9 +23,9 @@ export const start = async (
     );
   }
 
-  if (deploy.beforeStart) {
+  if (server.beforeStart) {
     await performSingleOrMultiple(
-      deploy.beforeStart,
+      server.beforeStart,
       async (command) =>
         await execCommand(ssh, command, { cwd: targetPath, stdout })
     );
@@ -33,15 +35,15 @@ export const start = async (
     ssh,
     `COMPOSE_HTTP_TIMEOUT=120 docker-compose -f ${getComposePath(
       "."
-    )} up -V --build ${deploy.attached ?? attached ? "" : "-d"} ${
-      deploy.removeOrphans ? "--remove-orphans" : ""
+    )} up -V --build ${server.attached ?? attached ? "" : "-d"} ${
+      server.removeOrphans ? "--remove-orphans" : ""
     }`,
     { cwd: targetPath, stdout }
   );
 
-  if (deploy.afterStart) {
+  if (server.afterStart) {
     await performSingleOrMultiple(
-      deploy.afterStart,
+      server.afterStart,
       async (command) =>
         await execCommand(ssh, command, { cwd: targetPath, stdout })
     );
@@ -52,7 +54,7 @@ export const start = async (
     stdout,
   });
 
-  if (deploy.serverConfig?.rebootAfterUpdate) {
+  if (server.serverConfig?.rebootAfterUpdate) {
     await execCommand(ssh, "reboot");
   }
 

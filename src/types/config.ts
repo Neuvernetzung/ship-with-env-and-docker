@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EnvConfig, zEnvConfig } from "./env.js";
+import { EnvSchemas } from "./env.js";
 import { Branches, zBranches } from "./helpers.js";
 import {
   DevCommandUnion,
@@ -7,32 +7,23 @@ import {
   zDevCommandUnion,
   zLocalCommandUnion,
 } from "./local.js";
-import { DeployUnion, zDeployUnion } from "./server.js";
+import { Server, zServer } from "./server.js";
 
-export type SweadConfig<T extends EnvConfig = EnvConfig> = {
+export type Servers<T extends EnvSchemas = EnvSchemas> = Record<
+  string,
+  Server<T>
+>;
+
+export type SweadConfig<T extends EnvSchemas = EnvSchemas> = {
   dev?: DevCommandUnion<T>;
   local?: LocalCommandUnion<T>;
-  staging?: DeployUnion<T>;
-  production?: DeployUnion<T>;
+  server?: Servers;
   branches?: Branches;
-  encrypted?: string;
 };
 
 export const zSweadConfig: z.ZodType<SweadConfig> = z.object({
   dev: zDevCommandUnion.optional(),
   local: zLocalCommandUnion.optional(),
-  staging: zDeployUnion.optional(),
-  production: zDeployUnion.optional(),
+  server: z.record(zServer).optional(),
   branches: zBranches,
-  encrypted: z.string().optional(),
-});
-
-export type SweadConfigFile = {
-  config: SweadConfig;
-  env?: EnvConfig;
-};
-
-export const zSweadConfigFile: z.ZodType<SweadConfigFile> = z.object({
-  config: zSweadConfig,
-  env: zEnvConfig.optional(),
 });

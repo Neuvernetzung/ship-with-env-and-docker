@@ -1,4 +1,5 @@
-import { App, EnvConfig } from "../../../types/index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
+import { App, EnvSchemas } from "../../../types/index.js";
 import {
   clean,
   createEnvFiles,
@@ -8,10 +9,11 @@ import {
 
 export const build = async (
   app: App,
-  env: EnvConfig | undefined,
+  deploy: ServerDeploy,
+  envSchemas: EnvSchemas | undefined,
   options?: runNodeOptions
 ) => {
-  await createEnvFiles(env, app.env);
+  await createEnvFiles(envSchemas, deploy.envs, app.env);
 
   if (!app.build) return;
 
