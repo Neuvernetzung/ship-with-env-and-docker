@@ -1,1 +1,1 @@
-export * from "./decryptConfigData.js";
+export * from "./decryptData.js";

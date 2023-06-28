@@ -2,11 +2,13 @@ import { NodeSSH } from "node-ssh";
 import { Server } from "../../../types/index.js";
 import { execCommand } from "./execCommand.js";
 import { getTargetPath } from "./getTargetPath.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export const prepareServer = async (
   ssh: NodeSSH,
-  deploy: Server,
-  stdout?: NodeJS.WriteStream & NodeJS.WritableStream
+  server: Server,
+  deploy: ServerDeploy,
+  stdout?: NodeJS.WritableStream
 ) => {
   await execCommand(ssh, "apt-get update -y", { stdout });
 
@@ -20,17 +22,13 @@ export const prepareServer = async (
     { stdout }
   );
 
-  await execCommand(
-    ssh,
-    `mkdir -p ${getTargetPath(deploy.serverConfig?.path)}`,
-    {
-      stdout,
-    }
-  );
+  await execCommand(ssh, `mkdir -p ${getTargetPath(deploy.server?.path)}`, {
+    stdout,
+  });
 
   const extendedNeverClean: string[] = [
-    ...(deploy.serverConfig?.neverClean || []),
-    ...deploy.apps
+    ...(server.serverConfig?.neverClean || []),
+    ...server.apps
       .map((app) => app.docker.volumes?.map((v) => v.split(":")[0]) || [])
       .flat(),
     "logs",
@@ -41,6 +39,6 @@ export const prepareServer = async (
     `rm -rf $(ls -A | grep -vE '${extendedNeverClean
       .map((v) => `(${v})`)
       .join("|")}')`,
-    { stdout, cwd: getTargetPath(deploy.serverConfig?.path) }
+    { stdout, cwd: getTargetPath(deploy.server?.path) }
   );
 };

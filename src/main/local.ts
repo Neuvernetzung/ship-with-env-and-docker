@@ -1,6 +1,6 @@
 import isArray from "lodash/isArray.js";
 import { SweadConfig } from "../types/config.js";
-import { EnvConfig } from "../types/env.js";
+import { EnvSchemas } from "../types/env.js";
 import {
   performSingleOrMultiple,
   clean,
@@ -11,14 +11,19 @@ import {
   runTasks,
   logger,
 } from "../utils/internal/index.js";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
+import { Args } from "../index.js";
 
 export const runLocal = async (
-  env: EnvConfig | undefined,
-  config: SweadConfig
+  envSchemas: EnvSchemas | undefined,
+  config: SweadConfig,
+  args: Args
 ) => {
   if (!config.local) throw new Error("Local is not defined in config.");
 
   logger.start("Swead local started.");
+
+  const deploy = await loadDeploy("local", args);
 
   await runTasks(
     [
@@ -29,7 +34,7 @@ export const runLocal = async (
             config.local,
             async (local) => {
               await clean(local.cleanUp);
-              await createEnvFiles(env, local.env);
+              await createEnvFiles(envSchemas, deploy.envs, local.env);
             },
             {
               strict: true,

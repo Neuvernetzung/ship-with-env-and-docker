@@ -1,6 +1,6 @@
 import isArray from "lodash/isArray.js";
 import { SweadConfig } from "../types/config.js";
-import { EnvConfig } from "../types/env.js";
+import { EnvSchemas } from "../types/env.js";
 import {
   clean,
   concurrentNodeProcess,
@@ -11,14 +11,19 @@ import {
   runTasks,
   logger,
 } from "../utils/internal/index.js";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
+import { Args } from "../index.js";
 
 export const runDev = async (
-  env: EnvConfig | undefined,
-  config: SweadConfig
+  envSchemas: EnvSchemas | undefined,
+  config: SweadConfig,
+  args: Args
 ) => {
   if (!config.dev) throw new Error("Dev is not defined in config.");
 
   logger.start("Swead dev started.");
+
+  const deploy = await loadDeploy("dev", args);
 
   await runTasks(
     [
@@ -29,7 +34,7 @@ export const runDev = async (
             ctx,
             async (dev) => {
               await clean(dev.cleanUp);
-              await createEnvFiles(env, dev.env);
+              await createEnvFiles(envSchemas, deploy.envs, dev.env);
             },
             {
               strict: true,

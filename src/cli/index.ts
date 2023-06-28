@@ -31,15 +31,6 @@ const main = async () => {
   const args = parseArgs(cliOpts);
 
   const method = args._;
-  const {
-    config: configName,
-    skip,
-    specific,
-    attached,
-    remove,
-    password,
-    verbose,
-  } = args;
 
   if (!method)
     throw new Error(`Please define a method. (${totalMethods.join(", ")})`);
@@ -51,66 +42,41 @@ const main = async () => {
   }
 
   if (method === "init") {
-    await runInit(args.config);
+    await runInit(args);
     return;
   }
   if (method === "encrypt") {
-    await runEncrypt(args.config);
+    await runEncrypt(args);
     return;
   }
   if (method === "decrypt") {
-    await runDecrypt(args.config);
+    await runDecrypt(args);
     return;
   }
 
   if (runMethods.includes(method)) {
+    const { envSchemas, config } = await getConfig({
+      config: args.config,
+      password: args.password,
+    });
+
     if (method === "production") {
-      const { env, config } = await getConfig({
-        config: configName,
-        password,
-        method: "production",
-      });
-      await runProduction(env, config, {
-        skip,
-        specific,
-        attached,
-        remove,
-        verbose,
-      });
+      await runProduction(envSchemas, config, args);
       return;
     }
 
     if (method === "staging") {
-      const { env, config } = await getConfig({
-        config: configName,
-        password,
-        method: "staging",
-      });
-      await runStaging(env, config, {
-        skip,
-        specific,
-        attached,
-        remove,
-        verbose,
-      });
+      await runStaging(envSchemas, config, args);
       return;
     }
+
     if (method === "local") {
-      const { env, config } = await getConfig({
-        config: configName,
-        password,
-        method: "local",
-      });
-      await runLocal(env, config);
+      await runLocal(envSchemas, config, args);
       return;
     }
+
     if (method === "dev") {
-      const { env, config } = await getConfig({
-        config: configName,
-        password,
-        method: "dev",
-      });
-      await runDev(env, config);
+      await runDev(envSchemas, config, args);
       return;
     }
   }

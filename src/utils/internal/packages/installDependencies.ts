@@ -3,7 +3,7 @@ import { getUserPkgManager, PackageManager } from "./getUserPkgManager.js";
 
 const runInstallCommand = async (
   pkgManager: PackageManager,
-  stdout: NodeJS.WriteStream & NodeJS.WritableStream
+  stdout: NodeJS.WritableStream
 ): Promise<void> => {
   switch (pkgManager) {
     case "npm":
@@ -28,9 +28,7 @@ const runInstallCommand = async (
   }
 };
 
-export const installDependencies = async (
-  stdout: NodeJS.WriteStream & NodeJS.WritableStream
-) => {
+export const installDependencies = async (stdout: NodeJS.WritableStream) => {
   const pkgManager = getUserPkgManager();
 
   await runInstallCommand(pkgManager, stdout);

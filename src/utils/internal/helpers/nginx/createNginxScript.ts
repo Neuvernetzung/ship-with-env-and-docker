@@ -1,40 +1,32 @@
-import { App, Server } from "../../../../types/index.js";
+import { Server, ServerDeploy } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
+import { getAppDomain } from "../../index.js";
 
-const exposeFolder_FOLDER_NAME = "exposeFolder";
-
-export const createNginxScript = (deploy: Server) => {
-  const filteredApp = deploy.apps.filter((app) => !!app.url) as (Omit<
-    App,
-    "url"
-  > &
-    Required<Pick<App, "url">>)[];
+export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
+  const appDomains = server.apps
+    .filter((app) => app.requireUrl)
+    .map((app) => ({
+      name: app.name,
+      domain: getAppDomain(app, deploy) as string,
+    }));
 
   return `
 #!/bin/sh
 
 set -e
 
-${filteredApp.map((app) => createDummyScript(app.url)).join("\n\n")}
-
-${deploy.exposeFolder ? createDummyScript(deploy.exposeFolder.url) : ""}
+${appDomains.map((app) => createDummyScript(app.domain)).join("\n\n")}
 
 if [ ! -f /etc/nginx/ssl/ssl-dhparams.pem ]; then
     openssl dhparam -out /etc/nginx/ssl/ssl-dhparams.pem 2048
 fi
 
-${filteredApp
+${appDomains
   .map((app) =>
-    createUseCertificates(app.url, dockerComposeServiceName(app.name))
+    createUseCertificates(app.domain, dockerComposeServiceName(app.name))
   )
   .join("\n\n")}
-
-  ${
-    deploy.exposeFolder
-      ? createUseCertificates(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
-      : ""
-  }
 
 reload_nginx() {
     echo "Reload nginx configuration."
@@ -42,32 +34,22 @@ reload_nginx() {
     echo "Nginx configuration reloaded successful."
 }
 
-${filteredApp
-  .map((app) => waitForLetsEncrypt(app.url, dockerComposeServiceName(app.name)))
+${appDomains
+  .map((app) =>
+    waitForLetsEncrypt(app.domain, dockerComposeServiceName(app.name))
+  )
   .join("\n\n")}
 
-${
-  deploy.exposeFolder
-    ? waitForLetsEncrypt(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
-    : ""
-}
-
-${filteredApp
-  .map((app) => nginxCondition(app.url, dockerComposeServiceName(app.name)))
+${appDomains
+  .map((app) => nginxCondition(app.domain, dockerComposeServiceName(app.name)))
   .join("\n\n")}
-
-${
-  deploy.exposeFolder
-    ? nginxCondition(deploy.exposeFolder.url, exposeFolder_FOLDER_NAME)
-    : ""
-}
 
 exec nginx -g "daemon off;"
 `;
 };
 
-const createDummyScript = (url: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+const createDummyScript = (domain: string) => {
+  const finalUrl = stripHttpsFromUrl(domain);
 
   return `
     if [ ! -f "/etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem" ]; then
@@ -85,8 +67,8 @@ const createDummyScript = (url: string) => {
 const useCertificatesFunctionName = (name: string) =>
   `use_lets_encrypt_${name}_certificates`;
 
-const createUseCertificates = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+const createUseCertificates = (domain: string, name: string) => {
+  const finalUrl = stripHttpsFromUrl(domain);
 
   return `
     ${useCertificatesFunctionName(name)}() {
@@ -100,8 +82,8 @@ const createUseCertificates = (url: string, name: string) => {
 const waitForLetsEncryptFunctionName = (name: string) =>
   `wait_for_lets_${name}_encrypt`;
 
-const waitForLetsEncrypt = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+const waitForLetsEncrypt = (domain: string, name: string) => {
+  const finalUrl = stripHttpsFromUrl(domain);
 
   return `
     ${waitForLetsEncryptFunctionName(name)}() {
@@ -114,8 +96,8 @@ const waitForLetsEncrypt = (url: string, name: string) => {
         }`;
 };
 
-const nginxCondition = (url: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(url);
+const nginxCondition = (domain: string, name: string) => {
+  const finalUrl = stripHttpsFromUrl(domain);
 
   return `
     if [ ! -d "/etc/letsencrypt/live/${finalUrl}" ]; then

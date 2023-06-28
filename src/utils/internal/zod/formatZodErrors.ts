@@ -1,4 +1,4 @@
-import { ZodIssue } from "zod";
+import type { ZodIssue } from "zod";
 import { generateErrorMessage, ErrorMessageOptions } from "zod-error";
 
 const errorMessageOptions: ErrorMessageOptions = {
