@@ -28,12 +28,13 @@ npm install swead
 
 ```ts
 import {runProduction, runStaging, runLocal, runDev} from "swead"
+import type {EnvSchemas, SweadConfig, Args} from "swead"
+ 
+await runProduction(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
 
-await runProduction(env: EnvSchemas | undefined, config: SweadConfig, opts: RunOptions)
+await runStaging(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
 
-await runStaging(env: EnvSchemas | undefined, config: SweadConfig, opts: RunOptions)
+await runLocal(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
 
-await runLocal(env: EnvSchemas | undefined, config: SweadConfig)
-
-await runDev(env: EnvSchemas | undefined, config: SweadConfig)
+await runDev(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
 ```
