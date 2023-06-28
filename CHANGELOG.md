@@ -1,5 +1,15 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.0.0
+
+### Major Changes
+
+- 4bc1d36: Neue Projektstruktur v2 #164
+
+### Patch Changes
+
+- ff63fc1: Tasks reduzieren #166
+
 ## 1.5.4
 
 ### Patch Changes

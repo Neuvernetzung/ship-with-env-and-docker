@@ -1,6 +1,6 @@
 {
   "name": "swead",
-  "version": "1.5.4",
+  "version": "2.0.0",
   "description": "ship-with-env-and-docker",
   "bin": {
     "swead": "./dist/cli/index.js"
