@@ -43,9 +43,9 @@ export const run = async (
 
     await runTasks(
       await singleOrMultipleTasks(deploys, async (deploy, i) => ({
-        title: `Running deployment for '${bold(deploy.name)}'${
-          isArray(deploys) ? taskIndex(i, deploys.length) : ""
-        }.`,
+        title: `Running deployment for '${bold(deploy.name)}' on '${bold(
+          deploy.server.ip
+        )}'${isArray(deploys) ? taskIndex(i, deploys.length) : ""}.`,
         skip: args.skip
           ? args.skip > i + 1
           : args.specific
@@ -58,96 +58,82 @@ export const run = async (
               `No server config could be found for ${deploy.use}.`
             );
 
-          return task.newListr({
-            title: `Running deployment for '${bold(deploy.server.ip)}'${
-              isArray(deploys) ? taskIndex(i, deploys.length) : ""
-            }`,
-            task: async (_, task) =>
-              task.newListr([
-                {
-                  title: `Testing server dns`,
-                  task: async () => {
-                    await testDns(server, deploy);
+          return task.newListr([
+            {
+              title: `Testing server dns`,
+              task: async () => {
+                await testDns(server, deploy);
+              },
+            },
+            {
+              title: `Testing ssh connection`,
+              task: async () => await testSSH(deploy.server),
+            },
+            {
+              skip: !server.waitOn,
+              task: async () => await waitOn(server.waitOn),
+            },
+            {
+              title: `Building apps`,
+              task: async (_, task) =>
+                task.newListr(
+                  await singleOrMultipleTasks(server.apps, async (app, i) => ({
+                    title: `Building app ${bold(app.name)}${
+                      isArray(server.apps)
+                        ? taskIndex(i, server.apps.length)
+                        : ""
+                    }`,
+                    task: async (_, task) =>
+                      await build(app, deploy, envSchemas, {
+                        stdout: task.stdout(),
+                      }),
+                    options: { bottomBar: Infinity },
+                  }))
+                ),
+            },
+            {
+              title: "Creating artifacts",
+              task: async () =>
+                await createArtifact(dir, server, deploy, envSchemas),
+            },
+            ...(await withSSHConnection(
+              deploy.server,
+              async (ssh) =>
+                [
+                  {
+                    title: "Preparing server",
+                    task: async (_, task) =>
+                      await prepareServer(ssh, server, deploy, task.stdout()),
+                    options: { bottomBar: Infinity },
                   },
-                },
-                {
-                  title: `Testing ssh connection`,
-                  task: async () => await testSSH(deploy.server),
-                },
-                {
-                  skip: !server.waitOn,
-                  task: async () => await waitOn(server.waitOn),
-                },
-                {
-                  title: `Building apps`,
-                  task: async (_, task) =>
-                    task.newListr(
-                      await singleOrMultipleTasks(
-                        server.apps,
-                        async (app, i) => ({
-                          title: `Building app ${bold(app.name)}${
-                            isArray(server.apps)
-                              ? taskIndex(i, server.apps.length)
-                              : ""
-                          }`,
-                          task: async (_, task) =>
-                            await build(app, deploy, envSchemas, {
-                              stdout: task.stdout(),
-                            }),
-                          options: { bottomBar: Infinity },
-                        })
-                      )
-                    ),
-                },
-                {
-                  title: "Creating artifacts",
-                  task: async () =>
-                    await createArtifact(dir, server, deploy, envSchemas),
-                },
-                ...(await withSSHConnection(
-                  deploy.server,
-                  async (ssh) =>
-                    [
-                      {
-                        title: "Preparing server",
-                        task: async (_, task) =>
-                          await prepareServer(
-                            ssh,
-                            server,
-                            deploy,
-                            task.stdout()
-                          ),
-                        options: { bottomBar: Infinity },
-                      },
-                      {
-                        title: "Transfer artifact and extract",
-                        task: async (_, task) =>
-                          await transferArtifactAndExtract(
-                            ssh,
-                            dir,
-                            deploy.server.path,
-                            task.stdout(),
-                            args.verbose
-                          ),
-                        options: { bottomBar: Infinity },
-                      },
-                      {
-                        title: "Starting apps",
-                        task: async (_, task) =>
-                          await start(
-                            ssh,
-                            server,
-                            deploy,
-                            task.stdout(),
-                            args.attached,
-                            args.remove
-                          ),
-                        options: { bottomBar: Infinity },
-                      },
-                    ] satisfies ListrTask[]
-                )),
-              ]),
-          });
+                  {
+                    title: "Transfer artifact and extract",
+                    task: async (_, task) =>
+                      await transferArtifactAndExtract(
+                        ssh,
+                        dir,
+                        deploy.server.path,
+                        task.stdout(),
+                        args.verbose
+                      ),
+                    options: { bottomBar: Infinity },
+                  },
+                  {
+                    title: "Starting apps",
+                    task: async (_, task) =>
+                      await start(
+                        ssh,
+                        server,
+                        deploy,
+                        task.stdout(),
+                        args.attached,
+                        args.remove
+                      ),
+                    options: { bottomBar: Infinity },
+                  },
+                ] satisfies ListrTask[]
+            )),
+          ]);
         },
       })),
       {},
