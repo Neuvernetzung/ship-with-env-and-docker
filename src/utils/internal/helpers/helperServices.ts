@@ -5,11 +5,12 @@ import {
   createNginxServices,
   createCronServices,
 } from "./index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
-export const createHelperServices = (deploy: Server) => {
+export const createHelperServices = (server: Server, deploy: ServerDeploy) => {
   const certbot = createCertbotServices();
   const cron = createCronServices();
-  const nginx = createNginxServices(deploy);
+  const nginx = createNginxServices(server, deploy);
 
   const services: DockerComposeServices = {
     certbot,

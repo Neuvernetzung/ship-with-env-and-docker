@@ -14,7 +14,7 @@ const execOptions: SSHExecCommandOptions = {
 
 type SSHExecCommandCustomOptions = {
   cwd?: string;
-  stdout?: NodeJS.WriteStream & NodeJS.WritableStream;
+  stdout?: NodeJS.WritableStream;
 };
 
 export const execCommand = async (

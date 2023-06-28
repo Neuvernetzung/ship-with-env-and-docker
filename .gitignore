@@ -4,4 +4,4 @@ node_modules
 _swead
 turbo-*.log
 dist
-swead-config.ts
+_test/deploys.ts

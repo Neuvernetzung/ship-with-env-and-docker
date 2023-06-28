@@ -1,6 +1,6 @@
-import { ServerDetails } from "../../../types/server.js";
 import { NodeSSH } from "node-ssh";
 import { SSH_DEFAULT_PORT } from "./withSSHConnection.js";
+import { ServerDetails } from "../../../types/deploys.js";
 
 export const testSSH = async (server: ServerDetails) => {
   const ssh = await new NodeSSH()

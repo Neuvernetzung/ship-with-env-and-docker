@@ -1,28 +1,11 @@
 import { z } from "zod";
-import { EnvConfig, EnvEntry, zEnvEntry } from "./env.js";
-import { Certbot, ExposeFolder, zCertbot, zExposeFolder } from "./helpers.js";
+import { EnvSchemas, EnvLocationUnion, zEnvLocalation } from "./env.js";
+import { Certbot, zCertbot } from "./helpers.js";
 import { DockerFileInstructions } from "./docker.js";
-import { zUrl } from "./url.js";
-
-export type SSH = z.infer<typeof zSSH>;
-
-const zSSH = z.object({
-  user: z.string(),
-  password: z.string(),
-  port: z.number().optional(),
-});
-
-export type ServerDetails = z.infer<typeof zServerDetails>;
-
-const zServerDetails = z.object({
-  ip: z.string(),
-  ssh: zSSH,
-});
 
 export type ServerConfig = z.infer<typeof zServerConfig>;
 
 const zServerConfig = z.object({
-  path: z.string().optional(),
   neverClean: z.array(z.string()).optional(),
   rebootAfterUpdate: z.boolean().optional(),
 });
@@ -87,10 +70,10 @@ const zBuildUnion = z.union([
   z.object({ build: z.undefined(), start: z.undefined() }),
 ]);
 
-export type App<T extends EnvConfig = EnvConfig> = {
+export type App<T extends EnvSchemas = EnvSchemas> = {
   name: string;
-  url?: string;
-  env?: EnvEntry<T> | EnvEntry<T>[];
+  requireUrl?: boolean;
+  env?: EnvLocationUnion<T>;
   docker: Docker;
   artifact?: Artifact;
 } & BuildUnion;
@@ -99,8 +82,8 @@ const zApp: z.ZodType<App> = z
   .intersection(
     z.object({
       name: z.string(),
-      url: zUrl.optional(),
-      env: z.union([zEnvEntry, z.array(zEnvEntry)]).optional(),
+      requireUrl: z.boolean().optional(),
+      env: z.union([zEnvLocalation, z.array(zEnvLocalation)]).optional(),
       docker: zDocker,
       artifact: zArtifact.optional(),
     }),
@@ -110,8 +93,7 @@ const zApp: z.ZodType<App> = z
     message: "Start must be defined if the app has a build-step.",
   });
 
-export type Server<T extends EnvConfig = EnvConfig> = {
-  server?: ServerDetails; // absichtlich optional, damit config auch ohne server wenn verschlüsselt kein Type-Error anzeigt. Wird trotzdem korrekt geparst in zServer
+export type Server<T extends EnvSchemas = EnvSchemas> = {
   serverConfig?: ServerConfig;
   apps: App<T>[];
   artifact?: Artifact;
@@ -119,15 +101,13 @@ export type Server<T extends EnvConfig = EnvConfig> = {
   beforeStart?: string | string[];
   afterStart?: string | string[];
   certbot?: Certbot;
-  exposeFolder?: ExposeFolder;
   attached?: boolean;
   removeDockerImagesBefore?: boolean;
   removeOrphans?: boolean;
 };
 
-const zServer: z.ZodType<Server> = z
+export const zServer: z.ZodType<Server> = z
   .object({
-    server: zServerDetails,
     serverConfig: zServerConfig.optional(),
     apps: z.array(zApp),
     artifact: zArtifact.optional(),
@@ -135,7 +115,6 @@ const zServer: z.ZodType<Server> = z
     beforeStart: z.union([z.string(), z.array(z.string())]).optional(),
     afterStart: z.union([z.string(), z.array(z.string())]).optional(),
     certbot: zCertbot.optional(),
-    exposeFolder: zExposeFolder.optional(),
     attached: z.boolean().optional(),
     removeDockerImagesBefore: z.boolean().optional(),
     removeOrphans: z.boolean().optional(),
@@ -157,24 +136,3 @@ const zServer: z.ZodType<Server> = z
     },
     { message: "Multiple apps cannot use the same port" }
   );
-
-type ServerUnion<T extends EnvConfig = EnvConfig> = Server<T> | Server<T>[];
-
-const zServerUnion: z.ZodType<ServerUnion> = z.union([
-  zServer,
-  z.array(zServer),
-]);
-
-export type Deploy<T extends EnvConfig = EnvConfig> = {
-  name: string;
-  deploy: ServerUnion<T>;
-};
-
-const zDeploy: z.ZodType<Deploy> = z.object({
-  name: z.string(),
-  deploy: zServerUnion,
-});
-
-export type DeployUnion<T extends EnvConfig> = Deploy<T> | Deploy<T>[];
-
-export const zDeployUnion = z.union([zDeploy, z.array(zDeploy)]);

@@ -1,5 +1,5 @@
 import pMap from "p-map";
-import { EnvConfig, Server } from "../../../../types/index.js";
+import { EnvSchemas, Server } from "../../../../types/index.js";
 import { DockerFile } from "../../../../types/docker.js";
 import { createDockerFileContent } from "./content.js";
 import { getDockerFilePath } from "./getDockerFilePath.js";
@@ -8,16 +8,16 @@ import { getAppArtifactPaths } from "../../artifacts/getArtifactPaths.js";
 import { getPackagePaths } from "../../artifacts/getPackagePaths.js";
 
 export const handleDockerFiles = async (
-  deploy: Server,
-  env: EnvConfig | undefined,
+  server: Server,
+  env: EnvSchemas | undefined,
   dir: string
 ): Promise<DockerFile[]> => {
-  const files = await pMap(deploy.apps, async (app) => {
+  const files = await pMap(server.apps, async (app) => {
     if (!app.build) return { name: app.name };
 
-    const appArtifactPaths = await getAppArtifactPaths(deploy, env, app);
+    const appArtifactPaths = await getAppArtifactPaths(server, env, app);
 
-    const packagePaths = await getPackagePaths(deploy, env, app);
+    const packagePaths = await getPackagePaths(server, env, app);
 
     const content = await createDockerFileContent(
       app,

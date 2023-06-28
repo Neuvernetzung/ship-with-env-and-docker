@@ -29,11 +29,11 @@ npm install swead
 ```ts
 import {runProduction, runStaging, runLocal, runDev} from "swead"
 
-await runProduction(env: EnvConfig | undefined, config: SweadConfig, opts: RunOptions)
+await runProduction(env: EnvSchemas | undefined, config: SweadConfig, opts: RunOptions)
 
-await runStaging(env: EnvConfig | undefined, config: SweadConfig, opts: RunOptions)
+await runStaging(env: EnvSchemas | undefined, config: SweadConfig, opts: RunOptions)
 
-await runLocal(env: EnvConfig | undefined, config: SweadConfig)
+await runLocal(env: EnvSchemas | undefined, config: SweadConfig)
 
-await runDev(env: EnvConfig | undefined, config: SweadConfig)
+await runDev(env: EnvSchemas | undefined, config: SweadConfig)
 ```

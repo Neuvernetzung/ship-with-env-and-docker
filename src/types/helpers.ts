@@ -1,16 +1,4 @@
-import { toASCII } from "punycode";
 import { z } from "zod";
-
-export type ExposeFolder = z.infer<typeof zExposeFolder>;
-
-export const zExposeFolder = z.object({
-  url: z
-    .string()
-    .url()
-    .transform((url) => toASCII(url)), // Umwandeln zu ASCII; notwendig für Let's Encrypt etc.,
-  path: z.string().startsWith("/"),
-  showFolderContent: z.boolean().optional(),
-});
 
 export type Certbot = z.infer<typeof zCertbot>;
 

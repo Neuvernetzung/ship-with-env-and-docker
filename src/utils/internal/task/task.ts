@@ -10,7 +10,7 @@ export const runTasks = async <C extends any>(
   const tasks = new Listr<C, "default" | "verbose">(fns, {
     ctx: options?.ctx,
     concurrent: 1,
-    rendererOptions: { collapse: false },
+    rendererOptions: { collapseSubtasks: false },
     renderer: verbose ? "verbose" : "default",
   });
 

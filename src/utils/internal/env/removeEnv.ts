@@ -1,14 +1,12 @@
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { rm } from "fs/promises";
-import { EnvEntry, EnvConfig } from "../../../types/index.js";
+import { EnvLocalation } from "../../../types/index.js";
 import { formatEnvPath } from "./formatEnvPath.js";
 
 export const removeEnv = async (
-  env: EnvConfig | undefined,
-  data: EnvEntry | EnvEntry[] | undefined
+  envLocalations: EnvLocalation | EnvLocalation[] | undefined
 ) => {
-  await performSingleOrMultiple(data, async ({ key }) => {
-    const path = env?.[key]?.path;
+  await performSingleOrMultiple(envLocalations, async ({ path }) => {
     if (!path) return;
 
     const formattedPath = formatEnvPath(path);

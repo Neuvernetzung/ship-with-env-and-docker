@@ -1,20 +1,39 @@
-import { logger } from "../index.js";
+import { bold, logger } from "../index.js";
 import dnsPromises from "dns/promises";
-import { Server, ServerDetails } from "../../../types/server.js";
+import { App, Server } from "../../../types/server.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
-export const testDns = async (deploy: Server) => {
-  const ip = (deploy.server as ServerDetails).ip;
+export const getAppDomain = (app: App, deploy: ServerDeploy) => {
+  const domain = deploy.use.domains.find(
+    (domain) => domain.app === app.name
+  )?.url;
+
+  return domain;
+};
+
+export const testDns = async (server: Server, deploy: ServerDeploy) => {
+  const ip = deploy.server.ip;
 
   await dnsPromises.lookup(ip).catch((error) => {
     logger.error(error);
     throw new Error(`The IP address '${ip}' is not reachable.`);
   });
 
-  await performSingleOrMultiple(deploy.apps, async (app) => {
-    if (!app.url) return;
-    await testDomainDns(app.url, ip);
+  await performSingleOrMultiple(server.apps, async (app) => {
+    if (!app.requireUrl) return;
+
+    const domain = getAppDomain(app, deploy);
+
+    if (!domain)
+      throw new Error(
+        `Please define a ${bold("domain")} for the app with the name ${bold(
+          app.name
+        )} in the deploy ${bold(deploy.name)}.`
+      );
+
+    await testDomainDns(domain, ip);
   });
 };
 

@@ -1,7 +1,10 @@
 import { SweadConfig } from "../types/config.js";
-import { EnvConfig } from "../types/env.js";
-import { testConfig } from "./internal/index.js";
+import { EnvSchemas } from "../types/env.js";
+import { parseConfig } from "./internal/index.js";
 
-export const sweadConfig = async (env: EnvConfig, config: SweadConfig) => {
-  return await testConfig({ env, config });
+export const sweadConfig = async (
+  envSchemas: EnvSchemas,
+  config: SweadConfig
+) => {
+  return await parseConfig(config, envSchemas);
 };

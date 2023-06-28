@@ -3,42 +3,36 @@ import fs from "fs";
 import path from "path";
 import inquirer from "inquirer";
 import {
-  CONFIG_DEFAULT_NAME,
-  updateConfig,
-  getConfig,
   logger,
-  exit,
+  SWEAD_BASE_PATH,
+  CONFIG_NAME,
 } from "../utils/internal/index.js";
 import pick from "lodash/pick.js";
 import Cryptr from "cryptr";
-import set from "lodash/set.js";
-import { separateEncryptionData } from "../utils/internal/encryption/separateEncryptionData.js";
 import merge from "lodash/merge.js";
-import { SweadConfig } from "../index.js";
-import isEmpty from "lodash/isEmpty.js";
-import { bundleRequire } from "bundle-require";
+import { Deploys } from "../types/deploys.js";
+import { Args } from "../index.js";
+import { getDeploys } from "../utils/internal/deploy/getDeploys.js";
+import entries from "lodash/entries.js";
+import omit from "lodash/omit.js";
+import set from "lodash/set.js";
+import { getEncryptedDeploys } from "../utils/internal/deploy/getEncryptedDeploys.js";
+import { updateDeploys } from "../utils/internal/deploy/updateDeploys.js";
+import { updateEncryptedDeploys } from "../utils/internal/deploy/updateEncryptedDeploys.js";
 
-export const runEncrypt = async (configName?: string) => {
-  const cfgName = configName || CONFIG_DEFAULT_NAME;
-  const configPath = path.resolve(process.cwd(), cfgName);
+export const runEncrypt = async (args: Args) => {
+  const sweadBasePath = args.config || SWEAD_BASE_PATH;
+  const deploysPath = path.resolve(sweadBasePath, CONFIG_NAME);
 
   logger.start("Swead encrypt started.");
 
-  if (!fs.existsSync(configPath))
-    throw new Error(`Config file "${cfgName}" does not exist.`);
+  if (!fs.existsSync(deploysPath))
+    throw new Error(`Config file "${deploysPath}" does not exist.`);
 
-  const { mod } = await bundleRequire({
-    filepath: configPath,
-  });
-  if (mod?.config?.encrypted)
-    throw new Error("Config is already encrypted. Please decrypt before.");
+  const deploys = await getDeploys(args);
+  const encryptedDeploys = await getEncryptedDeploys(args);
 
-  const { config } = await getConfig({
-    config: configName,
-    password: undefined,
-  });
-
-  const choices: { name: keyof SweadConfig; checked?: boolean }[] = [
+  const choices: { name: keyof Deploys; checked?: boolean }[] = [
     { name: "production", checked: true },
     { name: "staging", checked: true },
     { name: "local" },
@@ -49,7 +43,7 @@ export const runEncrypt = async (configName?: string) => {
     {
       type: "checkbox",
       name: "methods",
-      choices: choices.filter((choice) => !!config[choice.name]),
+      choices: choices.filter((choice) => !!deploys[choice.name]),
       message: "Please choose the methods you want to encrypt.",
     },
     {
@@ -71,25 +65,25 @@ export const runEncrypt = async (configName?: string) => {
     throw new Error(`The two passwords do not match.`);
   }
 
+  const deploysToEncrypt = pick(deploys, methods);
+  const finalDeploys = omit(deploys, methods);
+
   const cryptr = new Cryptr(password);
 
-  const { separatedConfig, separatedEncryptionData } = separateEncryptionData(
-    pick(config, methods)
-  );
+  const newEncryptedDeploys = entries(deploysToEncrypt)
+    .map(([deploy, data]) => ({
+      deploy,
+      data: cryptr.encrypt(JSON.stringify(data)),
+    }))
+    .reduce((prev, { deploy, data }) => {
+      set(prev, deploy, data);
+      return prev;
+    }, {});
 
-  if (isEmpty(separatedEncryptionData)) {
-    exit("There is no data to encrypt.");
-  }
+  const finalEncryptedDeploys = merge(encryptedDeploys, newEncryptedDeploys);
 
-  const encryptedString = cryptr.encrypt(
-    JSON.stringify(separatedEncryptionData)
-  );
-
-  set(config, "encrypted", encryptedString);
-
-  const newConfig = merge(config, separatedConfig);
-
-  await updateConfig(newConfig, { name: configName });
+  await updateDeploys(finalDeploys, args);
+  await updateEncryptedDeploys(finalEncryptedDeploys, args);
 
   logger.finished("The server data has been successfully encrypted.");
 };

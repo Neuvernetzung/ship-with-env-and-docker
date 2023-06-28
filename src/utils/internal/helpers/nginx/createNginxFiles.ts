@@ -1,14 +1,16 @@
-import { App, ExposeFolder, Server } from "../../../../types/index.js";
+import { App, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
   createDockerFileLine,
   dockerFileToString,
+  getAppDomain,
   getDockerFilePath,
 } from "../../index.js";
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
 import { createNginxScript } from "./createNginxScript.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
 
 export const NGINX_PATH = "nginx";
 
@@ -17,20 +19,19 @@ export const NGINX_HSTS_CONF_NAME = "hsts.conf";
 export const NGINX_SCRIPT_NAME = "nginx.sh";
 export const NGINX_OPTIONS_SSL_CONF_NAME = "options-ssl-nginx.conf";
 
-export const createNginxFiles = (deploy: Server): HelperFile[] => {
+export const createNginxFiles = (
+  server: Server,
+  deploy: ServerDeploy
+): HelperFile[] => {
   const defaultConf: HelperFile = {
     path: getHelpersPath(`${NGINX_PATH}/${NGINX_DEFAULT_CONF_NAME}`),
     content: `server_names_hash_bucket_size 64;
 client_max_body_size 1G;
 
-${(
-  deploy.apps.filter((app) => !!app.url) as (Omit<App, "url"> &
-    Required<Pick<App, "url">>)[]
-)
-  .map((app) => createDefaultConf(app))
+${server.apps
+  .filter((app) => !!app.requireUrl)
+  .map((app) => createDefaultConf(app, deploy))
   .join("\n\n")}
-
-  ${deploy.exposeFolder ? createExposeConf(deploy.exposeFolder) : ""}
 `,
   };
 
@@ -75,7 +76,7 @@ ${(
 
   const nginxScriptFile: HelperFile = {
     path: getHelpersPath(`${NGINX_PATH}/${NGINX_SCRIPT_NAME}`),
-    content: createNginxScript(deploy),
+    content: createNginxScript(server, deploy),
   };
 
   const nginxOptionsSslFile: HelperFile = {
@@ -101,10 +102,11 @@ ${(
   ];
 };
 
-const createDefaultConf = (
-  app: Omit<App, "url"> & Required<Pick<App, "url">>
-) => {
-  const finalUrl = stripHttpsFromUrl(app.url);
+const createDefaultConf = (app: App, deploy: ServerDeploy) => {
+  const domain = getAppDomain(app, deploy);
+  if (!domain) return;
+
+  const finalUrl = stripHttpsFromUrl(domain);
 
   return `server {
   listen 80;
@@ -145,81 +147,6 @@ server {
       proxy_set_header Connection 'upgrade';
       proxy_set_header Host $host;
       proxy_cache_bypass $http_upgrade;
-  }
-}
-
-server {
-  listen 80;
-
-  server_name www.${finalUrl};
-
-  location /.well-known/acme-challenge/ {
-      allow all;
-      root /var/www/certbot;
-  }
-
-  location / {
-      return 301 https://${finalUrl}$request_uri;
-  }
-}
-
-server {
-  listen       443 ssl;
-  server_name  www.${finalUrl};
-  
-  http2        on;
-
-  ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
-  ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
-
-  include /etc/nginx/options-ssl-nginx.conf;
-
-  ssl_dhparam /etc/nginx/ssl/ssl-dhparams.pem;
-
-  include /etc/nginx/hsts.conf;
-
-  location / {
-      return 301 https://${finalUrl}$request_uri;
-  }
-}`;
-};
-
-const createExposeConf = (expose: ExposeFolder) => {
-  const finalUrl = stripHttpsFromUrl(expose.url);
-
-  return `server {
-  listen 80;
-
-  server_name ${finalUrl};
-
-  location /.well-known/acme-challenge/ {
-      allow all;
-      root /var/www/certbot;
-  }
-
-  location / {
-      return 301 https://$host$request_uri;
-  }
-}
-
-server {
-  listen       443 ssl;
-  server_name  ${finalUrl};
-  
-  http2        on;
-
-  ssl_certificate /etc/nginx/ssl/dummy/${finalUrl}/fullchain.pem;
-  ssl_certificate_key /etc/nginx/ssl/dummy/${finalUrl}/privkey.pem;
-
-  include /etc/nginx/options-ssl-nginx.conf;
-
-  ssl_dhparam /etc/nginx/ssl/ssl-dhparams.pem;
-
-  include /etc/nginx/hsts.conf;
-
-  location / {
-      root ${expose.path};
-      ${expose.showFolderContent ? "autoindex on;" : ""}
   }
 }
 

@@ -1,25 +1,23 @@
+import { Args } from "../index.js";
 import { SweadConfig } from "../types/config.js";
-import { EnvConfig } from "../types/env.js";
-import {
-  run,
-  validateGit,
-  exit,
-  RunOptions,
-  logger,
-} from "../utils/internal/index.js";
+import { EnvSchemas } from "../types/env.js";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
+import { run, validateGit, exit, logger } from "../utils/internal/index.js";
 
 export const runStaging = async (
-  env: EnvConfig | undefined,
+  env: EnvSchemas | undefined,
   config: SweadConfig,
-  opts: RunOptions
+  args: Args
 ) => {
   await validateGit(config.branches?.staging);
 
   logger.start("Swead staging started.");
 
-  if (!config.staging) throw new Error("Staging is not defined in config.");
+  if (!config.server) throw new Error("Staging is not defined in config.");
 
-  await run(config.staging, env, opts);
+  const serverDeploy = await loadDeploy("staging", args);
+
+  await run(config.server, env, serverDeploy, args);
 
   exit("The staging deployment has finished.");
 };

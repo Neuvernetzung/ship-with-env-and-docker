@@ -1,8 +1,10 @@
-import { App, Certbot, Server } from "../../../../types/index.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
+import { Certbot, Server } from "../../../../types/index.js";
 import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
 import {
   createDockerFileLine,
   dockerFileToString,
+  getAppDomain,
   getDockerFilePath,
   NGINX_SERVICE_NAME,
 } from "../../index.js";
@@ -13,7 +15,10 @@ export const CERTBOT_PATH = "certbot";
 
 export const CERTBOT_SCRIPT_NAME = "certbot.sh";
 
-export const createCertbotFiles = (deploy: Server): HelperFile[] => {
+export const createCertbotFiles = (
+  server: Server,
+  deploy: ServerDeploy
+): HelperFile[] => {
   const certbotScript: HelperFile = {
     path: getHelpersPath(`${CERTBOT_PATH}/${CERTBOT_SCRIPT_NAME}`),
     content: `#!/bin/bash
@@ -27,18 +32,15 @@ export const createCertbotFiles = (deploy: Server): HelperFile[] => {
       sleep 5s & wait \${!}
     done
     
-    ${(
-      deploy.apps.filter((app) => !!app.url) as (Omit<App, "url"> &
-        Required<Pick<App, "url">>)[]
-    )
-      .map((app) => createCertbotScriptCommand(app.url, deploy.certbot))
+    ${server.apps
+      .filter((app) => !!app.requireUrl)
+      .map((app) => {
+        const domain = getAppDomain(app, deploy);
+        if (!domain) return;
+        return createCertbotScriptCommand(domain, server.certbot);
+      })
       .join("\n\n")}
     
-      ${
-        deploy.exposeFolder
-          ? createCertbotScriptCommand(deploy.exposeFolder.url, deploy.certbot)
-          : ""
-      }
       `,
   };
 

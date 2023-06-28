@@ -1,5 +1,5 @@
 import isArray from "lodash/isArray.js";
-import { App, EnvConfig } from "../../../../types/index.js";
+import { App, EnvSchemas } from "../../../../types/index.js";
 import {
   DockerComposeService,
   DockerComposeServices,
@@ -15,7 +15,7 @@ import { dockerComposeServiceName } from "./serviceName.js";
 
 export const createComposeServices = async (
   apps: App[],
-  env: EnvConfig | undefined
+  envSchemas: EnvSchemas | undefined
 ): Promise<DockerComposeServices> => {
   const modulePaths = (
     await globToPaths(["./**/package.json", "!**/node_modules"])
@@ -26,7 +26,7 @@ export const createComposeServices = async (
       ...prev,
       [dockerComposeServiceName(app.name)]: createComposeService(
         app,
-        env,
+        envSchemas,
         modulePaths
       ),
     }),
@@ -38,7 +38,7 @@ export const createComposeServices = async (
 
 const createComposeService = (
   app: App,
-  env: EnvConfig | undefined,
+  envSchemas: EnvSchemas | undefined,
   modulePaths: string[] | undefined = []
 ) => {
   const image = !appHasDockerFile(app) ? app.docker?.image : undefined;
@@ -68,10 +68,10 @@ const createComposeService = (
 
   const envFile =
     app.env &&
-    env &&
+    envSchemas &&
     (isArray(app.env)
-      ? app.env.map((e) => formatEnvPath(env[e.key].path))
-      : [formatEnvPath(env[app.env.key].path)]);
+      ? app.env.map((e) => formatEnvPath(e.path))
+      : [formatEnvPath(app.env.path)]);
 
   const service: DockerComposeService = {
     container_name: dockerComposeServiceName(app.name),

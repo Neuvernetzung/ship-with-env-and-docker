@@ -1,10 +1,17 @@
-import { ParsedEnv } from "../../../types/index.js";
-import { write } from "../index.js";
+import { EnvLocationUnion, ParsedEnv } from "../../../types/index.js";
+import { performSingleOrMultiple, write } from "../index.js";
 import { formatEnvPath, formatEnvData } from "./index.js";
 
-export const writeEnv = async (env: ParsedEnv) => {
-  const envPath = formatEnvPath(env.path);
-  const envData = formatEnvData(env.data);
+export const writeEnv = async (
+  parsedEnv: ParsedEnv,
+  envLocalations?: EnvLocationUnion
+) => {
+  await performSingleOrMultiple(envLocalations, async (env) => {
+    if (env.key !== parsedEnv.key) return;
 
-  await write(envPath, envData);
+    const envPath = formatEnvPath(env.path);
+    const envData = formatEnvData(parsedEnv.data);
+
+    await write(envPath, envData);
+  });
 };
