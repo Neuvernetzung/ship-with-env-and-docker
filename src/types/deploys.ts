@@ -57,6 +57,7 @@ export type ServerDeploy<
   server: ServerDetails;
   envs: Array<EnvEntry<T>>;
   use: UseServerConfig<TConfig>;
+  waitOn?: string | string[];
 };
 
 const zServerDeploy: z.ZodType<ServerDeploy> = z.object({
@@ -64,6 +65,7 @@ const zServerDeploy: z.ZodType<ServerDeploy> = z.object({
   server: zServerDetails,
   envs: z.array(zEnvEntry),
   use: zUseServerConfig,
+  waitOn: z.union([z.string(), z.array(z.string())]).optional(),
 });
 
 export type ServerDeployUnion<
