@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.0.1
+
+### Patch Changes
+
+- d364084: Wait-on in deploys definierbar #170
+
 ## 2.0.0
 
 ### Major Changes
