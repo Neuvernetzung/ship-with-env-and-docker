@@ -70,8 +70,11 @@ export const run = async (
               task: async () => await testSSH(deploy.server),
             },
             {
-              skip: !server.waitOn,
-              task: async () => await waitOn(server.waitOn),
+              skip: !deploy.waitOn && !server.waitOn,
+              task: async () => {
+                deploy.waitOn && (await waitOn(deploy.waitOn));
+                server.waitOn && (await waitOn(server.waitOn));
+              },
             },
             {
               title: `Building apps`,
