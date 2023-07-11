@@ -1,5 +1,12 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.0.2
+
+### Patch Changes
+
+- 84fc568: Deps updaten #175
+- 4687a4e: Wenn Passwort ARG übergeben, dann nicht nach Passwort fragen #174
+
 ## 2.0.1
 
 ### Patch Changes
