@@ -31,15 +31,17 @@ export const loadEncryptedDeploy = async (deploy: RunMethods, args?: Args) => {
     throw new Error(`"${deploy}" is not defined in "${encryptedDeploysPath}"`);
   }
 
-  const { password } = await inquirer.prompt([
-    {
-      type: "password",
-      name: "password",
-      mask: "*",
-      message:
-        "Enter the password with which the server data is to be decrypted.",
-    },
-  ]);
+  const { password } = args?.password
+    ? { password: args.password }
+    : await inquirer.prompt([
+        {
+          type: "password",
+          name: "password",
+          mask: "*",
+          message:
+            "Enter the password with which the server data is to be decrypted.",
+        },
+      ]);
 
   const decryptedDeploy = decryptData(
     password,

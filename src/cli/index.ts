@@ -55,10 +55,7 @@ const main = async () => {
   }
 
   if (runMethods.includes(method)) {
-    const { envSchemas, config } = await getConfig({
-      config: args.config,
-      password: args.password,
-    });
+    const { envSchemas, config } = await getConfig(args);
 
     if (method === "production") {
       await runProduction(envSchemas, config, args);
