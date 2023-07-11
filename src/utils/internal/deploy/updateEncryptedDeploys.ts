@@ -28,7 +28,7 @@ export const updateEncryptedDeploys = async (
   // Formatieren
   const unformattedFile = await readFile(encryptedDeploysPath, "utf8");
 
-  const formattedCode = prettier.format(unformattedFile, {
+  const formattedCode = await prettier.format(unformattedFile, {
     parser: "typescript",
     semi: true,
   });
