@@ -1,24 +1,19 @@
+import { Args } from "../../../index.js";
 import { join, logger } from "../index.js";
 import { ParsedConfigs, parseConfig } from "./parseConfig.js";
 import { bundleRequire } from "bundle-require";
+import { existsSync } from "fs";
 
 export const SWEAD_BASE_PATH = "_swead";
 
 export const CONFIG_NAME = "config.ts";
 export const ENV_SCHEMAS_NAME = "envSchemas.ts";
 
-type ConfigOptions = {
-  config?: string;
-  password?: string;
-};
-
-export const getConfig = async (
-  opts: ConfigOptions
-): Promise<ParsedConfigs> => {
-  const configBasePath = opts.config || SWEAD_BASE_PATH;
+export const getConfig = async (args: Args): Promise<ParsedConfigs> => {
+  const configBasePath = args.config || SWEAD_BASE_PATH;
   const configPath = join(configBasePath, CONFIG_NAME);
 
-  if (!configPath)
+  if (!existsSync(configPath))
     throw new Error(
       `No configuration file found. Please create "${configPath}" in your root directory.`
     );
@@ -29,7 +24,7 @@ export const getConfig = async (
 
   const envSchemasPath = join(configBasePath, ENV_SCHEMAS_NAME);
 
-  if (!envSchemasPath)
+  if (!existsSync(envSchemasPath))
     throw new Error(
       `No env Schemas file found. Please create "${envSchemasPath}" in your root directory.`
     );

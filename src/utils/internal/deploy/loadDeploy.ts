@@ -2,6 +2,7 @@ import { bundleRequire } from "bundle-require";
 import { Args, runMethods } from "../../../index.js";
 import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index.js";
 import { Deploys, zDeploys } from "../../../types/deploys.js";
+import { existsSync } from "fs";
 import {
   ENCRYPTED_DEPLOYS_FILE_NAME,
   loadEncryptedDeploy,
@@ -23,7 +24,7 @@ export const loadDeploy = async <T extends keyof Deploys = keyof Deploys>(
     ENCRYPTED_DEPLOYS_FILE_NAME
   );
 
-  if (!deploysPath && !encryptedDeploysPath)
+  if (!existsSync(deploysPath) && !existsSync(encryptedDeploysPath))
     throw new Error(
       `No deploys file found. Please create "${join(
         deploysBasePath,
@@ -31,7 +32,7 @@ export const loadDeploy = async <T extends keyof Deploys = keyof Deploys>(
       )}" in your root directory.`
     );
 
-  if (!deploysPath) {
+  if (!existsSync(deploysPath)) {
     const encryptedDeploy = await loadEncryptedDeploy(deploy, args);
 
     return encryptedDeploy as Required<Deploys>[T];
