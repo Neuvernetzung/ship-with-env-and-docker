@@ -22,6 +22,8 @@ Helper-Methods:
 
  - decrypt - decrypt deployment config
 
+ - protect - check if production or staging secrets get exposed
+
 
 Arguments:
 

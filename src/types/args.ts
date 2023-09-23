@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const helperMethods = ["init", "encrypt", "decrypt"] as const;
+export const helperMethods = ["init", "encrypt", "decrypt", "protect"] as const;
 
 export const runMethods = ["production", "staging", "local", "dev"] as const;
 
