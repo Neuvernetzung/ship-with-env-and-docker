@@ -12,6 +12,7 @@ import { runDecrypt } from "../main/decrypt.js";
 import { runInit } from "../main/init.js";
 import { runMethods, totalMethods } from "../types/args.js";
 import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
+import { runProtect } from "../main/protect.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c", "s", "p", "specific"],
@@ -45,12 +46,19 @@ const main = async () => {
     await runInit(args);
     return;
   }
+
   if (method === "encrypt") {
     await runEncrypt(args);
     return;
   }
+
   if (method === "decrypt") {
     await runDecrypt(args);
+    return;
+  }
+
+  if (method === "protect") {
+    await runProtect(args);
     return;
   }
 
