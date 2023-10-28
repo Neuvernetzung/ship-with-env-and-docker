@@ -107,7 +107,6 @@ export const run = async (
                     title: "Preparing server",
                     task: async (_, task) =>
                       await prepareServer(ssh, server, deploy, task.stdout()),
-                    options: { bottomBar: Infinity },
                   },
                   {
                     title: "Transfer artifact and extract",
@@ -119,7 +118,6 @@ export const run = async (
                         task.stdout(),
                         args.verbose
                       ),
-                    options: { bottomBar: Infinity },
                   },
                   {
                     title: "Starting apps",
@@ -132,7 +130,6 @@ export const run = async (
                         args.attached,
                         args.remove
                       ),
-                    options: { bottomBar: Infinity },
                   },
                 ] satisfies ListrTask[]
             )),

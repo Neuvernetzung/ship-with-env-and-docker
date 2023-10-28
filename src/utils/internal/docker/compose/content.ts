@@ -30,6 +30,7 @@ export const createComposeContent = async (
     [NGINX_SSL_VOLUME]: {},
     [CERTBOT_CERTS_VOLUME]: {},
     [CERTBOT_VOLUME]: {},
+    ...(server.sharedDockerVolumes || [])?.map((v) => ({ [v]: {} })),
   };
 
   const services = await createComposeServices(server.apps, env);
