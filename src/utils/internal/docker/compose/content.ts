@@ -1,5 +1,6 @@
 import merge from "lodash/merge.js";
 import { EnvSchemas, Server } from "../../../../types/index.js";
+import set from "lodash/set.js";
 
 import {
   DockerCompose,
@@ -26,11 +27,14 @@ export const createComposeContent = async (
     deploy
   );
 
-  const volumes = {
+  const volumes: Record<string, object> = {
     [NGINX_SSL_VOLUME]: {},
     [CERTBOT_CERTS_VOLUME]: {},
     [CERTBOT_VOLUME]: {},
-    ...(server.sharedDockerVolumes || [])?.map((v) => ({ [v]: {} })),
+    ...(server.sharedDockerVolumes || [])?.reduce((volumes, vol) => {
+      set(volumes, vol, {});
+      return volumes;
+    }, {}),
   };
 
   const services = await createComposeServices(server.apps, env);
