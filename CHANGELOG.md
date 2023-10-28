@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.0.6
+
+### Patch Changes
+
+- 66825e4: zodType hinzufügen für sharedDockerVolumes #193
+
 ## 2.0.5
 
 ### Patch Changes
