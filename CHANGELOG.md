@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.0.4
+
+### Patch Changes
+
+- 4cea946: Möglichkeit Volumen zu Docker-Compose File hinzuzufügen #187
+
 ## 2.0.3
 
 ### Patch Changes
