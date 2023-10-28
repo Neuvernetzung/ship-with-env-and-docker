@@ -119,6 +119,7 @@ export const zServer: z.ZodType<Server> = z
     attached: z.boolean().optional(),
     removeDockerImagesBefore: z.boolean().optional(),
     removeOrphans: z.boolean().optional(),
+    sharedDockerVolumes: z.array(z.string()).optional(),
   })
   .refine(
     (data) => {
