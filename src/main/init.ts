@@ -39,7 +39,6 @@ export const runInit = async (args: Args) => {
         return !!pkgJson?.devDependencies?.swead || pkgJson?.name === "swead"; // Bereits installiert, oder ist dev Modus
       },
       task: async (_, task) => await installDependencies(task.stdout()),
-      options: { bottomBar: Infinity },
     },
     {
       title: "Update .gitignore",

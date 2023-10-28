@@ -104,6 +104,7 @@ export type Server<T extends EnvSchemas = EnvSchemas> = {
   attached?: boolean;
   removeDockerImagesBefore?: boolean;
   removeOrphans?: boolean;
+  sharedDockerVolumes?: string[];
 };
 
 export const zServer: z.ZodType<Server> = z

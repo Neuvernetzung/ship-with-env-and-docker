@@ -5,3 +5,4 @@ _swead
 turbo-*.log
 dist
 _test/deploys.ts
+apps
