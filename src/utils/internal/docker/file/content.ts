@@ -6,7 +6,7 @@ import {
 import { getWorkdirPath } from "../getWorkdirPath.js";
 import compact from "lodash/compact.js";
 
-const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:18-alpine";
+const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:20-alpine";
 
 export const createDockerFileContent = async (
   app: Omit<App, "build" | "start"> & Required<BuildUnion>,
