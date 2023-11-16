@@ -1,8 +1,8 @@
 import { bundleRequire } from "bundle-require";
-import { Args } from "../../../index.js";
-import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index.js";
-import { zEncryptedDeploys } from "../../../types/deploys.js";
-import { ENCRYPTED_DEPLOYS_FILE_NAME } from "./loadEncryptedDeploy.js";
+import { Args } from "../../../index";
+import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index";
+import { zEncryptedDeploys } from "../../../types/deploys";
+import { ENCRYPTED_DEPLOYS_FILE_NAME } from "./loadEncryptedDeploy";
 
 export const getEncryptedDeploys = async (args: Args) => {
   const deploysBasePath = args?.config || SWEAD_BASE_PATH;

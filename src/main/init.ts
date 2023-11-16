@@ -7,9 +7,9 @@ import {
   updateGitIgnore,
   writePkgJson,
   GITIGNORE_FILE_PATH,
-} from "../utils/internal/index.js";
-import { createConfigs } from "../utils/internal/index.js";
-import { Args } from "../index.js";
+} from "../utils/internal/index";
+import { createConfigs } from "../utils/internal/index";
+import { Args } from "../index";
 
 export const runInit = async (args: Args) => {
   logger.start("Swead initialization started.");

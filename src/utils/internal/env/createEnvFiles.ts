@@ -1,11 +1,7 @@
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
-import { parseEnv } from "./parseEnv.js";
-import { writeEnv } from "./writeEnv.js";
-import {
-  EnvEntry,
-  EnvSchemas,
-  EnvLocationUnion,
-} from "../../../types/index.js";
+import { performSingleOrMultiple } from "../performSingleOrMultiple";
+import { parseEnv } from "./parseEnv";
+import { writeEnv } from "./writeEnv";
+import { EnvEntry, EnvSchemas, EnvLocationUnion } from "../../../types/index";
 
 export const createEnvFiles = async (
   envSchemas: EnvSchemas | undefined,

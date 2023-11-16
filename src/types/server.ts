@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { EnvSchemas, EnvLocationUnion, zEnvLocalation } from "./env.js";
-import { Certbot, zCertbot } from "./helpers.js";
-import { DockerFileInstructions } from "./docker.js";
+import { EnvSchemas, EnvLocationUnion, zEnvLocalation } from "./env";
+import { Certbot, zCertbot } from "./helpers";
+import { DockerFileInstructions } from "./docker";
 
 export type ServerConfig = z.infer<typeof zServerConfig>;
 

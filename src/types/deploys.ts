@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { EnvSchemas, EnvEntry, zEnvEntry } from "./env.js";
-import { RunMethods } from "./args.js";
-import { SweadConfig } from "./config.js";
-import { zUrl } from "./url.js";
+import { EnvSchemas, EnvEntry, zEnvEntry } from "./env";
+import { RunMethods } from "./args";
+import { SweadConfig } from "./config";
+import { zUrl } from "./url";
 
 export type LocalDeploy<T extends EnvSchemas = EnvSchemas> = {
   envs: Array<EnvEntry<T>>;
@@ -28,9 +28,13 @@ const zServerDetails = z.object({
   path: z.string().optional(),
 });
 
+export type Url = string;
+
+export type UrlUnion = Url | Url[];
+
 export type UseServerConfig<
   TConfig extends SweadConfig = SweadConfig,
-  TKey extends keyof TConfig["server"] = keyof TConfig["server"]
+  TKey extends keyof TConfig["server"] = keyof TConfig["server"],
 > = {
   key: TConfig["server"] extends Record<string, any> ? TKey : string;
   domains: TConfig["server"] extends Record<string, any>
@@ -39,19 +43,21 @@ export type UseServerConfig<
           TConfig["server"][TKey]["apps"][number],
           { requireUrl: true }
         >["name"];
-        url: string;
+        url: UrlUnion;
       }[]
-    : { app: string; url: string }[];
+    : { app: string; url: UrlUnion }[];
 };
 
 const zUseServerConfig: z.ZodType<UseServerConfig> = z.object({
   key: z.string(),
-  domains: z.array(z.object({ app: z.string(), url: zUrl })),
+  domains: z.array(
+    z.object({ app: z.string(), url: z.union([zUrl, z.array(zUrl)]) })
+  ),
 });
 
 export type ServerDeploy<
   T extends EnvSchemas = EnvSchemas,
-  TConfig extends SweadConfig = SweadConfig
+  TConfig extends SweadConfig = SweadConfig,
 > = {
   name: string;
   server: ServerDetails;
@@ -70,7 +76,7 @@ const zServerDeploy: z.ZodType<ServerDeploy> = z.object({
 
 export type ServerDeployUnion<
   T extends EnvSchemas = EnvSchemas,
-  TConfig extends SweadConfig = SweadConfig
+  TConfig extends SweadConfig = SweadConfig,
 > = ServerDeploy<T, TConfig> | ServerDeploy<T, TConfig>[];
 
 export const zServerDeployUnion: z.ZodType<ServerDeployUnion> = z.union([
@@ -80,7 +86,7 @@ export const zServerDeployUnion: z.ZodType<ServerDeployUnion> = z.union([
 
 export type Deploys<
   T extends EnvSchemas = EnvSchemas,
-  TConfig extends SweadConfig = SweadConfig
+  TConfig extends SweadConfig = SweadConfig,
 > = {
   dev?: LocalDeploy<T>;
   local?: LocalDeploy<T>;

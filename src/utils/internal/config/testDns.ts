@@ -1,17 +1,11 @@
-import { bold, logger } from "../index.js";
+import { bold, logger } from "../index";
 import dnsPromises from "dns/promises";
-import { App, Server } from "../../../types/server.js";
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
-import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
-import { ServerDeploy } from "../../../types/deploys.js";
-
-export const getAppDomain = (app: App, deploy: ServerDeploy) => {
-  const domain = deploy.use.domains.find(
-    (domain) => domain.app === app.name
-  )?.url;
-
-  return domain;
-};
+import { App, Server } from "../../../types/server";
+import { performSingleOrMultiple } from "../performSingleOrMultiple";
+import { stripHttpsFromUrl } from "../../stripHttpsFromUrl";
+import { ServerDeploy } from "../../../types/deploys";
+import { isArray } from "lodash";
+import { getAppDomain } from "./domain";
 
 export const testDns = async (server: Server, deploy: ServerDeploy) => {
   const ip = deploy.server.ip;
@@ -33,7 +27,11 @@ export const testDns = async (server: Server, deploy: ServerDeploy) => {
         )} in the deploy ${bold(deploy.name)}.`
       );
 
-    await testDomainDns(domain, ip);
+    if (isArray(domain)) {
+      await Promise.all(domain.map((d) => testDomainDns(d, ip)));
+    } else {
+      await testDomainDns(domain, ip);
+    }
   });
 };
 
@@ -52,22 +50,6 @@ export const testDomainDns = async (url: string, ip: string) => {
   if (aResult && !aResult?.includes(ip)) {
     errors.push(
       `The DOMAIN '${domain}' points to a different IP address. Please make sure that the DOMAIN points to the IP '${ip}'.`
-    );
-  }
-
-  const wwwResult = await dnsPromises
-    .resolve4("www." + domain)
-    .catch((error) => {
-      errors.push(error);
-      errors.push(
-        `The DOMAIN (www.${domain}) is not accessible. Please create a DOMAIN record of type 'A' with the hostname '${
-          domain.split(".").length <= 2 ? "www" : "www." + domain.split(".")[0]
-        }' pointing to the IP: '${ip}'`
-      );
-    });
-  if (wwwResult && !wwwResult?.includes(ip)) {
-    errors.push(
-      `The redirect 'www.${domain}' points to a different IP address. Please make sure that the redirect points to the DOMAIN '${domain}'.`
     );
   }
 

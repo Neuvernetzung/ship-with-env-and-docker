@@ -1,17 +1,17 @@
-import isArray from "lodash/isArray.js";
-import { App, EnvSchemas } from "../../../../types/index.js";
+import isArray from "lodash/isArray";
+import { App, EnvSchemas } from "../../../../types/index";
 import {
   DockerComposeService,
   DockerComposeServices,
-} from "../../../../types/docker.js";
+} from "../../../../types/docker";
 import {
   appHasDockerFile,
   formatEnvPath,
   getDockerFileName,
   globToPaths,
-} from "../../index.js";
-import { getWorkdirPath, getWorkdirSubPath } from "../getWorkdirPath.js";
-import { dockerComposeServiceName } from "./serviceName.js";
+} from "../../index";
+import { getWorkdirPath, getWorkdirSubPath } from "../getWorkdirPath";
+import { dockerComposeServiceName } from "./serviceName";
 
 export const createComposeServices = async (
   apps: App[],

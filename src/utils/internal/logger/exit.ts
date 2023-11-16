@@ -1,4 +1,4 @@
-import { logger } from "./index.js";
+import { logger } from "./index";
 
 export const exit = (message?: string) => {
   logger.finished(message);
