@@ -1,15 +1,15 @@
-import { ServerDeploy } from "../../../../types/deploys.js";
-import { Certbot, Server } from "../../../../types/index.js";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
+import { ServerDeploy } from "../../../../types/deploys";
+import { Certbot, Server } from "../../../../types/index";
+import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl";
 import {
   createDockerFileLine,
   dockerFileToString,
   getAppDomain,
   getDockerFilePath,
   NGINX_SERVICE_NAME,
-} from "../../index.js";
-import { getHelpersPath } from "../getHelpersPath.js";
-import { HelperFile } from "../handleHelperFiles.js";
+} from "../../index";
+import { getHelpersPath } from "../getHelpersPath";
+import { HelperFile } from "../handleHelperFiles";
 
 export const CERTBOT_PATH = "certbot";
 

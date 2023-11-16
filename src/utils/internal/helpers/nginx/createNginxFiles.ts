@@ -1,16 +1,16 @@
-import { App, Server } from "../../../../types/index.js";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
+import { App, Server } from "../../../../types/index";
+import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl";
 import {
   createDockerFileLine,
   dockerFileToString,
   getAppDomain,
   getDockerFilePath,
-} from "../../index.js";
-import { getHelpersPath } from "../getHelpersPath.js";
-import { HelperFile } from "../handleHelperFiles.js";
-import { createNginxScript } from "./createNginxScript.js";
-import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
-import { ServerDeploy } from "../../../../types/deploys.js";
+} from "../../index";
+import { getHelpersPath } from "../getHelpersPath";
+import { HelperFile } from "../handleHelperFiles";
+import { createNginxScript } from "./createNginxScript";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName";
+import { ServerDeploy } from "../../../../types/deploys";
 
 export const NGINX_PATH = "nginx";
 
@@ -140,8 +140,8 @@ server {
 
   location / {
       proxy_pass http://${dockerComposeServiceName(app.name)}:${
-    app.docker.port
-  };
+        app.docker.port
+      };
       proxy_http_version 1.1;
       proxy_set_header Upgrade $http_upgrade;
       proxy_set_header Connection 'upgrade';

@@ -1,3 +1,3 @@
-export * from "./getUserPkgManager.js";
-export * from "./installDependencies.js";
-export * from "./pkgJson.js";
+export * from "./getUserPkgManager";
+export * from "./installDependencies";
+export * from "./pkgJson";

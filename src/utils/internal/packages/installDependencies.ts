@@ -1,5 +1,5 @@
-import { runNodeProcess } from "../index.js";
-import { getUserPkgManager, PackageManager } from "./getUserPkgManager.js";
+import { runNodeProcess } from "../index";
+import { getUserPkgManager, PackageManager } from "./getUserPkgManager";
 
 const runInstallCommand = async (
   pkgManager: PackageManager,

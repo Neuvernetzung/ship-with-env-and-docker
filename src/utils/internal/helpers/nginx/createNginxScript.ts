@@ -1,7 +1,7 @@
-import { Server, ServerDeploy } from "../../../../types/index.js";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
-import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
-import { getAppDomain } from "../../index.js";
+import { Server, ServerDeploy } from "../../../../types/index";
+import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName";
+import { getAppDomain } from "../../index";
 
 export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
   const appDomains = server.apps

@@ -1,7 +1,7 @@
-import isArray from "lodash/isArray.js";
-import { App, EnvSchemas } from "../../../types/index.js";
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
-import { formatEnvPath } from "./formatEnvPath.js";
+import isArray from "lodash/isArray";
+import { App, EnvSchemas } from "../../../types/index";
+import { performSingleOrMultiple } from "../performSingleOrMultiple";
+import { formatEnvPath } from "./formatEnvPath";
 
 export const getEnvPaths = async (
   apps: App | App[],

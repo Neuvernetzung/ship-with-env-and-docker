@@ -1,6 +1,6 @@
 import { writeFile, readFile } from "fs/promises";
-import { SWEAD_BASE_PATH, join } from "../index.js";
-import { DEPLOYS_FILE_NAME } from "../deploy/loadDeploy.js";
+import { SWEAD_BASE_PATH, join } from "../index";
+import { DEPLOYS_FILE_NAME } from "../deploy/loadDeploy";
 
 export const GITIGNORE_FILE_PATH = "./.gitignore";
 

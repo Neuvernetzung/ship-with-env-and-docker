@@ -1,7 +1,7 @@
-import { App, EnvSchemas, Server } from "../../../index.js";
-import { globToPaths, join } from "../index.js";
+import { App, EnvSchemas, Server } from "../../../index";
+import { globToPaths, join } from "../index";
 import fs from "fs";
-import { getAppArtifactPaths } from "./getArtifactPaths.js";
+import { getAppArtifactPaths } from "./getArtifactPaths";
 
 export const getPackagePaths = async (
   server: Server,

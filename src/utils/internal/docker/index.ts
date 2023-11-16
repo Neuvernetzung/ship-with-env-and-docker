@@ -1,2 +1,2 @@
-export * from "./compose/index.js";
-export * from "./file/index.js";
+export * from "./compose/index";
+export * from "./file/index";

@@ -1,4 +1,4 @@
-import { join } from "../index.js";
+import { join } from "../index";
 
 export const WORKDIR_NAME = "/workdir";
 
