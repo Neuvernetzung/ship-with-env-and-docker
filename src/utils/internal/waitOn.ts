@@ -1,4 +1,4 @@
-import isArray from "lodash/isArray.js";
+import isArray from "lodash/isArray";
 import _waitOn from "wait-on";
 
 export const waitOn = async (resources: string | string[] | undefined) => {

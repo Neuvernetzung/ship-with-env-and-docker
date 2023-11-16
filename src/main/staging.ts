@@ -1,8 +1,8 @@
-import { Args } from "../index.js";
-import { SweadConfig } from "../types/config.js";
-import { EnvSchemas } from "../types/env.js";
-import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
-import { run, validateGit, exit, logger } from "../utils/internal/index.js";
+import { Args } from "../index";
+import { SweadConfig } from "../types/config";
+import { EnvSchemas } from "../types/env";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy";
+import { run, validateGit, exit, logger } from "../utils/internal/index";
 
 export const runStaging = async (
   env: EnvSchemas | undefined,

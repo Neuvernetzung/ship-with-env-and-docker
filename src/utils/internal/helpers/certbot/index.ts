@@ -1,2 +1,2 @@
-export * from "./createCertbotFiles.js";
-export * from "./createCertbotService.js";
+export * from "./createCertbotFiles";
+export * from "./createCertbotService";

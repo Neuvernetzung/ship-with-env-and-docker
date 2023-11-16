@@ -1,2 +1,2 @@
-export * from "./parseArgs.js";
-export * from "./showUsage.js";
+export * from "./parseArgs";
+export * from "./showUsage";

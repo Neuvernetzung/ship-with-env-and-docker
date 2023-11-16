@@ -1,12 +1,8 @@
-import { Server } from "../../../types/index.js";
-import {
-  createCertbotFiles,
-  createNginxFiles,
-  createCronFiles,
-} from "./index.js";
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
-import { join, write } from "../index.js";
-import { ServerDeploy } from "../../../types/deploys.js";
+import { Server } from "../../../types/index";
+import { createCertbotFiles, createNginxFiles, createCronFiles } from "./index";
+import { performSingleOrMultiple } from "../performSingleOrMultiple";
+import { join, write } from "../index";
+import { ServerDeploy } from "../../../types/deploys";
 
 export type HelperFile = { path: string; content: string };
 

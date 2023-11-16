@@ -1,6 +1,6 @@
-import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
+import { performSingleOrMultiple } from "../performSingleOrMultiple";
 import { rm } from "fs/promises";
-import { globToPaths } from "./globToPaths.js";
+import { globToPaths } from "./globToPaths";
 
 export const clean = async (paths: string | string[] | undefined) => {
   if (!paths) return;

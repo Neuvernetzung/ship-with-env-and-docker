@@ -1,5 +1,5 @@
 import { NodeSSH } from "node-ssh";
-import { ServerDetails } from "../../../types/deploys.js";
+import { ServerDetails } from "../../../types/deploys";
 
 export const SSH_DEFAULT_PORT = 22;
 

@@ -1,6 +1,6 @@
-import compact from "lodash/compact.js";
-import { App, EnvSchemas, Server } from "../../../index.js";
-import { getEnvPaths, globToPaths } from "../index.js";
+import compact from "lodash/compact";
+import { App, EnvSchemas, Server } from "../../../index";
+import { getEnvPaths, globToPaths } from "../index";
 
 export const getArtifactPaths = async (
   server: Server,

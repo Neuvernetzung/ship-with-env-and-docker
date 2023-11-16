@@ -1,8 +1,8 @@
-import { DockerFileContent } from "../../../../types/docker.js";
-import { App } from "../../../../types/index.js";
-import { getDockerFilePath } from "./getDockerFilePath.js";
-import { wrapInQuotes, write } from "../../index.js";
-import isArray from "lodash/isArray.js";
+import { DockerFileContent } from "../../../../types/docker";
+import { App } from "../../../../types/index";
+import { getDockerFilePath } from "./getDockerFilePath";
+import { wrapInQuotes, write } from "../../index";
+import isArray from "lodash/isArray";
 
 export const saveDockerFile = async (
   file: DockerFileContent,

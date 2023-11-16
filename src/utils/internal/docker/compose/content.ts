@@ -1,19 +1,16 @@
-import merge from "lodash/merge.js";
-import { EnvSchemas, Server } from "../../../../types/index.js";
-import set from "lodash/set.js";
+import merge from "lodash/merge";
+import { EnvSchemas, Server } from "../../../../types/index";
+import set from "lodash/set";
 
-import {
-  DockerCompose,
-  DockerComposeServices,
-} from "../../../../types/docker.js";
+import { DockerCompose, DockerComposeServices } from "../../../../types/docker";
 import {
   CERTBOT_CERTS_VOLUME,
   CERTBOT_VOLUME,
   createHelperServices,
   NGINX_SSL_VOLUME,
-} from "../../index.js";
-import { createComposeServices } from "./createServices.js";
-import { ServerDeploy } from "../../../../types/deploys.js";
+} from "../../index";
+import { createComposeServices } from "./createServices";
+import { ServerDeploy } from "../../../../types/deploys";
 
 export const createComposeContent = async (
   server: Server,

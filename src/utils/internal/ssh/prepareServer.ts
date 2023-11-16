@@ -1,8 +1,8 @@
 import { NodeSSH } from "node-ssh";
-import { Server } from "../../../types/index.js";
-import { execCommand } from "./execCommand.js";
-import { getTargetPath } from "./getTargetPath.js";
-import { ServerDeploy } from "../../../types/deploys.js";
+import { Server } from "../../../types/index";
+import { execCommand } from "./execCommand";
+import { getTargetPath } from "./getTargetPath";
+import { ServerDeploy } from "../../../types/deploys";
 
 export const prepareServer = async (
   ssh: NodeSSH,

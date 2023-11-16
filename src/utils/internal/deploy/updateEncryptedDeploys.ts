@@ -1,10 +1,10 @@
 import { Project } from "ts-morph";
 import prettier from "prettier";
 import { readFile, writeFile } from "fs/promises";
-import { Args } from "../../../index.js";
-import { SWEAD_BASE_PATH, join } from "../index.js";
-import { ENCRYPTED_DEPLOYS_FILE_NAME } from "./loadEncryptedDeploy.js";
-import { EncryptedDeploys } from "../../../types/deploys.js";
+import { Args } from "../../../index";
+import { SWEAD_BASE_PATH, join } from "../index";
+import { ENCRYPTED_DEPLOYS_FILE_NAME } from "./loadEncryptedDeploy";
+import { EncryptedDeploys } from "../../../types/deploys";
 
 export const updateEncryptedDeploys = async (
   newDeploys: EncryptedDeploys,

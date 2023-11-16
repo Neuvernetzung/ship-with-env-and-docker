@@ -1,7 +1,7 @@
-import { DockerCompose } from "../../../../types/docker.js";
+import { DockerCompose } from "../../../../types/docker";
 import yaml from "yaml";
-import { getComposePath } from "./getComposePath.js";
-import { write } from "../../index.js";
+import { getComposePath } from "./getComposePath";
+import { write } from "../../index";
 
 export const saveComposeFile = async (
   compose: Partial<DockerCompose>,

@@ -1,10 +1,10 @@
-import { App, BuildUnion } from "../../../../types/index.js";
+import { App, BuildUnion } from "../../../../types/index";
 import {
   DockerFileContent,
   DockerFileInstruction,
-} from "../../../../types/docker.js";
-import { getWorkdirPath } from "../getWorkdirPath.js";
-import compact from "lodash/compact.js";
+} from "../../../../types/docker";
+import { getWorkdirPath } from "../getWorkdirPath";
+import compact from "lodash/compact";
 
 const DEFAULT_DOCKER_FILE_BASE_IMAGE = "node:20-alpine";
 

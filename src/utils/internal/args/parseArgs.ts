@@ -1,6 +1,6 @@
 import minimist from "minimist";
-import { zArgs } from "../../../types/args.js";
-import { formatZodErrors, showUsage } from "../index.js";
+import { zArgs } from "../../../types/args";
+import { formatZodErrors, showUsage } from "../index";
 
 export const parseArgs = (args: minimist.Opts) => {
   const originalArgs = minimist(process.argv.slice(2), args);

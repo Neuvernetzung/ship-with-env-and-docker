@@ -1,11 +1,11 @@
 import pMap from "p-map";
-import { EnvSchemas, Server } from "../../../../types/index.js";
-import { DockerFile } from "../../../../types/docker.js";
-import { createDockerFileContent } from "./content.js";
-import { getDockerFilePath } from "./getDockerFilePath.js";
-import { saveDockerFile } from "./save.js";
-import { getAppArtifactPaths } from "../../artifacts/getArtifactPaths.js";
-import { getPackagePaths } from "../../artifacts/getPackagePaths.js";
+import { EnvSchemas, Server } from "../../../../types/index";
+import { DockerFile } from "../../../../types/docker";
+import { createDockerFileContent } from "./content";
+import { getDockerFilePath } from "./getDockerFilePath";
+import { saveDockerFile } from "./save";
+import { getAppArtifactPaths } from "../../artifacts/getArtifactPaths";
+import { getPackagePaths } from "../../artifacts/getPackagePaths";
 
 export const handleDockerFiles = async (
   server: Server,
