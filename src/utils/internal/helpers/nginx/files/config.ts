@@ -3,18 +3,18 @@ import {
   nginxHstsConfigPath,
   nginxOptionsSSLConfigPath,
   nginxSSLDHParamsPath,
-} from "@/constants";
+} from "@/constants/index.js";
 import {
   NGINX_FULL_CHAIN_FILE_NAME,
   NGINX_PRIVATE_KEY_FILE_NAME,
   getDummyCertificatePath,
-} from "@/constants/nginx/dummyCertificate";
-import type { App, ServerDeploy } from "@/types";
-import { getAppDomain } from "@/utils/internal/config/domain";
-import { dockerComposeServiceName } from "@/utils/internal/docker/compose/serviceName";
-import { join } from "@/utils/internal/files";
-import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl";
-import isArray from "lodash/isArray";
+} from "@/constants/nginx/index.js";
+import type { App, ServerDeploy } from "@/types/index.js";
+import { getAppDomain } from "@/utils/internal/config/domain.js";
+import { dockerComposeServiceName } from "@/utils/internal/docker/compose/serviceName.js";
+import { join } from "@/utils/internal/files/join.js";
+import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
+import isArray from "lodash/isArray.js";
 
 export const createDefaultConf = (app: App, deploy: ServerDeploy) => {
   const domain = getAppDomain(app, deploy);

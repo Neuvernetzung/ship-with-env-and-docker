@@ -1,5 +1,5 @@
-export * from "./certificate";
-export * from "./docker";
+export * from "./certificate.js";
+export * from "./docker.js";
 
 export const CERTBOT_PATH = "certbot";
 

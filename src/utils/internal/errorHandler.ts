@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import { clean, LOCAL_ARTIFACT_DIR } from "./index";
-import { logger } from "./index";
+import { clean, LOCAL_ARTIFACT_DIR } from "./index.js";
+import { logger } from "./index.js";
 
 export const errorHandler = async (err: any) => {
   logger.error("Aborting cli...");

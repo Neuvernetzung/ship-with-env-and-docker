@@ -1,19 +1,21 @@
-import { Server } from "../../../../types/index";
-import { DockerComposeService } from "../../../../types/docker";
-import { dockerComposeServiceName } from "../../docker/compose/serviceName";
-import { getHelpersPath } from "../getHelpersPath";
-import { ServerDeploy } from "../../../../types/deploys";
+import { Server } from "../../../../types/index.js";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
 import {
-  CERTBOT_CERTS_VOLUME,
-  CERTBOT_VOLUME,
   NGINX_PATH,
   NGINX_SERVICE_NAME,
   NGINX_SSL_VOLUME,
-  certbotBasePath,
-  certificateBasePath,
   nginxSSLPath,
-} from "@/constants";
-import { getAppDomain } from "../../config/domain";
+} from "@/constants/nginx/index.js";
+import { getAppDomain } from "../../config/domain.js";
+import {
+  CERTBOT_CERTS_VOLUME,
+  CERTBOT_VOLUME,
+} from "@/constants/certbot/docker.js";
+import { certificateBasePath } from "@/constants/certbot/certificate.js";
+import { certbotBasePath } from "@/constants/certbot/index.js";
 
 export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
   const volumes = [

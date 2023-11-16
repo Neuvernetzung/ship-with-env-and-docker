@@ -1,14 +1,14 @@
-import type { Server } from "@/types/index";
+import type { Server } from "@/types/index.js";
 import {
   createDockerFileLine,
   dockerFileToString,
   getDockerFilePath,
-} from "../../../index";
-import { getHelpersPath } from "../../getHelpersPath";
-import type { HelperFile } from "../../handleHelperFiles";
-import { createNginxScript } from "../script";
-import type { ServerDeploy } from "@/types/deploys";
-import { createDefaultConf } from "./config";
+} from "../../../index.js";
+import { getHelpersPath } from "../../getHelpersPath.js";
+import type { HelperFile } from "../../handleHelperFiles.js";
+import { createNginxScript } from "../script/index.js";
+import type { ServerDeploy } from "@/types/deploys.js";
+import { createDefaultConf } from "./config.js";
 import {
   NGINX_DEFAULT_CONF_NAME,
   NGINX_HSTS_CONF_NAME,
@@ -17,7 +17,7 @@ import {
   NGINX_SCRIPT_NAME,
   nginxBasePath,
   nginxConfigPath,
-} from "@/constants";
+} from "@/constants/index.js";
 
 export const createNginxFiles = (
   server: Server,

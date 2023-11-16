@@ -1,4 +1,4 @@
-export * from "./docker";
+export * from "./docker.js";
 
 export const CRON_PATH = "cron";
 

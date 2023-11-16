@@ -1,11 +1,11 @@
-import { Server } from "../../../types/index";
-import { DockerComposeServices } from "../../../types/docker";
+import { Server } from "../../../types/index.js";
+import { DockerComposeServices } from "../../../types/docker.js";
 import {
   createCertbotServices,
   createNginxServices,
   createCronServices,
-} from "./index";
-import { ServerDeploy } from "../../../types/deploys";
+} from "./index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export const createHelperServices = (server: Server, deploy: ServerDeploy) => {
   const certbot = createCertbotServices();

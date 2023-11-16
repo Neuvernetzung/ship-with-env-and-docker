@@ -1,9 +1,9 @@
 import { NodeSSH } from "node-ssh";
-import { Server } from "../../../types/index";
-import { getComposePath } from "../index";
-import { performSingleOrMultiple } from "../performSingleOrMultiple";
-import { execCommand, getTargetPath } from "../ssh/index";
-import { ServerDeploy } from "../../../types/deploys";
+import { Server } from "../../../types/index.js";
+import { getComposePath } from "../index.js";
+import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
+import { execCommand, getTargetPath } from "../ssh/index.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export const start = async (
   ssh: NodeSSH,

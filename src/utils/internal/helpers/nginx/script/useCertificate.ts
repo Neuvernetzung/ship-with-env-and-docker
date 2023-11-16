@@ -1,10 +1,10 @@
-import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl";
+import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
 import {
   nginxConfigDefaultPath,
   useCertificatesFunctionName,
-} from "@/constants/nginx";
-import { getDummyCertificatePath } from "@/constants/nginx/dummyCertificate";
-import { getCertificateLivePath } from "@/constants/certbot/certificate";
+} from "@/constants/nginx/index.js";
+import { getDummyCertificatePath } from "@/constants/nginx/index.js";
+import { getCertificateLivePath } from "@/constants/certbot/certificate.js";
 
 export const createUseCertificates = (domain: string, name: string) => {
   const finalUrl = stripHttpsFromUrl(domain);

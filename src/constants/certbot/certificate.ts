@@ -1,5 +1,5 @@
-import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl";
-import { join } from "@/utils/internal/files/join";
+import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
+import { join } from "@/utils/internal/files/join.js";
 
 export const certificateBasePath = "/etc/letsencrypt";
 

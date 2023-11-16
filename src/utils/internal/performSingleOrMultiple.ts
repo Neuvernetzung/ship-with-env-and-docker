@@ -1,4 +1,4 @@
-import isArray from "lodash/isArray";
+import isArray from "lodash/isArray.js";
 import pMap from "p-map";
 
 type PerformSingleOrMultipleOptions = { strict?: boolean; title?: string };

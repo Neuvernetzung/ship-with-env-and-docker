@@ -1,14 +1,14 @@
-import { CRON_PATH, CRON_SERVICE_NAME } from "@/constants/cron";
-import { DockerComposeService } from "../../../../types/docker";
-import { getHelpersPath } from "../getHelpersPath";
+import { CRON_PATH, CRON_SERVICE_NAME } from "@/constants/cron/index.js";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { getHelpersPath } from "../getHelpersPath.js";
 import {
   CERTBOT_CERTS_VOLUME,
   CERTBOT_SERVICE_NAME,
   CERTBOT_VOLUME,
-  NGINX_SERVICE_NAME,
   certbotBasePath,
   certificateBasePath,
-} from "@/constants";
+} from "@/constants/certbot/index.js";
+import { NGINX_SERVICE_NAME } from "@/constants/nginx/docker.js";
 
 export const createCronServices = () => {
   const cron: DockerComposeService = {

@@ -3,9 +3,14 @@ import {
   EncryptedDeploys,
   zLocalDeploy,
   zServerDeployUnion,
-} from "../../../types/deploys";
-import { Args, RunMethods } from "../../../index";
-import { SWEAD_BASE_PATH, decryptData, formatZodErrors, join } from "../index";
+} from "../../../types/deploys.js";
+import { Args, RunMethods } from "../../../index.js";
+import {
+  SWEAD_BASE_PATH,
+  decryptData,
+  formatZodErrors,
+  join,
+} from "../index.js";
 import inquirer from "inquirer";
 
 export const ENCRYPTED_DEPLOYS_FILE_NAME = "encrypted.ts";

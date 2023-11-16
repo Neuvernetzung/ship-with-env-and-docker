@@ -1,11 +1,11 @@
-import { bold, logger } from "../index";
+import { bold, logger } from "../index.js";
 import dnsPromises from "dns/promises";
-import { App, Server } from "../../../types/server";
-import { performSingleOrMultiple } from "../performSingleOrMultiple";
-import { stripHttpsFromUrl } from "../../stripHttpsFromUrl";
-import { ServerDeploy } from "../../../types/deploys";
-import { isArray } from "lodash";
-import { getAppDomain } from "./domain";
+import { Server } from "../../../types/server.js";
+import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
+import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
+import { ServerDeploy } from "../../../types/deploys.js";
+import isArray from "lodash/isArray.js";
+import { getAppDomain } from "./domain.js";
 
 export const testDns = async (server: Server, deploy: ServerDeploy) => {
   const ip = deploy.server.ip;

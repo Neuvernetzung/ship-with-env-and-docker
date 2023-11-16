@@ -1,3 +1,3 @@
-export * from "./files";
-export * from "./scriptCommand";
-export * from "./service";
+export * from "./files.js";
+export * from "./scriptCommand.js";
+export * from "./service.js";

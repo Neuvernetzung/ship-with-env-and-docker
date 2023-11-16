@@ -7,12 +7,12 @@ import {
   runLocal,
   runProduction,
   runStaging,
-} from "../index";
-import { runDecrypt } from "../main/decrypt";
-import { runInit } from "../main/init";
-import { runMethods, totalMethods } from "../types/args";
-import { errorHandler, getConfig, parseArgs } from "../utils/internal/index";
-import { runProtect } from "../main/protect";
+} from "../index.js";
+import { runDecrypt } from "../main/decrypt.js";
+import { runInit } from "../main/init.js";
+import { runMethods, totalMethods } from "../types/args.js";
+import { errorHandler, getConfig, parseArgs } from "../utils/internal/index.js";
+import { runProtect } from "../main/protect.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c", "s", "p", "specific"],
