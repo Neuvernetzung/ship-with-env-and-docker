@@ -3,14 +3,13 @@ import {
   nginxHstsConfigPath,
   nginxOptionsSSLConfigPath,
   nginxSSLDHParamsPath,
-  nginxSSLPath,
 } from "@/constants";
 import {
   NGINX_FULL_CHAIN_FILE_NAME,
   NGINX_PRIVATE_KEY_FILE_NAME,
   getDummyCertificatePath,
 } from "@/constants/nginx/dummyCertificate";
-import { App, ServerDeploy } from "@/types";
+import type { App, ServerDeploy } from "@/types";
 import { getAppDomain } from "@/utils/internal/config/domain";
 import { dockerComposeServiceName } from "@/utils/internal/docker/compose/serviceName";
 import { join } from "@/utils/internal/files";

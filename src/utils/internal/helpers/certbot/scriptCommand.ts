@@ -1,5 +1,5 @@
 import type { Certbot, Url } from "@/types/index";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl";
+import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl";
 import { getCertificateLivePath } from "@/constants/certbot/certificate";
 import { certbotBasePath } from "@/constants";
 
