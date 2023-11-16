@@ -31,7 +31,6 @@ export const prepareServer = async (
     ...server.apps
       .map((app) => app.docker.volumes?.map((v) => v.split(":")[0]) || [])
       .flat(),
-    "logs",
   ];
 
   await execCommand(
