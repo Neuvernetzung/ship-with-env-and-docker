@@ -1,4 +1,4 @@
-import { EnvSchemas, Server } from "../../../types/index.js";
+import { EnvSchemas, Server } from "../../../types/index";
 import {
   handleHelperFiles,
   handleComposeFile,
@@ -8,12 +8,12 @@ import {
   removeEnv,
   join,
   SWEAD_BASE_PATH,
-} from "../index.js";
-import { writeTar } from "./writeTar.js";
+} from "../index";
+import { writeTar } from "./writeTar";
 import { mkdir } from "fs/promises";
-import { getArtifactPaths } from "./getArtifactPaths.js";
-import compact from "lodash/compact.js";
-import { ServerDeploy } from "../../../types/deploys.js";
+import { getArtifactPaths } from "./getArtifactPaths";
+import compact from "lodash/compact";
+import { ServerDeploy } from "../../../types/deploys";
 
 export const LOCAL_ARTIFACT_DIR = join(SWEAD_BASE_PATH, "_artifact");
 
@@ -39,7 +39,7 @@ export const createArtifact = async (
 
   const additionalFiles = [
     compose.path,
-    ...(dockerFiles.map((file) => file.path).filter((v) => v) as string[]),
+    ...compact(dockerFiles.map((file) => file.path)),
     ...helpers.map((file) => file.path),
   ];
 

@@ -1,5 +1,5 @@
-import type { Args } from "../index.js";
-import { getDeploys } from "../utils/internal/deploy/getDeploys.js";
+import type { Args } from "../index";
+import { getDeploys } from "../utils/internal/deploy/getDeploys";
 
 export const runProtect = async (args: Args) => {
   const deploys = await getDeploys(args);

@@ -1,4 +1,4 @@
-import isArray from "lodash/isArray.js";
+import isArray from "lodash/isArray";
 
 export const commandWithWaitOn = (
   command: string,

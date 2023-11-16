@@ -1,23 +1,19 @@
 import inquirer from "inquirer";
-import {
-  SWEAD_BASE_PATH,
-  decryptData,
-  logger,
-} from "../utils/internal/index.js";
-import { Args } from "../index.js";
-import { ENCRYPTED_DEPLOYS_FILE_NAME } from "../utils/internal/deploy/loadEncryptedDeploy.js";
+import { SWEAD_BASE_PATH, decryptData, logger } from "../utils/internal/index";
+import { Args } from "../index";
+import { ENCRYPTED_DEPLOYS_FILE_NAME } from "../utils/internal/deploy/loadEncryptedDeploy";
 import fs from "fs";
 import path from "path";
-import { getDeploys } from "../utils/internal/deploy/getDeploys.js";
-import { getEncryptedDeploys } from "../utils/internal/deploy/getEncryptedDeploys.js";
-import { EncryptedDeploys } from "../types/deploys.js";
-import entries from "lodash/entries.js";
-import merge from "lodash/merge.js";
-import omit from "lodash/omit.js";
-import pick from "lodash/pick.js";
-import set from "lodash/set.js";
-import { updateDeploys } from "../utils/internal/deploy/updateDeploys.js";
-import { updateEncryptedDeploys } from "../utils/internal/deploy/updateEncryptedDeploys.js";
+import { getDeploys } from "../utils/internal/deploy/getDeploys";
+import { getEncryptedDeploys } from "../utils/internal/deploy/getEncryptedDeploys";
+import { EncryptedDeploys } from "../types/deploys";
+import entries from "lodash/entries";
+import merge from "lodash/merge";
+import omit from "lodash/omit";
+import pick from "lodash/pick";
+import set from "lodash/set";
+import { updateDeploys } from "../utils/internal/deploy/updateDeploys";
+import { updateEncryptedDeploys } from "../utils/internal/deploy/updateEncryptedDeploys";
 
 export const runDecrypt = async (args: Args) => {
   const sweadBasePath = args.config || SWEAD_BASE_PATH;

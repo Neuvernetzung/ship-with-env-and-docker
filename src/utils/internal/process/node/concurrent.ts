@@ -1,6 +1,6 @@
-import isArray from "lodash/isArray.js";
-import { wrapInQuotes } from "../../wrapInQuotes.js";
-import { commandWithWaitOn } from "./commandWithWaitOn.js";
+import isArray from "lodash/isArray";
+import { wrapInQuotes } from "../../wrapInQuotes";
+import { commandWithWaitOn } from "./commandWithWaitOn";
 
 type Command = {
   name: string;

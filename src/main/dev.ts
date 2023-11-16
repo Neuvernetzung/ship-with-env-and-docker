@@ -1,6 +1,6 @@
-import isArray from "lodash/isArray.js";
-import { SweadConfig } from "../types/config.js";
-import { EnvSchemas } from "../types/env.js";
+import isArray from "lodash/isArray";
+import { SweadConfig } from "../types/config";
+import { EnvSchemas } from "../types/env";
 import {
   clean,
   concurrentNodeProcess,
@@ -10,9 +10,9 @@ import {
   openInBrowser,
   runTasks,
   logger,
-} from "../utils/internal/index.js";
-import { loadDeploy } from "../utils/internal/deploy/loadDeploy.js";
-import { Args } from "../index.js";
+} from "../utils/internal/index";
+import { loadDeploy } from "../utils/internal/deploy/loadDeploy";
+import { Args } from "../index";
 
 export const runDev = async (
   envSchemas: EnvSchemas | undefined,

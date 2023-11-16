@@ -1,9 +1,9 @@
-import { ServerDeploy } from "../../../../types/deploys.js";
-import { EnvSchemas, Server } from "../../../../types/index.js";
+import { ServerDeploy } from "../../../../types/deploys";
+import { EnvSchemas, Server } from "../../../../types/index";
 
-import { createComposeContent } from "./content.js";
-import { getComposePath } from "./getComposePath.js";
-import { saveComposeFile } from "./save.js";
+import { createComposeContent } from "./content";
+import { getComposePath } from "./getComposePath";
+import { saveComposeFile } from "./save";
 
 export const handleComposeFile = async (
   server: Server,

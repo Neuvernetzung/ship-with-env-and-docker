@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { EnvSchemas, EnvLocalation, zEnvLocalation } from "./env.js";
+import { EnvSchemas, EnvLocalation, zEnvLocalation } from "./env";
 
 type Command = z.infer<typeof zCommand>;
 

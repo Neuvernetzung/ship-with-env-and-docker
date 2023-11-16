@@ -1,4 +1,4 @@
-import { join } from "../../index.js";
+import { join } from "../../index";
 
 export const COMPOSE_FILE_NAME = "docker-compose.yml";
 

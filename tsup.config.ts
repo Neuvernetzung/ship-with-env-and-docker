@@ -10,6 +10,10 @@ export default defineConfig({
   minify: !isDev,
   metafile: !isDev,
   sourcemap: true,
-  target: "esnext",
+  platform: "node",
+  treeshake: true,
+  target: "node20",
+  skipNodeModulesBundle: true,
   outDir: "dist",
+  noExternal: [/lodash/], // Lodash als noExternal, da sonst bei jedem Lodash import .js angehängt werden muss und dies außerdem bei jest nicht funktioniert.
 });
