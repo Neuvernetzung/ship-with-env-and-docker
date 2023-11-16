@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.1.0
+
+### Minor Changes
+
+- d3d17ca: tsconfig anpassen #202
+
 ## 2.0.7
 
 ### Patch Changes
