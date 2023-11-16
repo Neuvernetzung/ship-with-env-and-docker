@@ -15,7 +15,6 @@ export const createCertbotServices = () => {
     container_name: CERTBOT_SERVICE_NAME,
     build: getHelpersPath(CERTBOT_PATH),
     volumes: [
-      "./logs/letsencrypt:/var/log/letsencrypt",
       `${CERTBOT_CERTS_VOLUME}:${certificateBasePath}`,
       `${CERTBOT_VOLUME}:${certbotBasePath}`,
     ],

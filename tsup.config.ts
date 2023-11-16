@@ -15,5 +15,5 @@ export default defineConfig({
   target: "node20",
   skipNodeModulesBundle: true,
   outDir: "dist",
-  noExternal: [/lodash/], // Lodash als noExternal, da sonst bei jedem Lodash import .js angehängt werden muss und dies außerdem bei jest nicht funktioniert.
+  noExternal: [/lodash/],
 });

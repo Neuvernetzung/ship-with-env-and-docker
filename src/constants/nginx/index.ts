@@ -1,4 +1,4 @@
-import { join } from "@/utils/internal";
+import { join } from "@/utils/internal/files/join";
 
 export * from "./script";
 export * from "./dummyCertificate";

@@ -17,7 +17,6 @@ import { getAppDomain } from "../../config/domain";
 
 export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
   const volumes = [
-    "./logs/nginx:/var/log/nginx",
     `${NGINX_SSL_VOLUME}:${nginxSSLPath}`,
     `${CERTBOT_CERTS_VOLUME}:${certificateBasePath}`,
     `${CERTBOT_VOLUME}:${certbotBasePath}`,

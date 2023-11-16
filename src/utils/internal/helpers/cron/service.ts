@@ -15,8 +15,6 @@ export const createCronServices = () => {
     container_name: CRON_SERVICE_NAME,
     build: getHelpersPath(CRON_PATH),
     volumes: [
-      "./logs/cron:/var/log/cron",
-      "./logs/letsencrypt:/var/log/letsencrypt",
       "/var/run/docker.sock:/var/run/docker.sock",
       "./:/workdir:ro",
       `${CERTBOT_CERTS_VOLUME}:${certificateBasePath}`,
