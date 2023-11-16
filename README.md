@@ -1,6 +1,8 @@
 # SWEAD - (Ship-with-Env-and-Docker)
 
-SWEAD is an opinionated framework for deploying Node.js applications on Linux servers.
+[![neuvernetzung-logo](https://raw.githubusercontent.com/Neuvernetzung/ship-with-env-and-docker/master/public/Header.png)](https://neuvernetzung.de)
+
+SWEAD is an opinionated framework for deploying Docker applications on Linux servers. It can handle encrypted envs and automatic creates SSL certificates for specified Domains.
 
 ## Motivation
 
@@ -29,7 +31,7 @@ npm install swead
 ```ts
 import {runProduction, runStaging, runLocal, runDev} from "swead"
 import type {EnvSchemas, SweadConfig, Args} from "swead"
- 
+
 await runProduction(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
 
 await runStaging(envSchemas: EnvSchemas | undefined, config: SweadConfig, args: Args)
