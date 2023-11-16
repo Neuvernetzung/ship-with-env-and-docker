@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.1.1
+
+### Patch Changes
+
+- 8914954: revert: tsconfig anpassen #202
+
 ## 2.1.0
 
 ### Minor Changes
