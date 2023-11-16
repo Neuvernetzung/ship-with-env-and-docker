@@ -1,8 +1,8 @@
 import { bundleRequire } from "bundle-require";
-import { Args } from "../../../index";
-import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index";
-import { DEPLOYS_FILE_NAME } from "./loadDeploy";
-import { zDeploys } from "../../../types/deploys";
+import { Args } from "../../../index.js";
+import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index.js";
+import { DEPLOYS_FILE_NAME } from "./loadDeploy.js";
+import { zDeploys } from "../../../types/deploys.js";
 
 export const getDeploys = async (args: Args) => {
   const deploysBasePath = args?.config || SWEAD_BASE_PATH;

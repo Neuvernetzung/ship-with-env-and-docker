@@ -1,13 +1,13 @@
 import { z } from "zod";
-import { EnvSchemas } from "./env";
-import { Branches, zBranches } from "./helpers";
+import { EnvSchemas } from "./env.js";
+import { Branches, zBranches } from "./helpers.js";
 import {
   DevCommandUnion,
   LocalCommandUnion,
   zDevCommandUnion,
   zLocalCommandUnion,
-} from "./local";
-import { Server, zServer } from "./server";
+} from "./local.js";
+import { Server, zServer } from "./server.js";
 
 export type Servers<T extends EnvSchemas = EnvSchemas> = Record<
   string,

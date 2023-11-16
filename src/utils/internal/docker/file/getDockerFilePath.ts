@@ -1,4 +1,4 @@
-import { join } from "../../index";
+import { join } from "../../index.js";
 
 export const DOCKER_FILE_NAME_BASE = "Dockerfile";
 

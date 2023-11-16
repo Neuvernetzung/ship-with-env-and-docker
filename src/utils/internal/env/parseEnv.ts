@@ -1,5 +1,5 @@
-import { EnvSchemas } from "../../../types/index";
-import { formatZodErrors } from "../zod/index";
+import { EnvSchemas } from "../../../types/index.js";
+import { formatZodErrors } from "../zod/index.js";
 
 export const parseEnv = (
   envSchemas: EnvSchemas | undefined,

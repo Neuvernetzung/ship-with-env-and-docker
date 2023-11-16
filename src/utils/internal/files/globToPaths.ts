@@ -1,6 +1,6 @@
 import glob from "fast-glob";
-import { Options } from "fast-glob/out/settings";
-import isArray from "lodash/isArray";
+import { Options } from "fast-glob/out/settings.js";
+import isArray from "lodash/isArray.js";
 
 export const globToPaths = async (
   paths: string | string[],

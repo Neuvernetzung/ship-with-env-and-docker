@@ -1,7 +1,7 @@
-import { DockerComposeService } from "../../../../types/docker";
-import { getHelpersPath } from "../getHelpersPath";
-import { CERTBOT_SERVICE_NAME, NGINX_SERVICE_NAME } from "../index";
-import { CRON_PATH } from "./createCronFiles";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { CERTBOT_SERVICE_NAME, NGINX_SERVICE_NAME } from "../index.js";
+import { CRON_PATH } from "./createCronFiles.js";
 
 export const CRON_SERVICE_NAME = "cron";
 

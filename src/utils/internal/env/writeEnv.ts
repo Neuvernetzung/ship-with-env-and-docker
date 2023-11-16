@@ -1,6 +1,6 @@
-import { EnvLocationUnion, ParsedEnv } from "../../../types/index";
-import { performSingleOrMultiple, write } from "../index";
-import { formatEnvPath, formatEnvData } from "./index";
+import { EnvLocationUnion, ParsedEnv } from "../../../types/index.js";
+import { performSingleOrMultiple, write } from "../index.js";
+import { formatEnvPath, formatEnvData } from "./index.js";
 
 export const writeEnv = async (
   parsedEnv: ParsedEnv,

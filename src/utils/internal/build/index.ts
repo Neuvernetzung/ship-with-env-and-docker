@@ -1,11 +1,11 @@
-import { ServerDeploy } from "../../../types/deploys";
-import { App, EnvSchemas } from "../../../types/index";
+import { ServerDeploy } from "../../../types/deploys.js";
+import { App, EnvSchemas } from "../../../types/index.js";
 import {
   clean,
   createEnvFiles,
   runNodeOptions,
   runNodeProcess,
-} from "../index";
+} from "../index.js";
 
 export const build = async (
   app: App,

@@ -1,9 +1,9 @@
 import { NodeSSH } from "node-ssh";
-import { getTargetPath } from "../ssh/getTargetPath";
-import { putFile } from "../ssh/putFile";
-import { getArtifactName, getArtifactPath } from "./getArtifactPath";
-import { execCommand } from "../ssh/execCommand";
-import { LOCAL_ARTIFACT_DIR } from "./createArtifact";
+import { getTargetPath } from "../ssh/getTargetPath.js";
+import { putFile } from "../ssh/putFile.js";
+import { getArtifactName, getArtifactPath } from "./getArtifactPath.js";
+import { execCommand } from "../ssh/execCommand.js";
+import { LOCAL_ARTIFACT_DIR } from "./createArtifact.js";
 
 export const transferArtifactAndExtract = async (
   ssh: NodeSSH,

@@ -1,1 +1,1 @@
-export * from "./formatZodErrors";
+export * from "./formatZodErrors.js";
