@@ -2,9 +2,9 @@ import {
   createDockerFileLine,
   dockerFileToString,
   getDockerFilePath,
-} from "../../index";
-import { getHelpersPath } from "../getHelpersPath";
-import { HelperFile } from "../handleHelperFiles";
+} from "../../index.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { HelperFile } from "../handleHelperFiles.js";
 
 export const CRON_PATH = "cron";
 

@@ -1,6 +1,6 @@
-import { SweadConfig } from "../types/config";
-import { EnvSchemas } from "../types/env";
-import { parseConfig } from "./internal/index";
+import { SweadConfig } from "../types/config.js";
+import { EnvSchemas } from "../types/env.js";
+import { parseConfig } from "./internal/index.js";
 
 export const sweadConfig = async (
   envSchemas: EnvSchemas,

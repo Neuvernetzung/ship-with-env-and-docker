@@ -1,10 +1,10 @@
-import { Server } from "../../../../types/index";
-import { DockerComposeService } from "../../../../types/docker";
-import { dockerComposeServiceName } from "../../docker/compose/serviceName";
-import { getHelpersPath } from "../getHelpersPath";
-import { CERTBOT_CERTS_VOLUME, CERTBOT_VOLUME, NGINX_PATH } from "../index";
-import { ServerDeploy } from "../../../../types/deploys";
-import { getAppDomain } from "../../index";
+import { Server } from "../../../../types/index.js";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { CERTBOT_CERTS_VOLUME, CERTBOT_VOLUME, NGINX_PATH } from "../index.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
+import { getAppDomain } from "../../index.js";
 
 export const NGINX_SERVICE_NAME = "nginx";
 

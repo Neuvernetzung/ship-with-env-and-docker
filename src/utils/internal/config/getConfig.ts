@@ -1,6 +1,6 @@
-import { Args } from "../../../index";
-import { join, logger } from "../index";
-import { ParsedConfigs, parseConfig } from "./parseConfig";
+import { Args } from "../../../index.js";
+import { join, logger } from "../index.js";
+import { ParsedConfigs, parseConfig } from "./parseConfig.js";
 import { bundleRequire } from "bundle-require";
 import { existsSync } from "fs";
 

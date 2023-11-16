@@ -1,13 +1,14 @@
-import { bold, logger } from "../index";
+import { bold, logger } from "../index.js";
 import dnsPromises from "dns/promises";
-import { App, Server } from "../../../types/server";
-import { performSingleOrMultiple } from "../performSingleOrMultiple";
-import { stripHttpsFromUrl } from "../../stripHttpsFromUrl";
-import { ServerDeploy } from "../../../types/deploys";
+import { App, Server } from "../../../types/server.js";
+import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
+import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
+import { ServerDeploy } from "../../../types/deploys.js";
 
 export const getAppDomain = (app: App, deploy: ServerDeploy) => {
-  const domain = deploy.use.domains.find((domain) => domain.app === app.name)
-    ?.url;
+  const domain = deploy.use.domains.find(
+    (domain) => domain.app === app.name
+  )?.url;
 
   return domain;
 };

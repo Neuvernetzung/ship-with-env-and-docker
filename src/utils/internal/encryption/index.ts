@@ -1,1 +1,1 @@
-export * from "./decryptData";
+export * from "./decryptData.js";

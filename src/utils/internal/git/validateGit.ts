@@ -1,5 +1,5 @@
-import isArray from "lodash/isArray";
-import { getCurrentGitBranch } from "./getCurrentGitBranch";
+import isArray from "lodash/isArray.js";
+import { getCurrentGitBranch } from "./getCurrentGitBranch.js";
 
 export const validateGit = async (branches: string | string[] | undefined) => {
   if (!branches) return;

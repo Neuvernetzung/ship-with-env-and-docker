@@ -1,7 +1,7 @@
-import { DockerComposeService } from "../../../../types/docker";
-import { getHelpersPath } from "../getHelpersPath";
-import { NGINX_SERVICE_NAME } from "../index";
-import { CERTBOT_PATH } from "./createCertbotFiles";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { NGINX_SERVICE_NAME } from "../index.js";
+import { CERTBOT_PATH } from "./createCertbotFiles.js";
 
 export const CERTBOT_SERVICE_NAME = "certbot";
 

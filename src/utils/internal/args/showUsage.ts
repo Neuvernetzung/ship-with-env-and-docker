@@ -1,4 +1,4 @@
-import { logger } from "../index";
+import { logger } from "../index.js";
 
 const usage = `
 Usage: swead {METHOD} {ARGS}

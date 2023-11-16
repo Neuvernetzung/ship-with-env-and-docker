@@ -1,6 +1,6 @@
 import { NodeSSH, SSHExecCommandOptions } from "node-ssh";
-import { logger } from "../index";
-import merge from "lodash/merge";
+import { logger } from "../index.js";
+import merge from "lodash/merge.js";
 
 const execOptions: SSHExecCommandOptions = {
   cwd: "/",

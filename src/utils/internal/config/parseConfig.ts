@@ -1,6 +1,6 @@
-import { EnvSchemas, zEnvSchemas } from "../../../index";
-import { SweadConfig, zSweadConfig } from "../../../types/config";
-import { formatZodErrors } from "../index";
+import { EnvSchemas, zEnvSchemas } from "../../../index.js";
+import { SweadConfig, zSweadConfig } from "../../../types/config.js";
+import { formatZodErrors } from "../index.js";
 
 export type ParsedConfigs = { config: SweadConfig; envSchemas: EnvSchemas };
 

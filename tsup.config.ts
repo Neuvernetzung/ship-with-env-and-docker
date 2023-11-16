@@ -10,8 +10,6 @@ export default defineConfig({
   minify: !isDev,
   metafile: !isDev,
   sourcemap: true,
-  platform: "node",
-  target: "node20",
+  target: "esnext",
   outDir: "dist",
-  skipNodeModulesBundle: true,
 });
