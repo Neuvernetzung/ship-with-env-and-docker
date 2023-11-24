@@ -1,12 +1,12 @@
 import { bundleRequire } from "bundle-require";
-import { Args, runMethods } from "../../../index";
-import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index";
-import { Deploys, zDeploys } from "../../../types/deploys";
+import { Args, runMethods } from "../../../index.js";
+import { SWEAD_BASE_PATH, formatZodErrors, join } from "../index.js";
+import { Deploys, zDeploys } from "../../../types/deploys.js";
 import { existsSync } from "fs";
 import {
   ENCRYPTED_DEPLOYS_FILE_NAME,
   loadEncryptedDeploy,
-} from "./loadEncryptedDeploy";
+} from "./loadEncryptedDeploy.js";
 
 export const DEPLOYS_FILE_NAME = "deploys.ts";
 

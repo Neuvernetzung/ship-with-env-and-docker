@@ -1,12 +1,12 @@
-import { isArray } from "lodash";
-import type { Server, ServerDeploy } from "@/types/index";
-import { getAppDomain } from "../../../config/domain";
-import { dockerComposeServiceName } from "../../../docker/compose/serviceName";
-import { createDummyScript } from "./dummy";
-import { createUseCertificates } from "./useCertificate";
-import { nginxCondition } from "./condition";
-import { waitForLetsEncrypt } from "./waitForLetsEncrypt";
-import { nginxSSLDHParamsPath } from "@/constants";
+import isArray from "lodash/isArray.js";
+import type { Server, ServerDeploy } from "@/types/index.js";
+import { getAppDomain } from "../../../config/domain.js";
+import { dockerComposeServiceName } from "../../../docker/compose/serviceName.js";
+import { createDummyScript } from "./dummy.js";
+import { createUseCertificates } from "./useCertificate.js";
+import { nginxCondition } from "./condition.js";
+import { waitForLetsEncrypt } from "./waitForLetsEncrypt.js";
+import { nginxSSLDHParamsPath } from "@/constants/nginx/index.js";
 
 export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
   const appDomains = server.apps

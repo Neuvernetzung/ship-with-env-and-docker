@@ -1,7 +1,7 @@
-import { performSingleOrMultiple } from "../performSingleOrMultiple";
+import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { rm } from "fs/promises";
-import { EnvLocalation } from "../../../types/index";
-import { formatEnvPath } from "./formatEnvPath";
+import { EnvLocalation } from "../../../types/index.js";
+import { formatEnvPath } from "./formatEnvPath.js";
 
 export const removeEnv = async (
   envLocalations: EnvLocalation | EnvLocalation[] | undefined

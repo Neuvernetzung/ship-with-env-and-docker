@@ -1,8 +1,8 @@
-import { join } from "@/utils/internal/files/join";
+import { stripHttpsFromUrl } from "@/index.js";
+import { join } from "@/utils/internal/files/join.js";
 
-export * from "./script";
-export * from "./dummyCertificate";
-export * from "./docker";
+export * from "./script.js";
+export * from "./docker.js";
 
 export const NGINX_PATH = "nginx";
 
@@ -15,6 +15,15 @@ export const nginxSSLDHParamsPath = join(
   nginxSSLPath,
   NGINX_SSL_DH_PARAMS_NAME
 );
+
+export const dummyCertificateBasePath = join(nginxSSLPath, "dummy");
+
+export const getDummyCertificatePath = (url: string) =>
+  join(dummyCertificateBasePath, stripHttpsFromUrl(url));
+
+export const NGINX_FULL_CHAIN_FILE_NAME = "fullchain.pem";
+
+export const NGINX_PRIVATE_KEY_FILE_NAME = "privkey.pem";
 
 export const nginxConfigPath = join(nginxBasePath, "conf.d");
 

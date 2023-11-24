@@ -1,3 +1,3 @@
-export * from "./createArtifact";
-export * from "./getArtifactPath";
-export * from "./transferArtifactAndExtract";
+export * from "./createArtifact.js";
+export * from "./getArtifactPath.js";
+export * from "./transferArtifactAndExtract.js";

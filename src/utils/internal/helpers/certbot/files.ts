@@ -1,20 +1,20 @@
-import isArray from "lodash/isArray";
-import type { ServerDeploy } from "../../../../types/deploys";
-import type { Server } from "../../../../types/index";
-import { getAppDomain } from "../../config/domain";
+import isArray from "lodash/isArray.js";
+import type { ServerDeploy } from "../../../../types/deploys.js";
+import type { Server } from "../../../../types/index.js";
+import { getAppDomain } from "../../config/domain.js";
 import {
   createCertbotScriptCommand,
   createDockerFileLine,
   dockerFileToString,
   getDockerFilePath,
-} from "../../index";
-import { getHelpersPath } from "../getHelpersPath";
-import { HelperFile } from "../handleHelperFiles";
+} from "../../index.js";
+import { getHelpersPath } from "../getHelpersPath.js";
+import { HelperFile } from "../handleHelperFiles.js";
 import {
   CERTBOT_PATH,
   CERTBOT_SCRIPT_NAME,
   NGINX_SERVICE_NAME,
-} from "@/constants";
+} from "@/constants/index.js";
 
 export const createCertbotFiles = (
   server: Server,

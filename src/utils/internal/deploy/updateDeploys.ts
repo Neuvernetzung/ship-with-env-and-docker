@@ -1,10 +1,10 @@
 import { Project } from "ts-morph";
 import prettier from "prettier";
 import { readFile, writeFile } from "fs/promises";
-import { Args } from "../../../index";
-import { SWEAD_BASE_PATH, join } from "../index";
-import { DEPLOYS_FILE_NAME } from "./loadDeploy";
-import { Deploys } from "../../../types/deploys";
+import { Args } from "../../../index.js";
+import { SWEAD_BASE_PATH, join } from "../index.js";
+import { DEPLOYS_FILE_NAME } from "./loadDeploy.js";
+import { Deploys } from "../../../types/deploys.js";
 
 export const updateDeploys = async (newDeploys: Deploys, args: Args) => {
   const sweadBasePath = args.config || SWEAD_BASE_PATH;

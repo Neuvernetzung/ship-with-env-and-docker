@@ -1,7 +1,7 @@
 import { ListrTask } from "listr2";
-import isArray from "lodash/isArray";
-import { Args, EnvSchemas, Servers } from "../../../types/index";
-import { testDns } from "../config/testDns";
+import isArray from "lodash/isArray.js";
+import { Args, EnvSchemas, Servers } from "../../../types/index.js";
+import { testDns } from "../config/testDns.js";
 import {
   createArtifact,
   withTempDir,
@@ -16,8 +16,8 @@ import {
   singleOrMultipleTasks,
   taskIndex,
   bold,
-} from "../index";
-import { ServerDeployUnion } from "../../../types/deploys";
+} from "../index.js";
+import { ServerDeployUnion } from "../../../types/deploys.js";
 
 export const run = async (
   servers: Servers,

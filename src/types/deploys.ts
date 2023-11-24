@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { EnvSchemas, EnvEntry, zEnvEntry } from "./env";
-import { RunMethods } from "./args";
-import { SweadConfig } from "./config";
-import { zUrl } from "./url";
+import { EnvSchemas, EnvEntry, zEnvEntry } from "./env.js";
+import { RunMethods } from "./args.js";
+import { SweadConfig } from "./config.js";
+import { zUrl } from "./url.js";
 
 export type LocalDeploy<T extends EnvSchemas = EnvSchemas> = {
   envs: Array<EnvEntry<T>>;

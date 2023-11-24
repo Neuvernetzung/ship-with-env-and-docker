@@ -1,5 +1,5 @@
 import { Listr, ListrTask, ListrBaseClassOptions } from "listr2";
-import isArray from "lodash/isArray";
+import isArray from "lodash/isArray.js";
 import pMap from "p-map";
 
 export const runTasks = async <C extends any>(

@@ -6,9 +6,9 @@ import {
   NGINX_SERVICE_NAME,
   certbotBasePath,
   certificateBasePath,
-} from "@/constants";
-import { DockerComposeService } from "../../../../types/docker";
-import { getHelpersPath } from "../getHelpersPath";
+} from "@/constants/index.js";
+import { DockerComposeService } from "../../../../types/docker.js";
+import { getHelpersPath } from "../getHelpersPath.js";
 
 export const createCertbotServices = () => {
   const certbot: DockerComposeService = {

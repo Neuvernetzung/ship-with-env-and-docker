@@ -1,10 +1,10 @@
 import { writeFile } from "fs/promises";
-import { CONFIG_NAME, ENV_SCHEMAS_NAME, SWEAD_BASE_PATH } from "./getConfig";
+import { CONFIG_NAME, ENV_SCHEMAS_NAME, SWEAD_BASE_PATH } from "./getConfig.js";
 import { existsSync, mkdirSync } from "fs";
 import path from "path";
-import { DEPLOYS_FILE_NAME } from "../deploy/loadDeploy";
-import { ENCRYPTED_DEPLOYS_FILE_NAME } from "../deploy/loadEncryptedDeploy";
-import { Args } from "../../../index";
+import { DEPLOYS_FILE_NAME } from "../deploy/loadDeploy.js";
+import { ENCRYPTED_DEPLOYS_FILE_NAME } from "../deploy/loadEncryptedDeploy.js";
+import { Args } from "../../../index.js";
 
 export const createConfigs = async (args: Args) => {
   const sweadBasePath = args.config || SWEAD_BASE_PATH;

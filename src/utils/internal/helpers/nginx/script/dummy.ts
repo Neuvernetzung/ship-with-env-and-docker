@@ -2,9 +2,9 @@ import {
   NGINX_FULL_CHAIN_FILE_NAME,
   NGINX_PRIVATE_KEY_FILE_NAME,
   getDummyCertificatePath,
-} from "@/constants/nginx/dummyCertificate";
-import { join } from "@/utils/internal/files";
-import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl";
+} from "@/constants/nginx/index.js";
+import { join } from "@/utils/internal/files/join.js";
+import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
 
 export const createDummyScript = (domain: string) => {
   const finalUrl = stripHttpsFromUrl(domain);
