@@ -1,5 +1,15 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.1.2
+
+### Patch Changes
+
+- ebc75b9: Header für Readme hinzufügen #201
+- b91082c: Log Volumes entfernen bei nginx usw. #198
+- 77037c1: Log Volumes entfernen bei nginx usw. #198
+- e947db2: Zurück zu nodenext moduleResolution #212
+- c54fb22: 3rd Level Domains entfernen #186
+
 ## 2.1.1
 
 ### Patch Changes
