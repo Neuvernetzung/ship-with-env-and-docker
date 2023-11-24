@@ -1,2 +1,3 @@
-export * from "./createNginxFiles.js";
-export * from "./createNginxService.js";
+export * from "./files/index.js";
+export * from "./service.js";
+export * from "./script/index.js";

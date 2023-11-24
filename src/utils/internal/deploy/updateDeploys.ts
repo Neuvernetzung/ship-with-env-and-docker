@@ -22,7 +22,7 @@ export const updateDeploys = async (newDeploys: Deploys, args: Args) => {
 
   // Formatieren
   const unformattedFile = await readFile(deploysPath, "utf8");
-  
+
   const formattedCode = await prettier.format(unformattedFile, {
     parser: "typescript",
     semi: true,

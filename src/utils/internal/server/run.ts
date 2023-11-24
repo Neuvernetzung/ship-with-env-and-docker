@@ -49,8 +49,8 @@ export const run = async (
         skip: args.skip
           ? args.skip > i + 1
           : args.specific
-          ? args.specific !== i + 1
-          : false,
+            ? args.specific !== i + 1
+            : false,
         task: async (_, task) => {
           const server = servers[deploy.use.key];
           if (!server)

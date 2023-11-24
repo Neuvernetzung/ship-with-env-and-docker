@@ -39,7 +39,7 @@ export const createArtifact = async (
 
   const additionalFiles = [
     compose.path,
-    ...(dockerFiles.map((file) => file.path).filter((v) => v) as string[]),
+    ...compact(dockerFiles.map((file) => file.path)),
     ...helpers.map((file) => file.path),
   ];
 

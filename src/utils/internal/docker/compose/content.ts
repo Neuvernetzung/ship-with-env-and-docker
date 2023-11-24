@@ -6,14 +6,14 @@ import {
   DockerCompose,
   DockerComposeServices,
 } from "../../../../types/docker.js";
+import { createHelperServices } from "../../index.js";
+import { createComposeServices } from "./createServices.js";
+import { ServerDeploy } from "../../../../types/deploys.js";
+import { NGINX_SSL_VOLUME } from "@/constants/nginx/docker.js";
 import {
   CERTBOT_CERTS_VOLUME,
   CERTBOT_VOLUME,
-  createHelperServices,
-  NGINX_SSL_VOLUME,
-} from "../../index.js";
-import { createComposeServices } from "./createServices.js";
-import { ServerDeploy } from "../../../../types/deploys.js";
+} from "@/constants/certbot/index.js";
 
 export const createComposeContent = async (
   server: Server,

@@ -1,19 +1,20 @@
-import { ServerDeploy } from "../../../../types/deploys.js";
-import { Certbot, Server } from "../../../../types/index.js";
-import { stripHttpsFromUrl } from "../../../stripHttpsFromUrl.js";
+import isArray from "lodash/isArray.js";
+import type { ServerDeploy } from "../../../../types/deploys.js";
+import type { Server } from "../../../../types/index.js";
+import { getAppDomain } from "../../config/domain.js";
 import {
+  createCertbotScriptCommand,
   createDockerFileLine,
   dockerFileToString,
-  getAppDomain,
   getDockerFilePath,
-  NGINX_SERVICE_NAME,
 } from "../../index.js";
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
-
-export const CERTBOT_PATH = "certbot";
-
-export const CERTBOT_SCRIPT_NAME = "certbot.sh";
+import {
+  CERTBOT_PATH,
+  CERTBOT_SCRIPT_NAME,
+  NGINX_SERVICE_NAME,
+} from "@/constants/index.js";
 
 export const createCertbotFiles = (
   server: Server,
@@ -36,9 +37,26 @@ export const createCertbotFiles = (
       .filter((app) => !!app.requireUrl)
       .map((app) => {
         const domain = getAppDomain(app, deploy);
-        if (!domain) return;
+
+        if (isArray(domain)) {
+          if (domain.length === 0)
+            throw new Error(
+              `While creating cert scripts for App "${app.name}" there are no domains specified in array.`
+            );
+
+          return domain.map((d) =>
+            createCertbotScriptCommand(d, server.certbot)
+          );
+        }
+
+        if (!domain)
+          throw new Error(
+            `While creating cert scripts for App "${app.name}" there is no domain specified.`
+          );
+
         return createCertbotScriptCommand(domain, server.certbot);
       })
+      .flat()
       .join("\n\n")}
     
       `,
@@ -65,28 +83,4 @@ export const createCertbotFiles = (
   };
 
   return [certbotScript, certbotDockerFile];
-};
-
-const createCertbotScriptCommand = (url: string, certbot?: Certbot) => {
-  const finalUrl = stripHttpsFromUrl(url);
-
-  return `if [ -d "/etc/letsencrypt/live/${finalUrl}" ]; then
-echo "Let's Encrypt Certificate for ${finalUrl} already exists."
-else
-echo "Obtaining the certificates for ${finalUrl}"
-
-certbot certonly \
-  --webroot \
-  -w "/var/www/certbot" \
-  --expand \
-  -d "${finalUrl}" -d "www.${finalUrl}" \
-  ${
-    certbot?.email
-      ? `--email ${certbot.email}`
-      : "--register-unsafely-without-email"
-  } \
-  --rsa-key-size "4096" \
-  --agree-tos \
-  --noninteractive || true
-fi`;
 };

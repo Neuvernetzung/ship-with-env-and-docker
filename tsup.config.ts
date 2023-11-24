@@ -7,9 +7,12 @@ export default defineConfig({
   dts: true,
   entry: ["src/index.ts", "src/cli/index.ts"],
   format: ["esm"],
-  minify: !isDev,
+  // minify: !isDev,
   metafile: !isDev,
   sourcemap: true,
+  platform: "node",
+  treeshake: true,
   target: "esnext",
+  skipNodeModulesBundle: true,
   outDir: "dist",
 });

@@ -2,20 +2,26 @@ import { Server } from "../../../../types/index.js";
 import { DockerComposeService } from "../../../../types/docker.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 import { getHelpersPath } from "../getHelpersPath.js";
-import { CERTBOT_CERTS_VOLUME, CERTBOT_VOLUME, NGINX_PATH } from "../index.js";
 import { ServerDeploy } from "../../../../types/deploys.js";
-import { getAppDomain } from "../../index.js";
-
-export const NGINX_SERVICE_NAME = "nginx";
-
-export const NGINX_SSL_VOLUME = "nginx_ssl";
+import {
+  NGINX_PATH,
+  NGINX_SERVICE_NAME,
+  NGINX_SSL_VOLUME,
+  nginxSSLPath,
+} from "@/constants/nginx/index.js";
+import { getAppDomain } from "../../config/domain.js";
+import {
+  CERTBOT_CERTS_VOLUME,
+  CERTBOT_VOLUME,
+} from "@/constants/certbot/docker.js";
+import { certificateBasePath } from "@/constants/certbot/certificate.js";
+import { certbotBasePath } from "@/constants/certbot/index.js";
 
 export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
   const volumes = [
-    "./logs/nginx:/var/log/nginx",
-    `${NGINX_SSL_VOLUME}:/etc/nginx/ssl`,
-    `${CERTBOT_CERTS_VOLUME}:/etc/letsencrypt`,
-    `${CERTBOT_VOLUME}:/var/www/certbot`,
+    `${NGINX_SSL_VOLUME}:${nginxSSLPath}`,
+    `${CERTBOT_CERTS_VOLUME}:${certificateBasePath}`,
+    `${CERTBOT_VOLUME}:${certbotBasePath}`,
   ];
 
   const cron: DockerComposeService = {

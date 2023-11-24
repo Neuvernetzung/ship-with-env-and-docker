@@ -1,10 +1,11 @@
+.changeset
 apps
 .github
 node_modules
 src
 CHANGELOG.md
-commitlint.config.ts
 **/**.tsbuildinfo
 *.enc
 turbo.json
 tsup.config.ts
+public

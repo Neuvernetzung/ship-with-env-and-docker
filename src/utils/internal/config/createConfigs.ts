@@ -52,7 +52,7 @@ export const createConfigs = async (args: Args) => {
 
 const configBoilerPlate = `
 import { SweadConfig } from "swead";
-import envSchemas from "./envSchemas.js";
+import envSchemas from "./envSchemas";
 
 const config = {
   branches: {
@@ -69,8 +69,8 @@ export default config
 
 const deploysBoilerPlate = `
 import { Deploys } from "swead";
-import config from "./config.js";
-import envSchemas from "./envSchemas.js";
+import config from "./config";
+import envSchemas from "./envSchemas";
 
 const deploys: Deploys<typeof envSchemas, typeof config> = {
   dev: { envs: [] },

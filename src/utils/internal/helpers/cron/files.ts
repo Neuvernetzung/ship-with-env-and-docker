@@ -1,16 +1,15 @@
 import {
+  CRON_PATH,
+  CRON_SCRIPT_NAME,
+  CRON_TAB_NAME,
+} from "@/constants/cron/index.js";
+import {
   createDockerFileLine,
   dockerFileToString,
   getDockerFilePath,
 } from "../../index.js";
 import { getHelpersPath } from "../getHelpersPath.js";
 import { HelperFile } from "../handleHelperFiles.js";
-
-export const CRON_PATH = "cron";
-
-export const CRON_TAB_NAME = "crontab.txt";
-
-export const CRON_SCRIPT_NAME = "renew_certs.sh";
 
 export const createCronFiles = (): HelperFile[] => {
   const cronTab: HelperFile = {

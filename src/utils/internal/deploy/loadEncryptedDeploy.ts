@@ -52,8 +52,8 @@ export const loadEncryptedDeploy = async (deploy: RunMethods, args?: Args) => {
     deploy === "dev" || deploy === "local"
       ? await zLocalDeploy.safeParseAsync(decryptedDeploy)
       : deploy === "production" || deploy === "staging"
-      ? await zServerDeployUnion.safeParseAsync(decryptedDeploy)
-      : undefined;
+        ? await zServerDeployUnion.safeParseAsync(decryptedDeploy)
+        : undefined;
 
   if (!parsedDeploys || !parsedDeploys?.success) {
     throw new Error(`Invalid encrypted deploys:\n
