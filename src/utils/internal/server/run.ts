@@ -97,7 +97,7 @@ export const run = async (
             {
               title: "Creating artifacts",
               task: async () =>
-                await createArtifact(dir, server, deploy, envSchemas),
+                await createArtifact(args, dir, server, deploy, envSchemas),
             },
             ...(await withSSHConnection(
               deploy.server,

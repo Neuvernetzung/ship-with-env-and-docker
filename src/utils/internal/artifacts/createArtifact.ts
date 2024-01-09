@@ -1,4 +1,4 @@
-import { EnvSchemas, Server } from "../../../types/index.js";
+import type { Args, EnvSchemas, Server } from "../../../types/index.js";
 import {
   handleHelperFiles,
   handleComposeFile,
@@ -13,11 +13,12 @@ import { writeTar } from "./writeTar.js";
 import { mkdir } from "fs/promises";
 import { getArtifactPaths } from "./getArtifactPaths.js";
 import compact from "lodash/compact.js";
-import { ServerDeploy } from "../../../types/deploys.js";
+import type { ServerDeploy } from "../../../types/deploys.js";
 
 export const LOCAL_ARTIFACT_DIR = join(SWEAD_BASE_PATH, "_artifact");
 
 export const createArtifact = async (
+  args: Args,
   dir: string,
   server: Server,
   deploy: ServerDeploy,
@@ -52,5 +53,6 @@ export const createArtifact = async (
   await performSingleOrMultiple(server.apps, async (app) => {
     await removeEnv(app.env);
   });
-  await clean(LOCAL_ARTIFACT_DIR);
+
+  if (!args.keepArtifact) await clean(LOCAL_ARTIFACT_DIR);
 };

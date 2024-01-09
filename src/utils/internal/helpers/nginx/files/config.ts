@@ -23,7 +23,7 @@ export const createDefaultConf = (app: App, deploy: ServerDeploy) => {
 
   const redirectConfigs = domains.redirects
     ? domains.redirects
-        .map((redirect) => redirectConfig(app, finalUrl, redirect))
+        .map((redirect) => redirectConfig(finalUrl, redirect))
         .join("\n\n")
     : undefined;
 
@@ -78,8 +78,8 @@ const serverConfig = (app: App, url: string) => {
   }`;
 };
 
-const redirectConfig = (app: App, finalUrl: string, redirect: string) => {
-  const dummyPath = getDummyCertificatePath(redirect);
+const redirectConfig = (finalUrl: string, redirect: string) => {
+  const dummyPath = getDummyCertificatePath(finalUrl);
   const redirectUrl = stripHttpsFromUrl(redirect);
 
   return `server {

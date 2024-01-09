@@ -25,6 +25,7 @@ export const zArgs = z.object({
   remove: z.boolean().optional(),
   password: z.string().optional(),
   verbose: z.boolean().optional(),
+  keepArtifact: z.boolean().optional(),
 });
 
 export type Args = z.infer<typeof zArgs>;
