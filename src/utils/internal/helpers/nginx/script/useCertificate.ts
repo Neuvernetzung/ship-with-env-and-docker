@@ -11,22 +11,22 @@ export const createUseCertificates = (
   domains: ServerDomainConfig,
   name: string
 ) => {
-  return `${useCertificateFunction(domains.url, name)}${
+  return `${useCertificateFunction(domains.url)}${
     domains.redirects
       ? `\n\n${domains.redirects
-          .map((redirect) => useCertificateFunction(redirect, name))
+          .map((redirect) => useCertificateFunction(redirect))
           .join("\n\n")}`
       : ""
   }`;
 };
 
-const useCertificateFunction = (url: string, name: string) => {
+const useCertificateFunction = (url: string) => {
   const finalUrl = stripHttpsFromUrl(url);
   const dummyPath = getDummyCertificatePath(url);
   const certificatePath = getCertificateLivePath(url);
 
   return `
-${useCertificatesFunctionName(name)}() {
+${useCertificatesFunctionName(finalUrl)}() {
     echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} eingeleitet." 
     sed -i "s|${dummyPath}|${certificatePath}|g" ${nginxConfigDefaultPath}
     echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} erfolgreich."

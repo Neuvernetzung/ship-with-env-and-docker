@@ -16,7 +16,7 @@ import { runProtect } from "../main/protect.js";
 
 const cliOpts: minimist.Opts = {
   string: ["_", "c", "s", "p", "specific"],
-  boolean: ["h", "a", "r", "v"],
+  boolean: ["h", "a", "r", "v", "keepArtifact"],
   alias: {
     c: "config",
     h: "help",

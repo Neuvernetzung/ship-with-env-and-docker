@@ -20,7 +20,8 @@
     "dev": "tsup --watch",
     "build": "tsup",
     "type-check": "tsc --noEmit",
-    "dev:swead": "npx swead dev -c _test"
+    "dev:swead": "npx swead dev -c",
+    "dev:production": "npx swead production -c"
   },
   "dependencies": {
     "bundle-require": "^4.0.2",
