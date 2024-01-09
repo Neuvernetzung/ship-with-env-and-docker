@@ -1,6 +1,5 @@
-import isArray from "lodash/isArray.js";
 import type { Server, ServerDeploy } from "@/types/index.js";
-import { getAppDomain } from "../../../config/domain.js";
+import { getAppDomains } from "../../../config/domain.js";
 import { dockerComposeServiceName } from "../../../docker/compose/serviceName.js";
 import { createDummyScript } from "./dummy.js";
 import { createUseCertificates } from "./useCertificate.js";
@@ -12,7 +11,7 @@ export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
   const appDomains = server.apps
     .filter((app) => app.requireUrl)
     .map((app) => {
-      const domains = getAppDomain(app, deploy);
+      const domains = getAppDomains(app, deploy);
 
       if (!domains)
         throw new Error(
@@ -21,7 +20,7 @@ export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
 
       return {
         name: app.name,
-        domain: domains,
+        domains,
       };
     });
 
@@ -31,11 +30,7 @@ export const createNginxScript = (server: Server, deploy: ServerDeploy) => {
 set -e
 
 ${appDomains
-  .map((app) =>
-    isArray(app.domain)
-      ? app.domain.map((d) => createDummyScript(d))
-      : createDummyScript(app.domain)
-  )
+  .map((app) => createDummyScript(app.domains))
   .flat()
   .join("\n\n")}
 
@@ -45,11 +40,7 @@ fi
 
 ${appDomains
   .map((app) =>
-    isArray(app.domain)
-      ? app.domain.map((d) =>
-          createUseCertificates(d, dockerComposeServiceName(app.name))
-        )
-      : createUseCertificates(app.domain, dockerComposeServiceName(app.name))
+    createUseCertificates(app.domains, dockerComposeServiceName(app.name))
   )
   .flat()
   .join("\n\n")}
@@ -62,23 +53,13 @@ reload_nginx() {
 
 ${appDomains
   .map((app) =>
-    isArray(app.domain)
-      ? app.domain.map((d) =>
-          waitForLetsEncrypt(d, dockerComposeServiceName(app.name))
-        )
-      : waitForLetsEncrypt(app.domain, dockerComposeServiceName(app.name))
+    waitForLetsEncrypt(app.domains, dockerComposeServiceName(app.name))
   )
   .flat()
   .join("\n\n")}
 
 ${appDomains
-  .map((app) =>
-    isArray(app.domain)
-      ? app.domain.map((d) =>
-          nginxCondition(d, dockerComposeServiceName(app.name))
-        )
-      : nginxCondition(app.domain, dockerComposeServiceName(app.name))
-  )
+  .map((app) => nginxCondition(app.domains, dockerComposeServiceName(app.name)))
   .flat()
   .join("\n\n")}
 

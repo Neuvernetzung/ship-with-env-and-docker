@@ -5,18 +5,31 @@ import {
 } from "@/constants/nginx/index.js";
 import { getDummyCertificatePath } from "@/constants/nginx/index.js";
 import { getCertificateLivePath } from "@/constants/certbot/certificate.js";
+import { ServerDomainConfig } from "@/index.js";
 
-export const createUseCertificates = (domain: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(domain);
+export const createUseCertificates = (
+  domains: ServerDomainConfig,
+  name: string
+) => {
+  return `${useCertificateFunction(domains.url, name)}${
+    domains.redirects
+      ? `\n\n${domains.redirects
+          .map((redirect) => useCertificateFunction(redirect, name))
+          .join("\n\n")}`
+      : ""
+  }`;
+};
 
-  const dummyPath = getDummyCertificatePath(domain);
-  const certificatePath = getCertificateLivePath(domain);
+const useCertificateFunction = (url: string, name: string) => {
+  const finalUrl = stripHttpsFromUrl(url);
+  const dummyPath = getDummyCertificatePath(url);
+  const certificatePath = getCertificateLivePath(url);
 
   return `
-      ${useCertificatesFunctionName(name)}() {
-          echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} eingeleitet." 
-          sed -i "s|${dummyPath}|${certificatePath}|g" ${nginxConfigDefaultPath}
-          echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} erfolgreich."
-          }
-      `;
+${useCertificatesFunctionName(name)}() {
+    echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} eingeleitet." 
+    sed -i "s|${dummyPath}|${certificatePath}|g" ${nginxConfigDefaultPath}
+    echo "Wechsel von Nginx zu Let's Encrypt Zertifikat für ${finalUrl} erfolgreich."
+    }
+`;
 };
