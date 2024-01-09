@@ -19,7 +19,7 @@ export const waitForLetsEncrypt = (
               echo "Wait for Let's Encrypt certificates for ${finalUrl}."
               sleep 5s & wait \${!}
           done
-          ${useCertificatesFunctionName(name)} "${finalUrl}"
+          ${useCertificatesFunctionName(finalUrl)} "${finalUrl}"
           reload_nginx
           }`;
 };

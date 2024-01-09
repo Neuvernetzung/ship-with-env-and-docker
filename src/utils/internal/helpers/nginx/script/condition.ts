@@ -15,6 +15,6 @@ export const nginxCondition = (domains: ServerDomainConfig, name: string) => {
       if [ ! -d "${certificatePath}" ]; then
           ${waitForLetsEncryptFunctionName(name)} "${finalUrl}" &
       else
-          ${useCertificatesFunctionName(name)} "${finalUrl}"
+          ${useCertificatesFunctionName(finalUrl)} "${finalUrl}"
       fi`;
 };
