@@ -1,10 +1,16 @@
-import type { Certbot, Url } from "@/types/index.js";
+import type { Certbot, ServerDomainConfig, Url } from "@/types/index.js";
 import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
 import { getCertificateLivePath } from "@/constants/certbot/certificate.js";
 import { certbotBasePath } from "@/constants/index.js";
 
-export const createCertbotScriptCommand = (url: Url, certbot?: Certbot) => {
-  const finalUrl = stripHttpsFromUrl(url);
+export const createCertbotScriptCommand = (
+  domains: ServerDomainConfig,
+  certbot?: Certbot
+) => {
+  const finalUrl = stripHttpsFromUrl(domains.url);
+  const redirects = domains.redirects
+    ? domains.redirects.map((redirect) => stripHttpsFromUrl(redirect))
+    : undefined;
 
   const certificatePath = getCertificateLivePath(finalUrl);
 
@@ -17,7 +23,9 @@ export const createCertbotScriptCommand = (url: Url, certbot?: Certbot) => {
     --webroot \
     -w "${certbotBasePath}" \
     --expand \
-    -d "${finalUrl}" \
+    -d "${finalUrl}" ${
+      redirects ? redirects.map((redirect) => `-d "${redirect}"`).join(" ") : ""
+    }\
     ${
       certbot?.email
         ? `--email ${certbot.email}`

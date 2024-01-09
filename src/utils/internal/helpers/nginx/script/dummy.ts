@@ -3,11 +3,15 @@ import {
   NGINX_PRIVATE_KEY_FILE_NAME,
   getDummyCertificatePath,
 } from "@/constants/nginx/index.js";
+import { ServerDomainConfig } from "@/index.js";
 import { join } from "@/utils/internal/files/join.js";
 import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
 
-export const createDummyScript = (domain: string) => {
-  const finalUrl = stripHttpsFromUrl(domain);
+export const createDummyScript = (domains: ServerDomainConfig) => {
+  const finalUrl = stripHttpsFromUrl(domains.url);
+  const redirects = domains.redirects
+    ? domains.redirects.map((redirect) => stripHttpsFromUrl(redirect))
+    : undefined;
 
   const dummyPath = getDummyCertificatePath(finalUrl);
 
@@ -18,7 +22,11 @@ export const createDummyScript = (domain: string) => {
       if [ ! -f "${fullChainPath}" ]; then
           echo "Generating dummy certificate for ${finalUrl}."
           mkdir -p "${dummyPath}"
-          printf "[dn]\nCN=${finalUrl}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:${finalUrl}\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" > openssl.cnf
+          printf "[dn]\nCN=${finalUrl}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:${finalUrl}${
+            redirects
+              ? `, ${redirects.map((redirect) => `DNS:${redirect}`).join(", ")}`
+              : ""
+          }\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth" > openssl.cnf
           openssl req -x509 -out "${fullChainPath}" -keyout "${privKeyPath}" \
           -newkey rsa:2048 -nodes -sha256 \
           -subj "/CN=${finalUrl}" -extensions EXT -config openssl.cnf

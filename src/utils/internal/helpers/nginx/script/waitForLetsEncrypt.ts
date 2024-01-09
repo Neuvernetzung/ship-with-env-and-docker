@@ -4,10 +4,14 @@ import {
 } from "@/constants/nginx/script.js";
 import { getCertificateLivePath } from "@/constants/certbot/certificate.js";
 import { stripHttpsFromUrl } from "@/utils/stripHttpsFromUrl.js";
+import { ServerDomainConfig } from "@/index.js";
 
-export const waitForLetsEncrypt = (domain: string, name: string) => {
-  const finalUrl = stripHttpsFromUrl(domain);
-  const certificatePath = getCertificateLivePath(domain);
+export const waitForLetsEncrypt = (
+  domains: ServerDomainConfig,
+  name: string
+) => {
+  const finalUrl = stripHttpsFromUrl(domains.url);
+  const certificatePath = getCertificateLivePath(domains.url);
 
   return `
       ${waitForLetsEncryptFunctionName(name)}() {

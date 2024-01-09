@@ -4,8 +4,7 @@ import { Server } from "../../../types/server.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
 import { ServerDeploy } from "../../../types/deploys.js";
-import isArray from "lodash/isArray.js";
-import { getAppDomain } from "./domain.js";
+import { getAppDomains } from "./domain.js";
 
 export const testDns = async (server: Server, deploy: ServerDeploy) => {
   const ip = deploy.server.ip;
@@ -18,45 +17,53 @@ export const testDns = async (server: Server, deploy: ServerDeploy) => {
   await performSingleOrMultiple(server.apps, async (app) => {
     if (!app.requireUrl) return;
 
-    const domain = getAppDomain(app, deploy);
+    const domains = getAppDomains(app, deploy);
 
-    if (!domain)
+    if (!domains?.url)
       throw new Error(
         `Please define a ${bold("domain")} for the app with the name ${bold(
           app.name
         )} in the deploy ${bold(deploy.name)}.`
       );
 
-    if (isArray(domain)) {
-      await Promise.all(domain.map((d) => testDomainDns(d, ip)));
-    } else {
-      await testDomainDns(domain, ip);
+    await testDomainDns(domains.url, ip);
+
+    if (domains.redirects) {
+      await Promise.all(
+        domains.redirects.map((redirect) => testDomainDns(redirect, ip, true))
+      );
     }
   });
 };
 
-export const testDomainDns = async (url: string, ip: string) => {
+export const testDomainDns = async (
+  url: string,
+  ip: string,
+  isRedirect?: boolean
+) => {
   const errors = [];
   const domain = stripHttpsFromUrl(url);
+
+  const name = isRedirect ? "REDIRECT" : "DOMAIN";
 
   const aResult = await dnsPromises.resolve4(domain).catch((error) => {
     errors.push(error);
     errors.push(
-      `The DOMAIN (${domain}) is not accessible. Please create a DOMAIN record of type 'A' with the hostname '${
+      `The ${name} (${domain}) is not accessible. Please create a DOMAIN record of type 'A' with the hostname '${
         domain.split(".").length <= 2 ? "@" : domain.split(".")[0]
       }' pointing to the IP address: '${ip}'.`
     );
   });
   if (aResult && !aResult?.includes(ip)) {
     errors.push(
-      `The DOMAIN '${domain}' points to a different IP address. Please make sure that the DOMAIN points to the IP '${ip}'.`
+      `The ${name} '${domain}' points to a different IP address. Please make sure that the DOMAIN points to the IP '${ip}'.`
     );
   }
 
   const caaResult = await dnsPromises.resolveCaa(domain).catch((error) => {
     errors.push(error);
     errors.push(
-      `The DOMAIN CERTIFICATION (${domain}) is not accessible. Please create a DOMAIN record of type 'CAA' with the hostname '${
+      `The ${name} CERTIFICATION (${domain}) is not accessible. Please create a DOMAIN record of type 'CAA' with the hostname '${
         domain.split(".").length <= 2 ? "@" : domain.split(".")[0]
       }' pointing to the value: 'letsencrypt.org'.`
     );
@@ -66,7 +73,7 @@ export const testDomainDns = async (url: string, ip: string) => {
     ![...caaResult]?.map((i) => i.issue).includes("letsencrypt.org")
   ) {
     errors.push(
-      `The DOMAIN CERTIFICATION (${domain}) points to another certification authority. Please make sure that the certification points to the value 'letsencrypt.org'.`
+      `The ${name} CERTIFICATION (${domain}) points to another certification authority. Please make sure that the certification points to the value 'letsencrypt.org'.`
     );
   }
 

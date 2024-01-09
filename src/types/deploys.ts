@@ -30,7 +30,11 @@ const zServerDetails = z.object({
 
 export type Url = string;
 
-export type UrlUnion = Url | Url[];
+export type ServerDomainConfig<TAppName extends string = string> = {
+  app: TAppName;
+  url: Url;
+  redirects?: Url[];
+};
 
 export type UseServerConfig<
   TConfig extends SweadConfig = SweadConfig,
@@ -38,20 +42,23 @@ export type UseServerConfig<
 > = {
   key: TConfig["server"] extends Record<string, any> ? TKey : string;
   domains: TConfig["server"] extends Record<string, any>
-    ? {
-        app: Extract<
+    ? ServerDomainConfig<
+        Extract<
           TConfig["server"][TKey]["apps"][number],
           { requireUrl: true }
-        >["name"];
-        url: UrlUnion;
-      }[]
-    : { app: string; url: UrlUnion }[];
+        >["name"]
+      >[]
+    : ServerDomainConfig[];
 };
 
 const zUseServerConfig: z.ZodType<UseServerConfig> = z.object({
   key: z.string(),
   domains: z.array(
-    z.object({ app: z.string(), url: z.union([zUrl, z.array(zUrl)]) })
+    z.object({
+      app: z.string(),
+      url: zUrl,
+      redirects: z.array(zUrl).optional(),
+    })
   ),
 });
 

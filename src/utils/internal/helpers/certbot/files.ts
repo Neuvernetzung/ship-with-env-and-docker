@@ -1,7 +1,7 @@
 import isArray from "lodash/isArray.js";
 import type { ServerDeploy } from "../../../../types/deploys.js";
 import type { Server } from "../../../../types/index.js";
-import { getAppDomain } from "../../config/domain.js";
+import { getAppDomains } from "../../config/domain.js";
 import {
   createCertbotScriptCommand,
   createDockerFileLine,
@@ -36,25 +36,14 @@ export const createCertbotFiles = (
     ${server.apps
       .filter((app) => !!app.requireUrl)
       .map((app) => {
-        const domain = getAppDomain(app, deploy);
+        const domains = getAppDomains(app, deploy);
 
-        if (isArray(domain)) {
-          if (domain.length === 0)
-            throw new Error(
-              `While creating cert scripts for App "${app.name}" there are no domains specified in array.`
-            );
-
-          return domain.map((d) =>
-            createCertbotScriptCommand(d, server.certbot)
-          );
-        }
-
-        if (!domain)
+        if (!domains?.url)
           throw new Error(
             `While creating cert scripts for App "${app.name}" there is no domain specified.`
           );
 
-        return createCertbotScriptCommand(domain, server.certbot);
+        return createCertbotScriptCommand(domains, server.certbot);
       })
       .flat()
       .join("\n\n")}

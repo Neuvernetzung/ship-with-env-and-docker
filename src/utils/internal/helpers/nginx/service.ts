@@ -9,7 +9,7 @@ import {
   NGINX_SSL_VOLUME,
   nginxSSLPath,
 } from "@/constants/nginx/index.js";
-import { getAppDomain } from "../../config/domain.js";
+import { getAppDomains } from "../../config/domain.js";
 import {
   CERTBOT_CERTS_VOLUME,
   CERTBOT_VOLUME,
@@ -31,7 +31,7 @@ export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
     volumes,
     restart: "always",
     links: server.apps
-      .filter((app) => getAppDomain(app, deploy))
+      .filter((app) => getAppDomains(app, deploy))
       .map((app) => dockerComposeServiceName(app.name)),
   };
 
