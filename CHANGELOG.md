@@ -1,5 +1,15 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.2.0
+
+### Minor Changes
+
+- 8151134: Weiterleitungen hinzufügen, statt mehrere URLs #218
+
+### Patch Changes
+
+- f315921: Deps updaten #222
+
 ## 2.1.2
 
 ### Patch Changes
