@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.2.1
+
+### Patch Changes
+
+- 7eb2d2e: nginx fixen und keepArtifacts für Entwicklung hinzufügen #224
+
 ## 2.2.0
 
 ### Minor Changes
