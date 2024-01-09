@@ -1,5 +1,11 @@
 # [1.3.0](https://github.com/Neuvernetzung/ship-with-env-and-docker/compare/v1.2.5...v1.3.0) (2023-05-06)
 
+## 2.2.2
+
+### Patch Changes
+
+- 3142ea1: useCertificate shell Funktion für redirect entfernen #228
+
 ## 2.2.1
 
 ### Patch Changes
