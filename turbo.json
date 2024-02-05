@@ -5,11 +5,15 @@
       "cache": false,
       "persistent": true
     },
+    "swead:dev": {
+      "cache": false,
+      "persistent": true
+    },
     "build": {
       "cache": false
     },
     "start": {},
-    "production": {},
-    "typecheck": {}
+    "swead:production": {},
+    "type-check": {}
   }
 }
