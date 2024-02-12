@@ -23,6 +23,20 @@ export const start = async (
     );
   }
 
+  if (deploy.docker?.registries && deploy.docker?.registries.length > 0) {
+    // In Docker Registries einloggen
+    await execCommand(
+      ssh,
+      deploy.docker.registries
+        .map(
+          (registry) =>
+            `docker login -u ${registry.user} -p ${registry.pass} ${registry.url}`
+        )
+        .join(" && "),
+      { cwd: targetPath, stdout }
+    );
+  }
+
   if (server.beforeStart) {
     await performSingleOrMultiple(
       server.beforeStart,

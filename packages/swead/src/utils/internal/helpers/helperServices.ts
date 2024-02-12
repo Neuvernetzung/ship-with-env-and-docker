@@ -7,6 +7,8 @@ import { createAcmeCompanionServices } from "./acme-companion/service.js";
 import { NGINX_SERVICE_NAME } from "@/constants/index.js";
 import { DOCKER_GEN_SERVICE_NAME } from "@/constants/docker-gen/docker.js";
 import { ACME_COMPANION_SERVICE_NAME } from "@/constants/acme-companion/docker.js";
+import { WATCHTOWER_SERVICE_NAME } from "@/constants/watchtower/docker.js";
+import { createWatchtowerServices } from "./watchtower/service.js";
 
 export const createHelperServices = (server: Server, deploy: ServerDeploy) => {
   const nginx = createNginxServices(server, deploy);
@@ -18,6 +20,12 @@ export const createHelperServices = (server: Server, deploy: ServerDeploy) => {
     [DOCKER_GEN_SERVICE_NAME]: dockerGen,
     [ACME_COMPANION_SERVICE_NAME]: acmeCompanion,
   };
+
+  if (!server.docker?.watchtower?.disabled) {
+    const watchtower = createWatchtowerServices(deploy);
+
+    services[WATCHTOWER_SERVICE_NAME] = watchtower;
+  }
 
   return services;
 };

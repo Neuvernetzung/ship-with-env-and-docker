@@ -4,6 +4,7 @@ import { RunMethods } from "./args.js";
 import { SweadConfig } from "./config.js";
 import { zUrl } from "./url.js";
 import { Notification, zNotification } from "./helpers.js";
+import { DockerServerConfig, zDockerServerConfig } from "./docker.js";
 
 export type LocalDeploy<T extends EnvSchemas = EnvSchemas> = {
   envs: Array<EnvEntry<T>>;
@@ -73,6 +74,7 @@ export type ServerDeploy<
   use: UseServerConfig<TConfig>;
   waitOn?: string | string[];
   notifications?: Notification;
+  docker?: DockerServerConfig;
 };
 
 const zServerDeploy: z.ZodType<ServerDeploy> = z.object({
@@ -82,6 +84,7 @@ const zServerDeploy: z.ZodType<ServerDeploy> = z.object({
   use: zUseServerConfig,
   waitOn: z.union([z.string(), z.array(z.string())]).optional(),
   notifications: zNotification.optional(),
+  docker: zDockerServerConfig.optional(),
 });
 
 export type ServerDeployUnion<
