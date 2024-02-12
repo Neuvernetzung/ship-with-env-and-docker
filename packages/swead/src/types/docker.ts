@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type DockerCompose = {
   version: string;
   services: DockerComposeServices;
@@ -59,3 +61,33 @@ export type DockerFile = {
   path?: string;
   content?: DockerFileContent;
 };
+
+export type DockerServerRegistry = z.infer<typeof zDockerServerRegistry>;
+
+export const zDockerServerRegistry = z.object({
+  url: z.string().url(),
+  user: z.string(),
+  pass: z.string(),
+});
+
+export type DockerServerRegistries = z.infer<typeof zDockerServerRegistries>;
+
+export const zDockerServerRegistries = z.array(zDockerServerRegistry);
+
+export type DockerServerConfig = z.infer<typeof zDockerServerConfig>;
+
+export const zDockerServerConfig = z.object({
+  registries: zDockerServerRegistries.optional(),
+});
+
+export type DockerConfig = z.infer<typeof zDockerConfig>;
+
+export type DockerWatchtower = z.infer<typeof zDockerWatchtower>;
+
+export const zDockerWatchtower = z.object({
+  disabled: z.boolean().optional(),
+});
+
+export const zDockerConfig = z.object({
+  watchtower: zDockerWatchtower.optional(),
+});
