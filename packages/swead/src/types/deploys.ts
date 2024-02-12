@@ -36,6 +36,7 @@ export type ServerDomainConfig<TAppName extends string = string> = {
   app: TAppName;
   url: Url;
   redirects?: Url[];
+  skipChecks?: boolean;
 };
 
 export type UseServerConfig<
@@ -60,6 +61,7 @@ const zUseServerConfig: z.ZodType<UseServerConfig> = z.object({
       app: z.string(),
       url: zUrl,
       redirects: z.array(zUrl).optional(),
+      skipChecks: z.boolean().optional(),
     })
   ),
 });

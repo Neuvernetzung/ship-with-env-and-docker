@@ -136,10 +136,17 @@ export const run = async (
             )),
             {
               title: "Wait for domains",
+              skip:
+                deploy.use.domains.filter((domain) => !domain.skipChecks)
+                  .length === 0,
               task: async () => {
+                const domains = deploy.use.domains.filter(
+                  (domain) => !domain.skipChecks
+                );
+
                 // Auf Domains warten
                 await waitOn(
-                  deploy.use.domains
+                  domains
                     .map((domain) => [
                       domain.url,
                       ...(domain.redirects ? domain.redirects : []),
@@ -150,7 +157,7 @@ export const run = async (
 
                 // Testen ob alle redirects korrekt funktionieren
                 await Promise.all(
-                  deploy.use.domains.map(async (domain) => {
+                  domains.map(async (domain) => {
                     if (!domain.redirects) return;
                     await Promise.all(
                       domain.redirects?.map(async (redirect) => {
