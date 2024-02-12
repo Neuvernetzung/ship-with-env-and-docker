@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.0
+
+### Minor Changes
+
+- de39b15: Redirect verhindert erstellung von Zertifikaten #241
+
 ## 3.0.0
 
 ### Major Changes
