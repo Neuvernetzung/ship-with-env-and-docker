@@ -4,5 +4,4 @@ node_modules
 _swead
 turbo-*.log
 dist
-_test/deploys.ts
 apps
