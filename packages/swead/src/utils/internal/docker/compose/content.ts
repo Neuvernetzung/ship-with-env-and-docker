@@ -48,7 +48,8 @@ export const createComposeContent = async (
 
   return {
     version,
-    services: merge(services, defaultServices),
+    services: merge(defaultServices, services),
     volumes,
+    networks: { [NGINX_SERVICE_NAME]: { external: true } },
   };
 };

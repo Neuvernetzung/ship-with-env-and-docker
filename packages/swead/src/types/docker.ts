@@ -2,9 +2,12 @@ export type DockerCompose = {
   version: string;
   services: DockerComposeServices;
   volumes: Record<string, DockerComposeVolume>;
+  networks?: Record<string, DockerComposeNetwork>;
 };
 
 type DockerComposeVolume = {};
+
+type DockerComposeNetwork = { external?: boolean };
 
 export type DockerComposeService = {
   container_name?: string;

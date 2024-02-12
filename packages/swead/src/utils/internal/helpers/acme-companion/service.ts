@@ -1,14 +1,7 @@
 import { DockerComposeService } from "../../../../types/docker.js";
-import {
-  NGINX_SERVICE_NAME,
-  nginxDefaultConfigPath,
-} from "@/constants/nginx/index.js";
+import { NGINX_SERVICE_NAME } from "@/constants/nginx/index.js";
 import { nginxBaseVolumes } from "../index.js";
-import {
-  DOCKER_GEN_SERVICE_NAME,
-  DOCKER_GEN_IMAGE_NAME,
-  dockerGenNginxTemplatePath,
-} from "@/constants/docker-gen/index.js";
+import { DOCKER_GEN_SERVICE_NAME } from "@/constants/docker-gen/index.js";
 import {
   ACME_COMPANION_VOLUME_NAME,
   DOCKER_SOCK_PATH,

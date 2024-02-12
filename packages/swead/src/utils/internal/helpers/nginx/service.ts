@@ -9,8 +9,8 @@ import {
   nginxConfigDir,
   nginxDhparamsDir,
   nginxHtmlDir,
-  nginxRedirectConfigDir,
-  nginxRedirectHelperDir,
+  nginxRedirectConfigPath,
+  nginxRedirectHelperFile,
   nginxVhostDir,
 } from "@/constants/nginx/index.js";
 import { getAppDomains } from "../../config/domain.js";
@@ -33,7 +33,7 @@ export const nginxBaseVolumes = [
 export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
   const volumes = [
     ...nginxBaseVolumes,
-    `./${nginxRedirectHelperDir}:${nginxRedirectConfigDir}`,
+    `./${nginxRedirectHelperFile}:${nginxRedirectConfigPath}:ro`,
   ];
 
   const nginx: DockerComposeService = {

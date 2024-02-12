@@ -2,10 +2,10 @@ import type { HelperFile } from "../../handleHelperFiles.js";
 import {
   DOCKER_GEN_HELPER_TEMPLATE_PATH,
   DOCKER_GEN_NGINX_TEMPLATE_NAME,
-  dockerGenNginxTemplatePath,
 } from "@/constants/docker-gen/index.js";
 import { join, logger } from "@/utils/internal/index.js";
 import { readFileSync } from "fs";
+import { fileURLToPath } from "url";
 
 const templatePath =
   "https://raw.githubusercontent.com/nginx-proxy/nginx-proxy/main/nginx.tmpl";
@@ -21,14 +21,20 @@ export const createDockerGenNginxTemplate = async (): Promise<HelperFile> => {
       `Docker-gen template not available, backup is used. Check: ${templatePath}`
     );
 
-  const backupTemplate =
+  const template =
     text ||
-    readFileSync(join(__filename, DOCKER_GEN_NGINX_TEMPLATE_NAME), {
-      encoding: "utf8",
-    });
+    readFileSync(
+      join(
+        fileURLToPath(import.meta.resolve("../templates")),
+        DOCKER_GEN_NGINX_TEMPLATE_NAME
+      ),
+      {
+        encoding: "utf8",
+      }
+    );
 
   return {
     path: DOCKER_GEN_HELPER_TEMPLATE_PATH,
-    content: backupTemplate,
+    content: template,
   };
 };

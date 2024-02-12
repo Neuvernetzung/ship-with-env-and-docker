@@ -7,7 +7,7 @@ export const createNginxFiles = (
   server: Server,
   deploy: ServerDeploy
 ): HelperFile[] => {
-  const redirectFiles = createRedirectConfigs(server, deploy);
+  const redirectFile = createRedirectConfigs(server, deploy);
 
-  return [...redirectFiles];
+  return [redirectFile];
 };
