@@ -18,6 +18,7 @@ import {
   bold,
 } from "../index.js";
 import { ServerDeployUnion } from "../../../types/deploys.js";
+import { stripHttpsFromUrl } from "@/index.js";
 
 export const run = async (
   servers: Servers,
@@ -133,6 +134,41 @@ export const run = async (
                   },
                 ] satisfies ListrTask[]
             )),
+            {
+              title: "Wait for domains",
+              task: async () => {
+                // Auf Domains warten
+                await waitOn(
+                  deploy.use.domains
+                    .map((domain) => [
+                      domain.url,
+                      ...(domain.redirects ? domain.redirects : []),
+                    ])
+                    .flat(),
+                  { timeout: 120000 } // 2 Minuten vor Timeout
+                );
+
+                // Testen ob alle redirects korrekt funktionieren
+                await Promise.all(
+                  deploy.use.domains.map(async (domain) => {
+                    if (!domain.redirects) return;
+                    await Promise.all(
+                      domain.redirects?.map(async (redirect) => {
+                        const res = await fetch(redirect, { method: "GET" });
+
+                        if (
+                          new URL(domain.url).hostname !==
+                          new URL(res.url).hostname
+                        )
+                          throw new Error(
+                            `The redirect "${redirect}" is not working properly. It leads to "${res.url}" instead of "${domain.url}"`
+                          );
+                      })
+                    );
+                  })
+                );
+              },
+            },
           ]);
         },
       })),
