@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.1
+
+### Patch Changes
+
+- 924d028: skipChecks für Domain ermöglichen #244
+
 ## 3.1.0
 
 ### Minor Changes
