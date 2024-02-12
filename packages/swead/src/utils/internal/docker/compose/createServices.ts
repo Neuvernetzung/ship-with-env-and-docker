@@ -85,11 +85,7 @@ const createComposeService = (
       ? [
           `VIRTUAL_HOST=${stripHttpsFromUrl(appDomains.url)}`,
           `VIRTUAL_PORT=${app.docker.port?.join(",")}`,
-          `LETSENCRYPT_HOST=${stripHttpsFromUrl(appDomains.url)}${
-            appDomains.redirects
-              ? `,${appDomains.redirects.map((r) => stripHttpsFromUrl(r)).join(",")}`
-              : ""
-          }`,
+          `LETSENCRYPT_HOST=${stripHttpsFromUrl(appDomains.url)}`,
         ]
       : []),
     ...(app.docker?.environment ? app.docker?.environment : []),

@@ -18,6 +18,7 @@ import {
   NGINX_VHOST_VOLUME_NAME,
 } from "@/constants/docker/volumes.js";
 import { NGINX_SERVICE_NAME } from "@/constants/index.js";
+import { createRedirectServices } from "./redirects.js";
 
 export const createComposeContent = async (
   server: Server,
@@ -46,9 +47,11 @@ export const createComposeContent = async (
 
   const services = await createComposeServices(server.apps, deploy, env);
 
+  const redirectServices = await createRedirectServices(deploy); // Redirect für z.B. www zu non-www solange nicht in nginx-proxy möglich
+
   return {
     version,
-    services: merge(defaultServices, services),
+    services: merge(defaultServices, services, redirectServices),
     volumes,
     networks: { [NGINX_SERVICE_NAME]: { external: true } },
   };
