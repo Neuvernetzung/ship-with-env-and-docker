@@ -1,5 +1,20 @@
 ## 2.2.2
 
+## 3.0.0
+
+### Major Changes
+
+- a168eca: Wechsel zu nginx-proxy und acme-companion #231
+
+### Minor Changes
+
+- 35c91ac: Nach deploy warten bis alle Urls und redirects erreichbar sind #232
+- aad11dd: Automatische Updates mit Watchtower per Konfiguration einschaltbar #233
+
+### Patch Changes
+
+- 66d4651: Fixe Images festlegen #235
+
 ### Patch Changes
 
 - 3142ea1: useCertificate shell Funktion für redirect entfernen #228
