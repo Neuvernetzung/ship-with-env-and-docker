@@ -4,6 +4,7 @@ import { join, write } from "../index.js";
 import { ServerDeploy } from "../../../types/deploys.js";
 import { createDockerGenFiles } from "./docker-gen/files/index.js";
 import { createWatchtowerFiles } from "./watchtower/files/index.js";
+import { createNginxFiles } from "./nginx/files.js";
 
 export type HelperFile = { path: string; content: string };
 
@@ -13,8 +14,9 @@ export const handleHelperFiles = async (
   dir: string
 ): Promise<HelperFile[]> => {
   const dockerGenFiles = await createDockerGenFiles();
+  const nginxFiles = createNginxFiles();
 
-  const allHelperFiles = [...dockerGenFiles];
+  const allHelperFiles = [...dockerGenFiles, ...nginxFiles];
 
   if (!server.docker?.watchtower?.disabled) {
     const watchtowerFiles = createWatchtowerFiles(deploy);

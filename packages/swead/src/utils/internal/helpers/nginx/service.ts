@@ -3,10 +3,12 @@ import { DockerComposeService } from "../../../../types/docker.js";
 import { dockerComposeServiceName } from "../../docker/compose/serviceName.js";
 import { ServerDeploy } from "../../../../types/deploys.js";
 import {
+  NGINX_CONF_HELPER_PATH,
   NGINX_IMAGE_NAME,
   NGINX_SERVICE_NAME,
   nginxCertsDir,
   nginxConfigDir,
+  nginxConfigPath,
   nginxDhparamsDir,
   nginxHtmlDir,
   nginxVhostDir,
@@ -26,6 +28,7 @@ export const nginxBaseVolumes = [
   `${NGINX_HTML_VOLUME_NAME}:${nginxHtmlDir}`,
   `${NGINX_DHPARAM_VOLUME_NAME}:${nginxDhparamsDir}`,
   `${NGINX_CERTS_VOLUME_NAME}:${nginxCertsDir}`,
+  `./${NGINX_CONF_HELPER_PATH}:${nginxConfigPath}`,
 ];
 
 export const createNginxServices = (server: Server, deploy: ServerDeploy) => {
