@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.2
+
+### Patch Changes
+
+- a5a88bc: nginx.conf wieder hinzufügen um max_body_size zu erhöhen #247
+
 ## 3.1.1
 
 ### Patch Changes
