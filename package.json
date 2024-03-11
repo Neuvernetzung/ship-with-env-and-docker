@@ -24,8 +24,8 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.1",
     "ts-node": "^10.9.2",
-    "turbo": "^1.12.2",
-    "typescript": "^5.3.3",
+    "turbo": "^1.12.5",
+    "typescript": "^5.4.2",
     "@neuvernetzung/eslint-config-custom": "1.1.6",
     "@neuvernetzung/tsconfig": "1.0.2"
   }
