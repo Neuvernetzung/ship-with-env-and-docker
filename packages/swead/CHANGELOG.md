@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.3
+
+### Patch Changes
+
+- 9a434f1: Deps updaten #250
+
 ## 3.1.2
 
 ### Patch Changes
