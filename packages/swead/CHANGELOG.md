@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.4
+
+### Patch Changes
+
+- 318b6e6: Bump tar from 6.2.0 to 6.2.1
+
 ## 3.1.3
 
 ### Patch Changes
