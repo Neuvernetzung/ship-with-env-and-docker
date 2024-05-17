@@ -8,7 +8,7 @@ import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
 
 const templatePath =
-  "https://raw.githubusercontent.com/nginx-proxy/nginx-proxy/main/nginx.tmpl";
+  "https://raw.githubusercontent.com/nginx-proxy/nginx-proxy/1.5.2/nginx.tmpl";
 
 export const createDockerGenNginxTemplate = async (): Promise<HelperFile> => {
   const res = await fetch(templatePath);
