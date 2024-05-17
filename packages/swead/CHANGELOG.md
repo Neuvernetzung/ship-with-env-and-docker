@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.1.5
+
+### Patch Changes
+
+- 7124100: nginx-proxy Versionen anpinnen #256
+
 ## 3.1.4
 
 ### Patch Changes
