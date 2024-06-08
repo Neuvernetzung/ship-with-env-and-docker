@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.2.0
+
+### Minor Changes
+
+- 791f510: nginx-proxy und acme-companion updaten #260
+
 ## 3.1.5
 
 ### Patch Changes
