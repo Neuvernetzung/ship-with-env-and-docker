@@ -23,6 +23,7 @@ export type DockerComposeService = {
   links?: string[];
   command?: string;
   depends_on?: string[];
+  labels?: string[];
 };
 
 export type DockerComposeServices = Record<string, DockerComposeService>;

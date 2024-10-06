@@ -50,6 +50,8 @@ const zDocker = z.object({
   command: z.string().optional(),
   skipInstall: z.boolean().optional(),
   copyArtifactOnly: z.boolean().optional(),
+  labels: z.array(z.string()).optional(),
+  disableWatchtowerUpdates: z.boolean().optional(),
   beforeStart: z
     .array(
       z.object({
