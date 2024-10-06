@@ -1,5 +1,5 @@
 import { bold, logger } from "../index.js";
-import dnsPromises from "dns/promises";
+import { resolve4, resolveCaa, lookup } from "dns/promises";
 import { Server } from "../../../types/server.js";
 import { performSingleOrMultiple } from "../performSingleOrMultiple.js";
 import { stripHttpsFromUrl } from "../../stripHttpsFromUrl.js";
@@ -9,7 +9,7 @@ import { getAppDomains } from "./domain.js";
 export const testDns = async (server: Server, deploy: ServerDeploy) => {
   const ip = deploy.server.ip;
 
-  await dnsPromises.lookup(ip).catch((error) => {
+  await lookup(ip).catch((error) => {
     logger.error(error);
     throw new Error(`The IP address '${ip}' is not reachable.`);
   });
@@ -46,7 +46,7 @@ export const testDomainDns = async (
 
   const name = isRedirect ? "REDIRECT" : "DOMAIN";
 
-  const aResult = await dnsPromises.resolve4(domain).catch((error) => {
+  const aResult = await resolve4(domain).catch((error) => {
     errors.push(error);
     errors.push(
       `The ${name} (${domain}) is not accessible. Please create a DOMAIN record of type 'A' with the hostname '${
@@ -60,7 +60,7 @@ export const testDomainDns = async (
     );
   }
 
-  const caaResult = await dnsPromises.resolveCaa(domain).catch((error) => {
+  const caaResult = await resolveCaa(domain).catch((error) => {
     errors.push(error);
     errors.push(
       `The ${name} CERTIFICATION (${domain}) is not accessible. Please create a DOMAIN record of type 'CAA' with the hostname '${

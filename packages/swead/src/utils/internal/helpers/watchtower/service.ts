@@ -1,6 +1,5 @@
-import { Server } from "../../../../types/index.js";
-import { DockerComposeService } from "../../../../types/docker.js";
-import { ServerDeploy } from "../../../../types/deploys.js";
+import type { DockerComposeService } from "../../../../types/docker.js";
+import type { ServerDeploy } from "../../../../types/deploys.js";
 
 import { DOCKER_SOCK_PATH } from "@/constants/docker/volumes.js";
 import {

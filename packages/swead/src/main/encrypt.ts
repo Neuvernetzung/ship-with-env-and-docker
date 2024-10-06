@@ -1,7 +1,8 @@
 import fs from "fs";
 
 import path from "path";
-import inquirer from "inquirer";
+import inquirerPassword from "@inquirer/password";
+import inquirerCheckbox from "@inquirer/checkbox";
 import {
   logger,
   SWEAD_BASE_PATH,
@@ -32,34 +33,28 @@ export const runEncrypt = async (args: Args) => {
   const deploys = await getDeploys(args);
   const encryptedDeploys = await getEncryptedDeploys(args);
 
-  const choices: { name: keyof Deploys; checked?: boolean }[] = [
-    { name: "production", checked: true },
-    { name: "staging", checked: true },
-    { name: "local" },
-    { name: "dev" },
+  const choices: { value: keyof Deploys; checked?: boolean }[] = [
+    { value: "production", checked: true },
+    { value: "staging", checked: true },
+    { value: "local" },
+    { value: "dev" },
   ];
 
-  const { methods, password, cfPassword } = await inquirer.prompt([
-    {
-      type: "checkbox",
-      name: "methods",
-      choices: choices.filter((choice) => !!deploys[choice.name]),
+  const { methods, password, cfPassword } = {
+    methods: await inquirerCheckbox({
+      choices: choices.filter((choice) => !!deploys[choice.value]),
       message: "Please choose the methods you want to encrypt.",
-    },
-    {
-      type: "password",
-      name: "password",
+    }),
+    password: await inquirerPassword({
       mask: "*",
       message:
         "Enter the password with which the server data is to be encrypted.",
-    },
-    {
-      type: "password",
-      name: "cfPassword",
+    }),
+    cfPassword: await inquirerPassword({
       mask: "*",
       message: "Please confirm the password.",
-    },
-  ]);
+    }),
+  };
 
   if (password !== cfPassword) {
     throw new Error(`The two passwords do not match.`);

@@ -7,7 +7,7 @@ export type DockerCompose = {
   networks?: Record<string, DockerComposeNetwork>;
 };
 
-type DockerComposeVolume = {};
+type DockerComposeVolume = object;
 
 type DockerComposeNetwork = { external?: boolean };
 

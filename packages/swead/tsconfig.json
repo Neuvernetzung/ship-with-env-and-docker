@@ -1,5 +1,5 @@
 {
-  "extends": "@neuvernetzung/tsconfig/base.json",
+  "extends": "@tsconfig/node-lts/tsconfig.json",
   "include": ["./**/*.ts", "./**/*.tsx", "./src/**/*ts", "./src/**/*tsx"],
   "exclude": ["dist", "node_modules"],
   "compilerOptions": {
@@ -7,9 +7,6 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "target": "ESNext",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "incremental": false
+    "esModuleInterop": true
   }
 }

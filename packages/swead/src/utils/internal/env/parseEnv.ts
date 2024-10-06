@@ -1,10 +1,10 @@
-import { EnvSchemas } from "../../../types/index.js";
+import { EnvEntry, EnvSchemas } from "../../../types/index.js";
 import { formatZodErrors } from "../zod/index.js";
 
 export const parseEnv = (
   envSchemas: EnvSchemas | undefined,
   key: string,
-  data: Record<string, any>
+  data: EnvEntry["data"]
 ) => {
   if (!envSchemas) return;
   const _env = envSchemas?.[key];

@@ -2,7 +2,7 @@
 import { clean, LOCAL_ARTIFACT_DIR } from "./index.js";
 import { logger } from "./index.js";
 
-export const errorHandler = async (err: any) => {
+export const errorHandler = async (err: Error) => {
   logger.error("Aborting cli...");
 
   await clean(LOCAL_ARTIFACT_DIR);

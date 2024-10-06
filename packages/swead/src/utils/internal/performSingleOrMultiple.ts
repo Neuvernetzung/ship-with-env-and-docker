@@ -5,6 +5,7 @@ type PerformSingleOrMultipleOptions = { strict?: boolean; title?: string };
 
 export const performSingleOrMultiple = async <T>(
   dependent: T | T[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fn: (values: NonNullable<T>, i?: number) => Promise<any>,
   options?: PerformSingleOrMultipleOptions
 ) => {
