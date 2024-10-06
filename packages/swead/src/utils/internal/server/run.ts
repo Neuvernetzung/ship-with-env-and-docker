@@ -53,6 +53,7 @@ export const run = async (
             : false,
         task: async (_, task) => {
           const server = servers[deploy.use.key];
+
           if (!server)
             throw new Error(
               `No server config could be found for ${deploy.use}.`

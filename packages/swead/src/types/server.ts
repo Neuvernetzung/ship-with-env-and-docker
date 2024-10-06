@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { EnvSchemas, EnvLocationUnion, zEnvLocalation } from "./env.js";
-import { DockerConfig, DockerFileInstructions } from "./docker.js";
+import {
+  DockerConfig,
+  DockerFileInstructions,
+  zDockerConfig,
+} from "./docker.js";
 
 export type ServerConfig = z.infer<typeof zServerConfig>;
 
@@ -111,6 +115,7 @@ export type Server<T extends EnvSchemas = EnvSchemas> = {
 export const zServer: z.ZodType<Server> = z
   .object({
     serverConfig: zServerConfig.optional(),
+    docker: zDockerConfig.optional(),
     apps: z.array(zApp),
     artifact: zArtifact.optional(),
     waitOn: z.union([z.string(), z.array(z.string())]).optional(),
