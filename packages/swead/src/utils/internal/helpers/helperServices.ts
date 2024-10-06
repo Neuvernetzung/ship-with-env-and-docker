@@ -22,7 +22,7 @@ export const createHelperServices = (server: Server, deploy: ServerDeploy) => {
   };
 
   if (!server.docker?.watchtower?.disabled) {
-    const watchtower = createWatchtowerServices(deploy);
+    const watchtower = createWatchtowerServices(server, deploy);
 
     services[WATCHTOWER_SERVICE_NAME] = watchtower;
   }
