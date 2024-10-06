@@ -18,7 +18,6 @@ import {
   bold,
 } from "../index.js";
 import { ServerDeployUnion } from "../../../types/deploys.js";
-import { stripHttpsFromUrl } from "@/index.js";
 
 export const run = async (
   servers: Servers,

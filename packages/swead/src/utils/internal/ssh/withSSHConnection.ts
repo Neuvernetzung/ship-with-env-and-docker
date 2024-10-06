@@ -3,9 +3,9 @@ import { ServerDetails } from "../../../types/deploys.js";
 
 export const SSH_DEFAULT_PORT = 22;
 
-export const withSSHConnection = async (
+export const withSSHConnection = async <T>(
   server: ServerDetails,
-  fn: (ssh: NodeSSH) => Promise<any>
+  fn: (ssh: NodeSSH) => Promise<T>
 ) => {
   const ssh = new NodeSSH();
 

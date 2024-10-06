@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { EnvSchemas, EnvEntry, zEnvEntry } from "./env.js";
 import { RunMethods } from "./args.js";
-import { SweadConfig } from "./config.js";
+import { Servers, SweadConfig } from "./config.js";
 import { zUrl } from "./url.js";
 import { Notification, zNotification } from "./helpers.js";
 import { DockerServerConfig, zDockerServerConfig } from "./docker.js";
@@ -43,8 +43,8 @@ export type UseServerConfig<
   TConfig extends SweadConfig = SweadConfig,
   TKey extends keyof TConfig["server"] = keyof TConfig["server"],
 > = {
-  key: TConfig["server"] extends Record<string, any> ? TKey : string;
-  domains: TConfig["server"] extends Record<string, any>
+  key: TConfig["server"] extends Servers ? TKey : string;
+  domains: TConfig["server"] extends Servers
     ? ServerDomainConfig<
         Extract<
           TConfig["server"][TKey]["apps"][number],

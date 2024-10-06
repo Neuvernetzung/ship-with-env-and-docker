@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-type EnvSchema = z.ZodObject<any>;
+type EnvSchema = z.AnyZodObject;
 
 const zEnvSchema: z.ZodType<EnvSchema> = z.any();
 
@@ -12,7 +12,7 @@ export const zEnvSchemas: z.ZodType<EnvSchemas> = z.record(zEnvSchema);
 
 export type EnvEntry<
   T extends EnvSchemas = EnvSchemas,
-  K extends keyof T = keyof T
+  K extends keyof T = keyof T,
 > = K extends keyof T
   ? {
       key: K;
