@@ -1,5 +1,5 @@
 import fs from "fs";
-import tar from "tar";
+import { create, TarOptionsWithAliasesAsyncNoFile } from "tar";
 import { getArtifactPath } from "../index.js";
 import { logger } from "../index.js";
 import path from "path";
@@ -13,7 +13,7 @@ export const writeTar = async (
 
   const defaultIgnoreList = ["node_modules", ".turbo", ".git"];
 
-  const defaultOptions: tar.CreateOptions = {
+  const defaultOptions: TarOptionsWithAliasesAsyncNoFile = {
     cwd: ".",
     gzip: true,
     filter: (p) =>
@@ -31,7 +31,7 @@ export const writeTar = async (
 
   const writeStream = fs.createWriteStream(artifactPath);
 
-  const archiver = tar.c(defaultOptions, paths).pipe(writeStream);
+  const archiver = create(defaultOptions, paths).pipe(writeStream);
 
   await new Promise((resolve, reject) => {
     archiver.on("error", (err) => {

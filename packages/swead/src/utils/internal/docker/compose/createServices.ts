@@ -104,6 +104,12 @@ const createComposeService = (
     environment,
     links: app.docker?.links,
     command: app.docker?.command,
+    labels: [
+      ...(app.docker?.labels || []),
+      ...(app.docker?.disableWatchtowerUpdates
+        ? ["com.centurylinklabs.watchtower.enable=false"]
+        : []),
+    ],
   };
 
   return service;

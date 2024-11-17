@@ -1,6 +1,5 @@
-import { Server } from "../../../../types/index.js";
-import { DockerComposeService } from "../../../../types/docker.js";
-import { ServerDeploy } from "../../../../types/deploys.js";
+import type { DockerComposeService } from "../../../../types/docker.js";
+import type { ServerDeploy } from "../../../../types/deploys.js";
 
 import { DOCKER_SOCK_PATH } from "@/constants/docker/volumes.js";
 import {
@@ -11,8 +10,12 @@ import {
   watchtowerConfigName,
   watchtowerHelperFile,
 } from "@/constants/watchtower/index.js";
+import type { Server } from "@/types/server.js";
 
-export const createWatchtowerServices = (deploy: ServerDeploy) => {
+export const createWatchtowerServices = (
+  server: Server,
+  deploy: ServerDeploy
+) => {
   const volumes = [
     `${DOCKER_SOCK_PATH}:${DOCKER_SOCK_PATH}:ro`,
     ...(deploy.docker?.registries && deploy.docker.registries.length > 0
@@ -20,12 +23,15 @@ export const createWatchtowerServices = (deploy: ServerDeploy) => {
       : []),
   ];
 
+  const intervalSeconds =
+    (server.docker?.watchtower?.intervalMinutes || 1) * 60;
+
   const watchtower: DockerComposeService = {
     image: WATCHTOWER_IMAGE_NAME,
     container_name: WATCHTOWER_SERVICE_NAME,
     restart: "always",
     volumes,
-    command: "--interval 60 --rolling-restart --cleanup",
+    command: `--interval ${intervalSeconds} --rolling-restart --cleanup`,
   };
 
   return watchtower;

@@ -1,4 +1,5 @@
 import { bundleRequire } from "bundle-require";
+import inquirerPassword from "@inquirer/password";
 import {
   EncryptedDeploys,
   zLocalDeploy,
@@ -11,7 +12,6 @@ import {
   formatZodErrors,
   join,
 } from "../index.js";
-import inquirer from "inquirer";
 
 export const ENCRYPTED_DEPLOYS_FILE_NAME = "encrypted.ts";
 
@@ -33,15 +33,13 @@ export const loadEncryptedDeploy = async (deploy: RunMethods, args?: Args) => {
 
   const { password } = args?.password
     ? { password: args.password }
-    : await inquirer.prompt([
-        {
-          type: "password",
-          name: "password",
+    : {
+        password: await inquirerPassword({
           mask: "*",
           message:
             "Enter the password with which the server data is to be decrypted.",
-        },
-      ]);
+        }),
+      };
 
   const decryptedDeploy = decryptData(
     password,

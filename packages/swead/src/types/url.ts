@@ -4,7 +4,7 @@ import punycode from "punycode";
 export const zUrl = z
   .string()
   .transform((url) => {
-    let newUrl = url.replace(/^https?:\/\//, "");
+    const newUrl = url.replace(/^https?:\/\//, "");
 
     // URL als String erhalten
     let transformedUrl = punycode.toASCII(newUrl);

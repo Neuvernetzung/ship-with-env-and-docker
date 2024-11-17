@@ -1,4 +1,5 @@
-import inquirer from "inquirer";
+import inquirerPassword from "@inquirer/password";
+import inquirerCheckbox from "@inquirer/checkbox";
 import {
   SWEAD_BASE_PATH,
   decryptData,
@@ -34,28 +35,24 @@ export const runDecrypt = async (args: Args) => {
   const deploys = await getDeploys(args);
   const encryptedDeploys = await getEncryptedDeploys(args);
 
-  const choices: { name: keyof EncryptedDeploys; checked?: boolean }[] = [
-    { name: "production", checked: true },
-    { name: "staging", checked: true },
-    { name: "local" },
-    { name: "dev" },
+  const choices: { value: keyof EncryptedDeploys; checked?: boolean }[] = [
+    { value: "production", checked: true },
+    { value: "staging", checked: true },
+    { value: "local" },
+    { value: "dev" },
   ];
 
-  const { methods, password } = await inquirer.prompt([
-    {
-      type: "checkbox",
-      name: "methods",
-      choices: choices.filter((choice) => !!encryptedDeploys[choice.name]),
+  const { methods, password } = {
+    methods: await inquirerCheckbox({
+      choices: choices.filter((choice) => !!encryptedDeploys[choice.value]),
       message: "Please choose the methods you want to decrypt.",
-    },
-    {
-      type: "password",
-      name: "password",
+    }),
+    password: await inquirerPassword({
       mask: "*",
       message:
         "Enter the password with which the server data is to be decrypted.",
-    },
-  ]);
+    }),
+  };
 
   const deploysToDecrypt = pick(encryptedDeploys, methods);
   const finalEncryptedDeploys = omit(encryptedDeploys, methods);

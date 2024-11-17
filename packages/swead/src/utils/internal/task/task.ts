@@ -2,7 +2,7 @@ import { Listr, ListrTask, ListrBaseClassOptions } from "listr2";
 import isArray from "lodash/isArray.js";
 import pMap from "p-map";
 
-export const runTasks = async <C extends any>(
+export const runTasks = async <C>(
   fns: ListrTask<C> | ListrTask<C>[],
   options?: ListrBaseClassOptions<C>, // Context muss durchgepasst werden, da Typescript sonst nicht sicher ist, wann die funktion läuft und somit checks auf undefined usw. vorher nicht im Type berücksichtigt werden.
   verbose?: boolean

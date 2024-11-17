@@ -7,7 +7,7 @@ export type DockerCompose = {
   networks?: Record<string, DockerComposeNetwork>;
 };
 
-type DockerComposeVolume = {};
+type DockerComposeVolume = object;
 
 type DockerComposeNetwork = { external?: boolean };
 
@@ -23,6 +23,7 @@ export type DockerComposeService = {
   links?: string[];
   command?: string;
   depends_on?: string[];
+  labels?: string[];
 };
 
 export type DockerComposeServices = Record<string, DockerComposeService>;
@@ -80,13 +81,14 @@ export const zDockerServerConfig = z.object({
   registries: zDockerServerRegistries.optional(),
 });
 
-export type DockerConfig = z.infer<typeof zDockerConfig>;
-
 export type DockerWatchtower = z.infer<typeof zDockerWatchtower>;
 
 export const zDockerWatchtower = z.object({
   disabled: z.boolean().optional(),
+  intervalMinutes: z.number().optional(),
 });
+
+export type DockerConfig = z.infer<typeof zDockerConfig>;
 
 export const zDockerConfig = z.object({
   watchtower: zDockerWatchtower.optional(),

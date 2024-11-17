@@ -18,7 +18,6 @@ import {
   bold,
 } from "../index.js";
 import { ServerDeployUnion } from "../../../types/deploys.js";
-import { stripHttpsFromUrl } from "@/index.js";
 
 export const run = async (
   servers: Servers,
@@ -54,6 +53,7 @@ export const run = async (
             : false,
         task: async (_, task) => {
           const server = servers[deploy.use.key];
+
           if (!server)
             throw new Error(
               `No server config could be found for ${deploy.use}.`

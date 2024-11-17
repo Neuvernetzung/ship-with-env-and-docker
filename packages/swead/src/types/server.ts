@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { EnvSchemas, EnvLocationUnion, zEnvLocalation } from "./env.js";
-import { DockerConfig, DockerFileInstructions } from "./docker.js";
+import {
+  DockerConfig,
+  DockerFileInstructions,
+  zDockerConfig,
+} from "./docker.js";
 
 export type ServerConfig = z.infer<typeof zServerConfig>;
 
@@ -50,6 +54,8 @@ const zDocker = z.object({
   command: z.string().optional(),
   skipInstall: z.boolean().optional(),
   copyArtifactOnly: z.boolean().optional(),
+  labels: z.array(z.string()).optional(),
+  disableWatchtowerUpdates: z.boolean().optional(),
   beforeStart: z
     .array(
       z.object({
@@ -109,6 +115,7 @@ export type Server<T extends EnvSchemas = EnvSchemas> = {
 export const zServer: z.ZodType<Server> = z
   .object({
     serverConfig: zServerConfig.optional(),
+    docker: zDockerConfig.optional(),
     apps: z.array(zApp),
     artifact: zArtifact.optional(),
     waitOn: z.union([z.string(), z.array(z.string())]).optional(),
