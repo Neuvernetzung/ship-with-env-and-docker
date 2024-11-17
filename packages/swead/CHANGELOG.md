@@ -1,5 +1,14 @@
 ## 2.2.2
 
+## 3.2.1
+
+### Patch Changes
+
+- a6cd14e: Watchtower Interval Option hinzufügen #269
+- e161405: Deps updaten #271
+- 03441f0: Watchtower ebenfalls für einzelne Container deaktivierbar #264
+- 3d2a4c1: Deps updaten #266
+
 ## 3.2.0
 
 ### Minor Changes
