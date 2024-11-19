@@ -50,6 +50,7 @@
     "@types/lodash": "^4.17.13",
     "@types/minimist": "^1.2.5",
     "@types/prettier": "^2.7.3",
+    "@types/punycode": "^2.1.4",
     "@types/tar": "^6.1.13",
     "@types/wait-on": "^5.3.4",
     "eslint": "^8.57.0",
