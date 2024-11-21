@@ -1,5 +1,5 @@
 import { z } from "zod";
-import punycode from "punycode/";
+import punycode from "punycode/punycode.js";
 
 export const zUrl = z
   .string()
