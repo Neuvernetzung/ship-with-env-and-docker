@@ -1,5 +1,11 @@
 ## 2.2.2
 
+## 3.2.3
+
+### Patch Changes
+
+- 8d85547: punycode unsupported dir import #278
+
 ## 3.2.2
 
 ### Patch Changes
